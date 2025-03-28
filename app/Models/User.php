@@ -25,4 +25,8 @@ class User extends Authenticatable {
     public function teacher() {
         return $this->hasOne(Teacher::class);
     }
+
+    public function classroom() {
+        return $this->hasOneThrough(Classroom::class, Student::class, 'user_id', 'id', 'id', 'classroom_id');
+    }
 }

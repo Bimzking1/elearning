@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up(): void {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->unsignedBigInteger('teacher_id')->nullable();
@@ -15,6 +15,6 @@ return new class extends Migration {
     }
 
     public function down(): void {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('classrooms');
     }
 };

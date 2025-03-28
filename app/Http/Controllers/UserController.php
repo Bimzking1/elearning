@@ -19,8 +19,8 @@ class UserController extends Controller
 
     public function create()
     {
-        $classes = Classroom::all(); // ✅ Fetch all classrooms
-        return view('admin.users.create', compact('classes'));
+        $classrooms = Classroom::all(); // ✅ Fetch all classrooms
+        return view('admin.users.create', compact('classrooms'));
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class UserController extends Controller
             'specialization' => 'required_if:role,teacher|nullable|string|max:255',
             'joined_date' => 'required_if:role,teacher|nullable|date',
             'nisn' => 'required_if:role,student|nullable|string|max:20',
-            'class_id' => 'required_if:role,student|nullable|exists:classes,id',
+            'classroom_id' => 'required_if:role,student|nullable|exists:classrooms,id',
             'guardian_name' => 'required_if:role,student|nullable|string|max:255',
             'guardian_phone' => 'required_if:role,student|nullable|string|max:20',
         ]);
@@ -61,7 +61,7 @@ class UserController extends Controller
             Student::create([
                 'user_id' => $user->id,
                 'nisn' => $request->nisn,
-                'class_id' => $request->class_id,
+                'classroom_id' => $request->classroom_id,
                 'guardian_name' => $request->guardian_name,
                 'guardian_phone' => $request->guardian_phone,
             ]);
@@ -72,8 +72,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $classes = Classroom::all(); // Fetch all classes
-        return view('admin.users.edit', compact('user', 'classes'));
+        $classrooms = Classroom::all(); // Fetch all classes
+        return view('admin.users.edit', compact('user', 'classrooms'));
     }
 
     public function update(Request $request, User $user)
@@ -88,7 +88,7 @@ class UserController extends Controller
             'specialization' => 'required_if:role,teacher|nullable|string|max:255',
             'joined_date' => 'required_if:role,teacher|nullable|date',
             'nisn' => 'required_if:role,student|nullable|string|max:20',
-            'class_id' => 'required_if:role,student|nullable|exists:classes,id',
+            'classroom_id' => 'required_if:role,student|nullable|exists:classrooms,id',
             'guardian_name' => 'required_if:role,student|nullable|string|max:255',
             'guardian_phone' => 'required_if:role,student|nullable|string|max:20',
         ]);
@@ -115,7 +115,7 @@ class UserController extends Controller
             if ($student) {
                 $student->update([
                     'nisn' => $request->nisn,
-                    'class_id' => $request->class_id,
+                    'classroom_id' => $request->classroom_id,
                     'guardian_name' => $request->guardian_name,
                     'guardian_phone' => $request->guardian_phone,
                 ]);

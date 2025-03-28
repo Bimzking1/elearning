@@ -18,8 +18,8 @@ class TeacherController extends Controller {
     }
 
     public function create() {
-        $classes = Classroom::all();
-        return view('admin.teacher.create', compact('classes'));
+        $classrooms = Classroom::all();
+        return view('admin.teacher.create', compact('classrooms'));
     }
 
     public function store(Request $request) {
@@ -29,37 +29,37 @@ class TeacherController extends Controller {
             'password' => 'required|min:6|confirmed',
             'gender' => 'required|in:male,female,other',
             'date_of_birth' => 'nullable|date',
-            'nip' => 'required_if:role,teacher|nullable|string|max:20',
-            'specialization' => 'required_if:role,teacher|nullable|string|max:255',
-            'joined_date' => 'required_if:role,teacher|nullable|date',
+            'nip' => 'required|string|max:20|unique:teachers,nip',
+            'specialization' => 'required|string|max:255',
+            'joined_date' => 'required|date',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
         ]);
 
-        // First, create the User with the role set to 'teacher'
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'teacher', // Automatically set the role as teacher
+            'role' => 'teacher',
         ]);
 
-        // Then, create the Teacher record, associating it with the user
         Teacher::create([
-            'user_id' => $user->id, // Associate the user ID to the teacher
+            'user_id' => $user->id,
             'date_of_birth' => $request->date_of_birth,
             'nip' => $request->nip,
             'gender' => $request->gender,
             'specialization' => $request->specialization,
             'joined_date' => $request->joined_date,
-            'address' => $request->address,
             'phone' => $request->phone,
+            'address' => $request->address,
         ]);
 
         return redirect()->route('admin.teacher.index')->with('success', 'Teacher created successfully.');
     }
 
     public function edit(User $user) {
-        $classes = Classroom::all();
-        return view('admin.teacher.edit', compact('user', 'classes'));
+        $classrooms = Classroom::all();
+        return view('admin.teacher.edit', compact('user', 'classrooms'));
     }
 
     public function update(Request $request, User $user) {
