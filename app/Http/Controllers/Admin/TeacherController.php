@@ -50,6 +50,8 @@ class TeacherController extends Controller {
             'gender' => $request->gender,
             'specialization' => $request->specialization,
             'joined_date' => $request->joined_date,
+            'address' => $request->address,
+            'phone' => $request->phone,
         ]);
 
         return redirect()->route('admin.teacher.index')->with('success', 'Teacher created successfully.');
@@ -71,7 +73,8 @@ class TeacherController extends Controller {
             'nip' => 'required_if:role,teacher|nullable|string|max:20',
             'specialization' => 'required_if:role,teacher|nullable|string|max:255',
             'joined_date' => 'required_if:role,teacher|nullable|date',
-            'phone' => 'required|string|max:20', // Add phone validation
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
         ]);
 
         // Update the user data
