@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\TeacherMiddleware;
 use App\Http\Middleware\StudentMiddleware;
+use App\Http\Controllers\Admin\ClassroomController;
 
 // Welcome Page
 Route::get('/', function () {
@@ -35,7 +36,6 @@ Route::get('/redirect', function () {
 
 // Admin Routes (Only for Admins)
 Route::prefix('admin')->middleware(['auth', AdminMiddleware::class])->group(function () {
-// Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/home', function () {
         return view('admin.home.index');
     })->name('admin.home');
@@ -49,19 +49,38 @@ Route::prefix('admin')->middleware(['auth', AdminMiddleware::class])->group(func
         Route::put('/teacher/{user}', 'update')->name('admin.teacher.update');
         Route::delete('/teacher/{user}', 'destroy')->name('admin.teacher.destroy');
     });
+
+    // **Classroom Management**
+
+    // Longer Way
+    Route::controller(ClassroomController::class)->group(function () {
+        Route::get('/classrooms', 'index')->name('admin.classrooms.index');
+        Route::get('/classrooms/create', 'create')->name('admin.classrooms.create');
+        Route::post('/classrooms', 'store')->name('admin.classrooms.store');
+        Route::get('/classrooms/{classroom}/edit', 'edit')->name('admin.classrooms.edit');
+        Route::put('/classrooms/{classroom}', 'update')->name('admin.classrooms.update');
+        Route::delete('/classrooms/{classroom}', 'destroy')->name('admin.classrooms.destroy');
+    });
+
+    // Shorter Way and Clearner Way to define
+    //     Route::resource('classrooms', ClassroomController::class)->names([
+    //         'index' => 'admin.classrooms.index',
+    //         'create' => 'admin.classrooms.create',
+    //         'store' => 'admin.classrooms.store',
+    //         'edit' => 'admin.classrooms.edit',
+    //         'update' => 'admin.classrooms.update',
+    //         'destroy' => 'admin.classrooms.destroy',
+    //     ]);
+
+    Route::controller(StudentController::class)->group(function () {
+        Route::get('/students', 'index')->name('admin.students.index');
+        Route::get('/students/create', 'create')->name('admin.students.create');
+        Route::post('/students', 'store')->name('admin.students.store');
+        Route::get('/students/{student}/edit', 'edit')->name('admin.students.edit'); // ✅ Fixes your issue
+        Route::put('/students/{student}', 'update')->name('admin.students.update');
+        Route::delete('/students/{student}', 'destroy')->name('admin.students.destroy');
+    });
 });
-
-// Admin Routes
-// Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-//     Route::get('/home', function () {
-//         return view('admin.home.index');
-//     })->name('admin.home');
-
-//     // Teacher, Student, and other management routes
-//     Route::get('/teacher', [TeacherController::class, 'index'])->name('admin.teacher.index');
-//     Route::get('/student', [StudentController::class, 'index'])->name('admin.student.index');
-//     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
-// });
 
 // Teacher Routes (Only for Teachers)
 Route::prefix('teacher')->middleware(['auth', TeacherMiddleware::class])->group(function () {

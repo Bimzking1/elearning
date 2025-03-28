@@ -22,8 +22,8 @@
         <ul>
             <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="home">Home</a></li>
             <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="teacher">Teacher</a></li>
-            <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="student">Student</a></li>
-            <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="users">Users</a></li>
+            <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="students">Student</a></li>
+            <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="classrooms">Classroom</a></li>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="block py-2 bg-red-500 rounded w-full text-center text-white">

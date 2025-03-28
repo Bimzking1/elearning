@@ -13,6 +13,8 @@ class Student extends Model {
         'classroom_id', 'guardian_name', 'guardian_phone'
     ];
 
+    protected $with = ['user', 'classroom'];
+
     public function user() {
         return $this->belongsTo(User::class);
     }

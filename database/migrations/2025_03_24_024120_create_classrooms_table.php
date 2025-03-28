@@ -9,7 +9,8 @@ return new class extends Migration {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedBigInteger('teacher_id')->nullable();
+            // $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->timestamps();
         });
     }
