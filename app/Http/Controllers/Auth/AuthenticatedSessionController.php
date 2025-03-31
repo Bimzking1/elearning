@@ -11,35 +11,45 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->authenticate();
+        $credentials = $request->validate([
+            'identifier' => 'required|string',
+            'password' => 'required|string',
+            'login_type' => 'required|string|in:email,nisn_nip',
+        ]);
 
+        $identifier = $credentials['identifier'];
+        $password = $credentials['password'];
+
+        if ($credentials['login_type'] === 'email') {
+            $user = \App\Models\User::where('email', $identifier)->first();
+        } else {
+            $student = \App\Models\Student::where('nisn', $identifier)->first();
+            $teacher = \App\Models\Teacher::where('nip', $identifier)->first();
+
+            $user = $student?->user ?? $teacher?->user;
+        }
+
+        if (!$user || !\Hash::check($password, $user->password)) {
+            return back()->withErrors(['identifier' => 'Invalid credentials'])->withInput();
+        }
+
+        Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->intended(route('redirect', absolute: false));
+        return redirect()->intended(route('redirect'));
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
