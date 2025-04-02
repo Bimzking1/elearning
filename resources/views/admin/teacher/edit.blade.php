@@ -113,22 +113,24 @@
     </form>
 </div>
 
-@section('scripts')
-<script>
-    // Show/Hide password fields based on checkbox
-    const passwordCheckbox = document.getElementById('change_password');
-    const passwordSection = document.getElementById('password_section');
-    const passwordConfirmationSection = document.getElementById('password_confirmation_section');
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordCheckbox = document.getElementById('change_password');
+            const passwordSection = document.getElementById('password_section');
+            const passwordConfirmationSection = document.getElementById('password_confirmation_section');
 
-    passwordCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            passwordSection.style.display = 'block';
-            passwordConfirmationSection.style.display = 'block';
-        } else {
-            passwordSection.style.display = 'none';
-            passwordConfirmationSection.style.display = 'none';
-        }
-    });
-</script>
-@endsection
+            passwordCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    passwordSection.style.display = 'block';
+                    passwordConfirmationSection.style.display = 'block';
+                } else {
+                    passwordSection.style.display = 'none';
+                    passwordConfirmationSection.style.display = 'none';
+                }
+            });
+        });
+    </script>
+@endpush
+
 @endsection

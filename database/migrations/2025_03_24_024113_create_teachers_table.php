@@ -11,10 +11,10 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nip')->unique();
             $table->date('date_of_birth')->nullable();
-            $table->enum('gender', ['male', 'female']);
+            $table->enum('gender', ['male', 'female', 'other']);
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
-            $table->string('specialization')->nullable();
+            $table->string('specialization');
             $table->date('joined_date')->nullable();
             $table->timestamps();
         });

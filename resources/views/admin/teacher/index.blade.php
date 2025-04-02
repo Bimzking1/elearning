@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-bold text-gray-800">Teacher List</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Manage Teachers</h2>
         <a href="{{ route('admin.teacher.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition">
             + Create New Teacher
         </a>
