@@ -64,7 +64,12 @@
             <input id="identifier" type="email" name="identifier" class="w-full border rounded px-3 py-2 mb-4" placeholder="Enter your email" required>
 
             <label class="block mb-2">Password</label>
-            <input type="password" name="password" class="w-full border rounded px-3 py-2 mb-4" placeholder="Enter your password" required>
+            <input type="password" name="password" class="w-full border rounded px-3 py-2 mb-2" placeholder="Enter your password" required>
+
+            <!-- Forgot Password Link -->
+            <div class="text-right mb-4">
+                <a href="{{ route('password.request') }}" class="text-blue-600 hover:underline text-sm">Forgot Password?</a>
+            </div>
 
             <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Login</button>
         </form>
