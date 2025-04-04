@@ -75,14 +75,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     })->name('home');
 });
 
-Route::middleware('auth')->prefix('teacher')->name('teacher.')->group(function () {
-    Route::get('home', function () {
-        return view('teacher.home.index');
-    })->name('home');
-});
+// Route::middleware('auth')->prefix('teacher')->name('teacher.')->group(function () {
+//     Route::get('home', function () {
+//         return view('teacher.home.index');
+//     })->name('home');
+// });
 
-Route::middleware('auth')->prefix('student')->name('student.')->group(function () {
-    Route::get('home', function () {
-        return view('student.home.index');
-    })->name('home');
-});
+// Route::middleware('auth')->prefix('student')->name('student.')->group(function () {
+//     Route::get('home', function () {
+//         return view('student.home.index');
+//     })->name('home');
+// });
