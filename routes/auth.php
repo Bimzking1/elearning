@@ -36,16 +36,6 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        // Redirect logged-in users based on their role
-        if (auth()->user()->role === 'admin') {
-            return redirect()->route('admin.home');
-        } elseif (auth()->user()->role === 'teacher') {
-            return redirect()->route('teacher.home');
-        } elseif (auth()->user()->role === 'student') {
-            return redirect()->route('student.home');
-        }
-    });
 
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');

@@ -73,6 +73,14 @@
 
             <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Login</button>
         </form>
+
+        <!-- Back to Landing Page Button -->
+        <div class="mt-4 text-center">
+            <a href="{{ route('welcome') }}" class="text-sm text-gray-600 hover:text-blue-600 underline">
+                ← Back to Landing Page
+            </a>
+        </div>
+
     </div>
 </body>
 </html>

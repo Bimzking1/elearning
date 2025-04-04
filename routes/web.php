@@ -16,10 +16,13 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Admin\AnnouncementController;
 
-// Welcome Page
 Route::get('/', function () {
-    return view('welcome');
-});
+    if (auth()->check()) {
+        return redirect()->route('redirect');
+    }
+
+    return view('welcome'); // This should be your landing page blade
+})->name('welcome');
 
 // Dashboard (Redirect based on role)
 Route::get('/redirect', function () {
@@ -130,5 +133,4 @@ Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkE
 // Reset Password Routes
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::put('/reset-password', [NewPasswordController::class, 'store'])->name('password.override');
-
 require __DIR__.'/auth.php';
