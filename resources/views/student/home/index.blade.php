@@ -20,8 +20,23 @@
                                 - {{ \Carbon\Carbon::parse($announcement->end_date)->format('M d, Y H:i') }}
                             @endif
                         </p>
+
+                        {{-- File Previewer --}}
+                        @if($announcement->attachment)
+                            <div>
+                                @php
+                                    $fileUrl = Storage::url($announcement->attachment);
+                                @endphp
+
+                                <a href="{{ $fileUrl }}" target="_blank" class="text-blue-600 font-medium italic">
+                                    📎 View Attachment File
+                                </a>
+                            </div>
+                        @endif
+
                     </div>
                 @endforeach
+
                 <div class="mt-4">
                     {{ $announcements->links() }}
                 </div>
