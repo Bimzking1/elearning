@@ -14,11 +14,15 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\Admin\AnnouncementController;
 
-// Welcome Page
 Route::get('/', function () {
-    return view('welcome');
-});
+    if (auth()->check()) {
+        return redirect()->route('redirect');
+    }
+
+    return view('welcome'); // This should be your landing page blade
+})->name('welcome');
 
 // Dashboard (Redirect based on role)
 Route::get('/redirect', function () {
@@ -69,12 +73,43 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
         Route::put('/students/{student}', 'update')->name('admin.students.update');
         Route::delete('/students/{student}', 'destroy')->name('admin.students.destroy');
     });
+
+    Route::controller(AnnouncementController::class)->group(function () {
+        Route::get('/announcements', 'index')->name('admin.announcements.index');
+        Route::get('/announcements/create', 'create')->name('admin.announcements.create');
+        Route::post('/announcements', 'store')->name('admin.announcements.store');
+        Route::get('/announcements/{announcement}/edit', 'edit')->name('admin.announcements.edit');
+        Route::put('/announcements/{announcement}', 'update')->name('admin.announcements.update');
+        Route::delete('/announcements/{announcement}', 'destroy')->name('admin.announcements.destroy');
+    });
 });
 
 // Teacher Routes (Only for Teachers)
+// Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
+//     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home');
+// });
+
+// Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
+//     Route::get('/home', function () {
+//         return view('teacher.home.index');
+//     })->name('teacher.home');
+//     Route::controller(TeacherHomeController::class)->group(function () {
+//         // Route::get('/home', 'index')->name('teacher.home.index');
+//         Route::get('/announcement', 'index')->name('teacher.announcement.index');
+//     });
+// });
+
+// ✅ This one is correct — KEEP THIS
 Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home');
+    // Route::get('/announcement', [TeacherHomeController::class, 'announcement'])->name('teacher.announcement.index');
 });
+
+// Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
+//     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home.index');
+//     Route::get('/announcement', [TeacherHomeController::class, 'index'])->name('teacher.announcement.index');
+// });
+
 
 // Student Routes (Only for Students)
 Route::prefix('student')->middleware(['auth', RoleMiddleware::class.':student'])->group(function () {
@@ -98,8 +133,4 @@ Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkE
 // Reset Password Routes
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::put('/reset-password', [NewPasswordController::class, 'store'])->name('password.override');
-// Route::put('/reset-password', function () {
-//     dd('Route is being hit!');
-// })->name('password.override');
-
 require __DIR__.'/auth.php';
