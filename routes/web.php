@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
+use App\Http\Controllers\Student\ScheduleController as StudentScheduleController;
+use App\Http\Controllers\Teacher\ScheduleController as TeacherScheduleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
@@ -93,17 +96,31 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
         Route::put('/announcements/{announcement}', 'update')->name('admin.announcements.update');
         Route::delete('/announcements/{announcement}', 'destroy')->name('admin.announcements.destroy');
     });
+
+    // Schedule Management (Admins only)
+    Route::controller(AdminScheduleController::class)->group(function () {
+        Route::get('/schedules', 'index')->name('admin.schedules.index');
+        Route::get('/schedules/create', 'create')->name('admin.schedules.create');
+        Route::post('/schedules', 'store')->name('admin.schedules.store');
+        Route::get('/schedules/{schedule}/edit', 'edit')->name('admin.schedules.edit');
+        Route::put('/schedules/{schedule}', 'update')->name('admin.schedules.update');
+        Route::delete('/schedules/{schedule}', 'destroy')->name('admin.schedules.destroy');
+    });
 });
 
 // ✅ This one is correct — KEEP THIS
 Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home');
+    Route::get('/schedules', [TeacherScheduleController::class, 'index'])->name('teacher.schedules.index');
 });
 
 
 // Student Routes (Only for Students)
 Route::prefix('student')->middleware(['auth', RoleMiddleware::class.':student'])->group(function () {
     Route::get('/home', [StudentHomeController::class, 'index'])->name('student.home');
+
+    // 👇 Student Schedule Route
+    Route::get('/schedules', [StudentScheduleController::class, 'index'])->name('student.schedules.index');
 });
 
 // Profile routes (For All Authenticated Users)

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -29,7 +30,12 @@ class StudentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'nisn' => 'required|numeric|digits:10|unique:students,nisn',
+            'nisn' => [
+                'required',
+                'numeric',
+                'min:8',
+                Rule::unique('students', 'nisn')->ignore($student->id),
+            ],
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
             'address' => 'required|string|max:255',
@@ -74,7 +80,12 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255', // Ensure name is included
             'email' => 'required|email|unique:users,email,' . $student->user->id,
-            'nisn' => 'required|numeric|digits:10|unique:students,nisn,' . $student->id,
+            'nisn' => [
+                'required',
+                'numeric',
+                'min:8',
+                Rule::unique('students', 'nisn')->ignore($student->id),
+            ],
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
             'address' => 'required|string|max:255',

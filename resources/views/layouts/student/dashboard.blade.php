@@ -21,6 +21,7 @@
         <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
         <ul>
             <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="home">Home</a></li>
+            <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="schedules">Schedule</a></li>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="block py-2 bg-red-500 rounded w-full text-center text-white">
@@ -33,7 +34,7 @@
     <!-- Main Content -->
     <main id="mainContent" class="w-full flex-1 p-6 mt-16 md:mt-0 bg-gray-100 transition-all duration-300">
         <div id="contentContainer">
-            @yield('content') <!-- This will render the content of the child view, such as 'admin.home.index' -->
+            @yield('content')
         </div>
     </main>
 
@@ -52,7 +53,7 @@
 
                 const page = this.getAttribute('data-page');
                 // Perform a full redirect to the corresponding page
-                window.location.href = `/admin/${page}`; // Redirect to the appropriate URL
+                window.location.href = `/student/${page}`; // Redirect to the appropriate URL
             });
         });
     </script>

@@ -1,7 +1,7 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Subjects</h2>
         <a href="{{ route('admin.subjects.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
@@ -23,7 +23,7 @@
                 @forelse($subject as $index => $subject)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $index + 1 }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $subject->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $subject->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $subject->description }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
                             <div class="flex justify-center space-x-2">

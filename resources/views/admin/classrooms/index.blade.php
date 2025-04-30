@@ -1,7 +1,7 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Manage Classrooms</h2>
         <a href="{{ route('admin.classrooms.create') }}"
@@ -24,7 +24,7 @@
                 @foreach($classrooms as $index => $classroom)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $index + 1 }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $classroom->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $classroom->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                             {{ $classroom->teacher->user->name ?? 'Unassigned' }}
                         </td>

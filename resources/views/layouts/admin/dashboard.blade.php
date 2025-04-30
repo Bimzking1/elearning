@@ -25,6 +25,7 @@
             <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="students">Student</a></li>
             <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="classrooms">Classroom</a></li>
             <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="subjects">Subject</a></li>
+            <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="schedules">Schedule</a></li>
             <li class="mb-2"><a href="#" class="block py-2 page-link" data-page="announcements">Announcement</a></li>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
