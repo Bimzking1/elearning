@@ -71,8 +71,10 @@
             <select name="gender" id="gender" required
                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option value="" disabled selected>Select Gender</option>
-                <option value="male" {{ $user->teacher->gender == 'male' ? 'selected' : '' }}>Male</option>
-                <option value="female" {{ $user->teacher->gender == 'female' ? 'selected' : '' }}>Female</option>
+                <option value="male" {{ isset($user->teacher) && $user->teacher->gender == 'male' ? 'selected' : '' }}>Male</option>
+                <option value="female" {{ isset($user->teacher) && $user->teacher->gender == 'female' ? 'selected' : '' }}>Female</option>
+                {{-- <option value="male" {{ $user->teacher->gender == 'male' ? 'selected' : '' }}>Male</option>
+                <option value="female" {{ $user->teacher->gender == 'female' ? 'selected' : '' }}>Female</option> --}}
             </select>
         </div>
 

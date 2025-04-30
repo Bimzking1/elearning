@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ Route::get('/', function () {
         return redirect()->route('redirect');
     }
 
-    return view('welcome'); // This should be your landing page blade
+    return view('welcome');
 })->name('welcome');
 
 // Dashboard (Redirect based on role)
@@ -65,6 +66,16 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
         Route::delete('/classrooms/{classroom}', 'destroy')->name('admin.classrooms.destroy');
     });
 
+    // Subjects Management
+    Route::controller(SubjectController::class)->group(function () {
+        Route::get('/subjects', 'index')->name('admin.subjects.index');
+        Route::get('/subjects/create', 'create')->name('admin.subjects.create');
+        Route::post('/subjects', 'store')->name('admin.subjects.store');
+        Route::get('/subjects/{subject}/edit', 'edit')->name('admin.subjects.edit');
+        Route::put('/subjects/{subject}', 'update')->name('admin.subjects.update');
+        Route::delete('/subjects/{subject}', 'destroy')->name('admin.subjects.destroy');
+    });
+
     Route::controller(StudentController::class)->group(function () {
         Route::get('/students', 'index')->name('admin.students.index');
         Route::get('/students/create', 'create')->name('admin.students.create');
@@ -84,31 +95,10 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
     });
 });
 
-// Teacher Routes (Only for Teachers)
-// Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
-//     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home');
-// });
-
-// Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
-//     Route::get('/home', function () {
-//         return view('teacher.home.index');
-//     })->name('teacher.home');
-//     Route::controller(TeacherHomeController::class)->group(function () {
-//         // Route::get('/home', 'index')->name('teacher.home.index');
-//         Route::get('/announcement', 'index')->name('teacher.announcement.index');
-//     });
-// });
-
 // ✅ This one is correct — KEEP THIS
 Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home');
-    // Route::get('/announcement', [TeacherHomeController::class, 'announcement'])->name('teacher.announcement.index');
 });
-
-// Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
-//     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home.index');
-//     Route::get('/announcement', [TeacherHomeController::class, 'index'])->name('teacher.announcement.index');
-// });
 
 
 // Student Routes (Only for Students)

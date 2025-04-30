@@ -20,4 +20,8 @@ class Teacher extends Model {
     public function classrooms() {
         return $this->hasMany(Classroom::class, 'teacher_id');
     }
+
+    public function subjects() {
+        return $this->belongsToMany(Subject::class, 'subject_teacher');
+    }
 }
