@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class TaskSubmission extends Model {
     use HasFactory;
 
-    protected $fillable = ['task_id', 'student_id', 'attachment', 'submitted_at'];
+    protected $fillable = [
+        'task_id',
+        'student_id',
+        'submission_text',
+        'submission_file',
+        'score'
+    ];
 
     public function task() {
         return $this->belongsTo(Task::class);

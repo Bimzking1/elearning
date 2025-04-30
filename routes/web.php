@@ -19,6 +19,9 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Admin\AnnouncementController;
+use App\Http\Controllers\Admin\TaskController as AdminTaskController;
+use App\Http\Controllers\Teacher\TaskController as TeacherTaskController;
+use App\Http\Controllers\Student\TaskSubmissionController as StudentTaskSubmissionController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -106,21 +109,43 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
         Route::put('/schedules/{schedule}', 'update')->name('admin.schedules.update');
         Route::delete('/schedules/{schedule}', 'destroy')->name('admin.schedules.destroy');
     });
+
+    Route::controller(AdminTaskController::class)->group(function () {
+        Route::get('/tasks', 'index')->name('admin.tasks.index');
+        Route::get('/tasks/create', 'create')->name('admin.tasks.create');
+        Route::post('/tasks', 'store')->name('admin.tasks.store');
+        Route::get('/tasks/{task}/edit', 'edit')->name('admin.tasks.edit');
+        Route::put('/tasks/{task}', 'update')->name('admin.tasks.update');
+        Route::delete('/tasks/{task}', 'destroy')->name('admin.tasks.destroy');
+    });
 });
 
 // ✅ This one is correct — KEEP THIS
 Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home');
     Route::get('/schedules', [TeacherScheduleController::class, 'index'])->name('teacher.schedules.index');
+    Route::resource('tasks', TeacherTaskController::class)->names('teacher.tasks');
 });
 
-
 // Student Routes (Only for Students)
-Route::prefix('student')->middleware(['auth', RoleMiddleware::class.':student'])->group(function () {
-    Route::get('/home', [StudentHomeController::class, 'index'])->name('student.home');
+Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')->group(function () {
+    // Student Dashboard Route
+    Route::get('/home', [StudentHomeController::class, 'index'])->name('home');
 
-    // 👇 Student Schedule Route
-    Route::get('/schedules', [StudentScheduleController::class, 'index'])->name('student.schedules.index');
+    // Student Schedule Route
+    Route::get('/schedules', [StudentScheduleController::class, 'index'])->name('schedules.index');
+
+    // Task Submission Routes (Updated with the new routes)
+    Route::prefix('tasks')->name('tasks.')->group(function () {
+        Route::get('/', [StudentTaskSubmissionController::class, 'index'])->name('index');
+        Route::get('/{task}/submit', [StudentTaskSubmissionController::class, 'create'])->name('submit');
+        Route::post('/{task}/submit', [StudentTaskSubmissionController::class, 'store'])->name('store');
+        Route::get('/{task}/submission', [StudentTaskSubmissionController::class, 'show'])->name('show');
+
+        // New Routes for Edit and Update
+        Route::get('/{task}/edit', [StudentTaskSubmissionController::class, 'edit'])->name('edit');
+        Route::put('/{task}/update', [StudentTaskSubmissionController::class, 'update'])->name('update');
+    });
 });
 
 // Profile routes (For All Authenticated Users)
