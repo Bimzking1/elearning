@@ -10,9 +10,10 @@
         <table class="min-w-full table-fixed bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm text-sm">
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">
                 <tr>
-                    <th class="w-1/3 px-4 py-3 text-left">Task Title</th>
+                    <th class="w-1/4 px-4 py-3 text-left">Task Title</th>
                     <th class="w-1/4 px-4 py-3 text-left">Deadline</th>
                     <th class="w-1/4 px-4 py-3 text-left">Status</th>
+                    <th class="w-1/4 px-4 py-3 text-left">Score</th> <!-- New Column for Score -->
                     <th class="w-1/4 px-4 py-3 text-center">Action</th>
                 </tr>
             </thead>
@@ -56,35 +57,71 @@
                                                 @endif
                                             </span>
                                         @else
-                                            <span class="text-red-500 font-semibold ml-2">Past Deadline</span>
+                                            <span class="text-red-500 font-semibold">Past Deadline</span>
                                         @endif
                                     </p>
                                 </div>
                             @else
-                                <span class="text-gray-400">N/A</span>
+                                <span class="text-gray-400">-</span>
+                            @endif
+                        </td>
+                        <td class="px-4 py-3">
+                            @php
+                                $submission = $task->submissions->where('student_id', Auth::user()->student->id)->first();
+                            @endphp
+
+                            @if ($submission)
+                                @php
+                                    $isLate = $submission->created_at && $submission->created_at > $task->deadline;
+                                @endphp
+
+                                <span class="text-green-600">Submitted</span>
+                                @if ($isLate)
+                                    <span class="text-red-600 font-semibold">(Submitted Late)</span>
+                                @endif
+                            @else
+                                <span class="text-yellow-600">Not Submitted</span>
                             @endif
                         </td>
                         <td class="px-4 py-3">
                             @if ($task->submissions->where('student_id', Auth::user()->student->id)->isEmpty())
-                                <span class="text-yellow-600">Not Submitted</span>
+                                <span class="text-gray-400">-</span> <!-- No submission -->
                             @else
-                                <span class="text-green-600">Submitted</span>
+                                @php
+                                    $submission = $task->submissions->where('student_id', Auth::user()->student->id)->first();
+                                    $score = $submission->score;
+                                @endphp
+                                @if ($score !== null)
+                                    <span class="font-medium
+                                        @if ($score > 80)
+                                            text-green-600
+                                        @elseif ($score >= 70 && $score <= 80)
+                                            text-yellow-600
+                                        @else
+                                            text-gray-600
+                                        @endif
+                                    ">
+                                        {{ $score }}
+                                    </span> <!-- Show score with dynamic color -->
+                                @else
+                                    <span class="text-gray-500">Not Graded Yet</span> <!-- If score is null -->
+                                @endif
                             @endif
                         </td>
-                        <td class="px-4 py-3 text-center">
+                        <td class="w-full px-4 py-3 text-center">
                             @if ($task->submissions->where('student_id', Auth::user()->student->id)->isEmpty())
-                                <a href="{{ route('student.tasks.submit', $task->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
+                                <a href="{{ route('student.tasks.submit', $task->id) }}" class="w-full inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
                                     Submit
                                 </a>
                             @else
-                                <a href="{{ route('student.tasks.show', $task->id) }}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
+                                <a href="{{ route('student.tasks.show', $task->id) }}" class="w-full inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
                                     View Submission
                                 </a>
 
                                 <!-- Add Edit Submission Button -->
                                 @if ($task->submissions->where('student_id', Auth::user()->student->id)->first()->score === null)
                                 <!-- Only show the edit button if not graded -->
-                                <a href="{{ route('student.tasks.edit', $task->id) }}" class="inline-block mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
+                                <a href="{{ route('student.tasks.edit', $task->id) }}" class="w-full inline-block mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
                                     Edit Submission
                                 </a>
                                 @endif

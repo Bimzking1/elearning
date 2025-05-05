@@ -13,7 +13,8 @@ class TaskSubmission extends Model {
         'student_id',
         'submission_text',
         'submission_file',
-        'score'
+        'score',
+        'comments'
     ];
 
     public function task() {

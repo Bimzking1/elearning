@@ -22,6 +22,8 @@ use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\TaskController as AdminTaskController;
 use App\Http\Controllers\Teacher\TaskController as TeacherTaskController;
 use App\Http\Controllers\Student\TaskSubmissionController as StudentTaskSubmissionController;
+use App\Http\Controllers\Teacher\TaskSubmissionController as TeacherTaskSubmissionController;
+use App\Http\Controllers\Admin\TaskSubmissionController as AdminTaskSubmissionController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -117,14 +119,28 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
         Route::get('/tasks/{task}/edit', 'edit')->name('admin.tasks.edit');
         Route::put('/tasks/{task}', 'update')->name('admin.tasks.update');
         Route::delete('/tasks/{task}', 'destroy')->name('admin.tasks.destroy');
+
+        // Task Submission Routes inside the admin group (Corrected)
+        Route::prefix('/tasks/{task}/submissions')->name('admin.tasks.submissions.')->group(function () {
+            Route::get('/', [AdminTaskSubmissionController::class, 'index'])->name('index');
+            Route::get('/{submission}/edit', [AdminTaskSubmissionController::class, 'edit'])->name('edit');
+            Route::put('/{submission}', [AdminTaskSubmissionController::class, 'update'])->name('update'); // Make sure this is correct
+        });
     });
 });
 
-// ✅ This one is correct — KEEP THIS
-Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class.':teacher'])->group(function () {
+// Teacher Routes (Only for Teachers)
+Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class . ':teacher'])->group(function () {
     Route::get('/home', [TeacherHomeController::class, 'index'])->name('teacher.home');
     Route::get('/schedules', [TeacherScheduleController::class, 'index'])->name('teacher.schedules.index');
-    Route::resource('tasks', TeacherTaskController::class)->names('teacher.tasks');
+    Route::resource('/tasks', TeacherTaskController::class)->names('teacher.tasks');
+
+    // Teacher Task Submission Routes (Corrected)
+    Route::prefix('tasks/{task}/submissions')->name('teacher.tasks.submissions.')->group(function () {
+        Route::get('/', [TeacherTaskSubmissionController::class, 'index'])->name('index');
+        Route::get('/{submission}/edit', [TeacherTaskSubmissionController::class, 'edit'])->name('edit');
+        Route::put('/{submission}', [TeacherTaskSubmissionController::class, 'update'])->name('update'); // Fixed route
+    });
 });
 
 // Student Routes (Only for Students)
@@ -135,7 +151,7 @@ Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')
     // Student Schedule Route
     Route::get('/schedules', [StudentScheduleController::class, 'index'])->name('schedules.index');
 
-    // Task Submission Routes (Updated with the new routes)
+    // Task Submission Routes
     Route::prefix('tasks')->name('tasks.')->group(function () {
         Route::get('/', [StudentTaskSubmissionController::class, 'index'])->name('index');
         Route::get('/{task}/submit', [StudentTaskSubmissionController::class, 'create'])->name('submit');
@@ -165,4 +181,5 @@ Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkE
 // Reset Password Routes
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::put('/reset-password', [NewPasswordController::class, 'store'])->name('password.override');
+
 require __DIR__.'/auth.php';

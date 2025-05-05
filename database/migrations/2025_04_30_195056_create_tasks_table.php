@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('attachment_path')->nullable(); // for PDFs, docs, images, etc.
-            $table->dateTime('due_date')->nullable();      // change to due_date
+            $table->dateTime('deadline')->nullable();
             $table->timestamps(); // includes created_at (used as the publish date), updated_at
         });
     }

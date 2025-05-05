@@ -23,9 +23,9 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-                @forelse ($tasks as $index => $task)
+                @forelse ($tasks as $task)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3">{{ $index + 1 }}</td>
+                        <td class="px-4 py-3">{{ $loop->iteration }}</td>
                         <td class="px-4 py-3 font-medium text-gray-900">{{ $task->title }}</td>
                         <td class="px-4 py-3">{{ $task->subject->name }}</td>
                         <td class="px-4 py-3">{{ $task->classroom->name }}</td>
@@ -38,6 +38,10 @@
                         </td>
                         <td class="px-4 py-3 text-center">
                             <div class="flex justify-center space-x-2">
+                                <a href="{{ route('teacher.tasks.submissions.index', ['task' => $task->id]) }}"
+                                   class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-1 px-2 rounded text-sm">
+                                    Submissions
+                                </a>
                                 <a href="{{ route('teacher.tasks.edit', $task->id) }}"
                                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
                                     Edit

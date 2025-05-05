@@ -38,6 +38,10 @@
                         </td>
                         <td class="px-4 py-3 text-center">
                             <div class="flex justify-center space-x-2">
+                                <a href="{{ route('admin.tasks.submissions.index', ['task' => $task->id]) }}"
+                                    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-1 px-2 rounded text-sm">
+                                    Submissions
+                                 </a>
                                 <a href="{{ route('admin.tasks.edit', $task->id) }}"
                                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
                                     Edit

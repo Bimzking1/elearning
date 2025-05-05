@@ -18,10 +18,7 @@ return new class extends Migration {
         });
     }
 
-    public function down()
-    {
-        Schema::table('task_submissions', function (Blueprint $table) {
-            $table->dropColumn('comments');
-        });
+    public function down(): void {
+        Schema::dropIfExists('task_submissions');
     }
 };

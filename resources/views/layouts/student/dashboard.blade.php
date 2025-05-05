@@ -32,7 +32,7 @@
             </li>
             <li class="mb-2">
                 <a href="{{ url('/student/tasks') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('student/schedules') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   class="block py-2 px-2 rounded page-link {{ request()->is('student/tasks') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
                    data-page="tasks">Task</a>
             </li>
             <form method="POST" action="{{ route('logout') }}">

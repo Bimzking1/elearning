@@ -58,7 +58,7 @@
                         </span>
 
                     @else
-                        <span class="text-red-500 font-semibold ml-2">Past Deadline</span>
+                        <span class="text-red-500 font-semibold">Past Deadline</span>
                     @endif
                 </p>
             </div>
