@@ -13,7 +13,7 @@ class User extends Authenticatable implements CanResetPassword
     use HasFactory, Notifiable, CanResetPasswordTrait;
 
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role', 'photo'
     ];
 
     protected $hidden = [

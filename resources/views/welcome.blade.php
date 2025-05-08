@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Learning Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
@@ -71,36 +72,129 @@
     </section>
 
     <!-- Our Teachers -->
-    <section id="teachers" class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4 text-center" x-data="teacherSlider()" x-init="init()">
-            <h2 class="text-3xl font-bold mb-12">Meet Our Teachers</h2>
 
-            <div class="relative overflow-hidden w-full h-[320px]">
-                <div
-                    class="flex transition-transform duration-700 ease-in-out"
-                    :style="`transform: translateX(-${currentIndex * 100}%); width: ${teachers.length * 100}%`"
-                >
-                    <template x-for="teacher in teachers" :key="teacher.id">
-                        <div class="w-full flex-shrink-0 flex justify-center items-center">
-                            <div class="w-[280px] bg-gray-50 p-6 rounded-lg shadow hover:shadow-md transition">
-                                <img :src="teacher.image" alt="Teacher" class="rounded-full mx-auto mb-4 w-28 h-28 object-cover">
-                                <h3 class="text-xl font-semibold" x-text="teacher.name"></h3>
-                                <p class="text-gray-500" x-text="teacher.subject"></p>
-                            </div>
+      <section id="teachers" class="py-16 bg-white">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Meet Our Dedicated Teachers</h2>
+            <p class="text-lg text-gray-600 mb-6">
+                At PKBM BINA ABDI WIYATA, our teachers are passionate educators committed to guiding students toward success. With diverse academic backgrounds, real-world experience, and a heart for teaching, they create a supportive and engaging learning environment tailored to each student's needs.
+
+                Our team includes certified professionals who specialize in various subjects and levels of education, ensuring every student receives personalized support. Whether in catch-up or pursue programs, our teachers bring patience, innovation, and care to the classroom—empowering learners to reach their full potential.
+
+                We believe that great teachers don't just educate—they inspire.
+            </p>
+
+            <div class="carousel-container">
+                <div class="slick-carousel">
+                    <!-- Slide 1 -->
+                    <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mt-8" id="teacher-row-1">
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://image1.masterfile.com/getImage/ODQ2LTAyNzk3NjM5ZW4uMDAwMDAwMDA=AFo58X/846-02797639en_Masterfile.jpg" alt="Bonnie Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Drs. Lukas Kambali, S.H., M.H.</a>
+                            </h3>
+                            <p>Geografi</p>
                         </div>
-                    </template>
-                </div>
-            </div>
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://c8.alamy.com/comp/CMT5PB/1950s-frowning-businessman-in-jacket-and-tie-smoking-a-pipe-CMT5PB.jpg" alt="Helene Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Albert Kurniawan, S.T.</a>
+                            </h3>
+                            <p>Fisika, Biologi, Kimia</p>
+                        </div>
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://image1.masterfile.com/getImage/ODQ2LTAyNzk2MTcyZW4uMDAwMDAwMDA=AO2p8X/846-02796172en_Masterfile.jpg" alt="Jese Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">L. Williyan Putra Perdana, S.E., M.M.</a>
+                            </h3>
+                            <p>Ekonomi</p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-2">
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Paulus Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Paulus Widhi, S.E.</a>
+                            </h3>
+                            <p>Ekonomi, Geografi, Sosiologi, Sejarah</p>
+                        </div>
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png" alt="Baihaqi Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Baihaqi Al Chasan, S.Hum.</a>
+                            </h3>
+                            <p>Sejarah</p>
+                        </div>
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Sutrisno Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Sutrisno</a>
+                            </h3>
+                            <p>Agama Islam</p>
+                        </div>
+                    </div>
+                    <!-- Hidden Rows -->
+                    <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-3">
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Rismawati Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Rismawati Sitanggang, S.Pd.</a>
+                            </h3>
+                            <p>Sosiologi</p>
+                        </div>
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png" alt="Dr. Budiono Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Dr. B. Budiono, M.Pd.</a>
+                            </h3>
+                            <p>Bahasa Inggris</p>
+                        </div>
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Dr. Himawan Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Drs. Himawan Setyo W., M.Pd.</a>
+                            </h3>
+                            <p>Bahasa Inggris</p>
+                        </div>
+                    </div>
+                    <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-4">
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Esti Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Drs. Esti Nugroho</a>
+                            </h3>
+                            <p>Matematika</p>
+                        </div>
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png" alt="Soejatmiko Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Drs. Soejatmiko</a>
+                            </h3>
+                            <p>Bahasa Indonesia</p>
+                        </div>
+                        <div class="text-center text-gray-500">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Fajar Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
+                                <a href="#">Fajar Novianto</a>
+                            </h3>
+                            <p>PPKN</p>
+                        </div>
+                    </div>
 
-            <!-- Manual Controls -->
-            <div class="mt-6 space-x-2">
-                <button @click="prev()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">&larr;</button>
-                <button @click="next()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">&rarr;</button>
+                    <!-- See More Button -->
+                    <div class="text-center mt-6">
+                        <button id="see-more-btn" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300">
+                            See More
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Services -->
+
+      <!-- Services -->
     <section id="services" class="py-20 bg-blue-50">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-12 text-blue-700">Our Programs & Services</h2>
@@ -221,24 +315,17 @@
 </html>
 
 <!-- Alpine.js -->
-<script src="https://unpkg.com/alpinejs" defer></script>
 <script>
-    function teacherSlider() {
-        return {
-            teachers: [
-                { id: 1, name: 'Mr. Arif', subject: 'Mathematics', image: 'https://randomuser.me/api/portraits/men/32.jpg' },
-                { id: 2, name: 'Ms. Sarah', subject: 'Science', image: 'https://randomuser.me/api/portraits/women/44.jpg' },
-                { id: 3, name: 'Mr. Yusuf', subject: 'English', image: 'https://randomuser.me/api/portraits/men/54.jpg' },
-                { id: 4, name: 'Ms. Dina', subject: 'Biology', image: 'https://randomuser.me/api/portraits/women/65.jpg' },
-                { id: 5, name: 'Mr. Reza', subject: 'History', image: 'https://randomuser.me/api/portraits/men/77.jpg' },
-            ],
-            currentIndex: 0,
-            next() {
-                this.currentIndex = (this.currentIndex + 1) % this.teachers.length;
-            },
-            prev() {
-                this.currentIndex = (this.currentIndex - 1 + this.teachers.length) % this.teachers.length;
-            },
-        }
-    }
+    document.getElementById('see-more-btn').addEventListener('click', function() {
+        // Toggle visibility of the hidden rows
+        document.getElementById('teacher-row-2').classList.toggle('hidden');
+        document.getElementById('teacher-row-3').classList.toggle('hidden');
+        document.getElementById('teacher-row-4').classList.toggle('hidden');
+        document.getElementById('teacher-row-5').classList.toggle('hidden');
+        document.getElementById('teacher-row-6').classList.toggle('hidden');
+
+        // Change button text after clicking
+        this.textContent = this.textContent === 'See Less' ? 'See More' : 'See Less';
+    });
 </script>
+

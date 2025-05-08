@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -34,7 +36,7 @@ class StudentController extends Controller
                 'required',
                 'numeric',
                 'min:8',
-                Rule::unique('students', 'nisn')->ignore($student->id),
+                Rule::unique('students', 'nisn'),
             ],
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
@@ -43,6 +45,7 @@ class StudentController extends Controller
             'phone' => 'required|string|max:15',
             'guardian_name' => 'required|string|max:255',
             'guardian_phone' => 'required|string|max:15',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Create User
@@ -52,6 +55,12 @@ class StudentController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'student', // Set role as student
         ]);
+
+        // Handle photo upload (if provided)
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('student_photos', 'public');
+            $user->update(['photo' => $photoPath]);
+        }
 
         // Create Student linked to the User
         Student::create([
@@ -94,6 +103,7 @@ class StudentController extends Controller
             'guardian_name' => 'required|string|max:255',
             'guardian_phone' => 'required|string|max:15',
             'password' => 'nullable|min:6|confirmed',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Update User (Ensure name is not null)
@@ -101,6 +111,18 @@ class StudentController extends Controller
             'name' => $request->name,  // This prevents the "name cannot be null" error
             'email' => $request->email,
         ]);
+
+        // Handle photo upload (if provided)
+        if ($request->hasFile('photo')) {
+            // Delete old photo if it exists
+            if ($student->user->photo) {
+                Storage::disk('public')->delete($student->user->photo);  // Delete the old photo
+            }
+
+            // Store the new photo and get the path
+            $photoPath = $request->file('photo')->store('student_photos', 'public');
+            $student->user->update(['photo' => $photoPath]);
+        }
 
         // Update password if provided
         if ($request->filled('password')) {
@@ -128,6 +150,11 @@ class StudentController extends Controller
     {
         // Delete related User
         if ($student->user) {
+            // Delete the user's photo if it exists
+            if ($student->user->photo) {
+                Storage::disk('public')->delete($student->user->photo);  // Delete the photo
+            }
+
             $student->user->delete();
         }
 
