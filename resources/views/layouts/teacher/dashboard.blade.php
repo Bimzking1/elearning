@@ -20,7 +20,7 @@
     <aside id="sidebar" class="w-64 bg-blue-600 min-h-screen text-white p-4 fixed md:relative md:translate-x-0 transition-transform duration-300 -translate-x-full z-10">
         <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
         <ul>
-            <li class="mb-2">
+            <li class="mb-2 mt-8 md:mt-0">
                 <a href="{{ url('/teacher/home') }}"
                    class="block py-2 px-2 rounded page-link {{ request()->is('teacher/home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
                    data-page="home">Home</a>
@@ -34,6 +34,11 @@
                 <a href="{{ url('/teacher/tasks') }}"
                    class="block py-2 px-2 rounded page-link {{ request()->is('teacher/tasks') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
                    data-page="tasks">Tasks</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url('/teacher/profile') }}"
+                   class="block py-2 px-2 rounded page-link {{ request()->is('teacher/profile') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="profile">Profile</a>
             </li>
             <li class="mb-2">
                 <form method="POST" action="{{ route('logout') }}">

@@ -24,6 +24,8 @@ use App\Http\Controllers\Teacher\TaskController as TeacherTaskController;
 use App\Http\Controllers\Student\TaskSubmissionController as StudentTaskSubmissionController;
 use App\Http\Controllers\Teacher\TaskSubmissionController as TeacherTaskSubmissionController;
 use App\Http\Controllers\Admin\TaskSubmissionController as AdminTaskSubmissionController;
+use App\Http\Controllers\Student\ProfileController as StudentProfileController;
+use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -141,6 +143,7 @@ Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class . ':teacher'
         Route::get('/{submission}/edit', [TeacherTaskSubmissionController::class, 'edit'])->name('edit');
         Route::put('/{submission}', [TeacherTaskSubmissionController::class, 'update'])->name('update'); // Fixed route
     });
+    Route::get('/profile', [TeacherProfileController::class, 'index'])->name('profile.index');
 });
 
 // Student Routes (Only for Students)
@@ -162,6 +165,8 @@ Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')
         Route::get('/{task}/edit', [StudentTaskSubmissionController::class, 'edit'])->name('edit');
         Route::put('/{task}/update', [StudentTaskSubmissionController::class, 'update'])->name('update');
     });
+
+    Route::get('/profile', [StudentProfileController::class, 'index'])->name('profile.index');
 });
 
 // Profile routes (For All Authenticated Users)

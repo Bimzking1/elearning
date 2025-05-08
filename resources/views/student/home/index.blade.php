@@ -1,7 +1,7 @@
 @extends('layouts.student.dashboard')
 
 @section('content')
-<div class="max-w-6xl mx-auto p-6">
+<div class="max-w-7xl mx-auto p-6">
     {{-- Welcome Box --}}
     <div class="bg-white rounded-xl shadow-md p-6 mb-6">
         <h2 class="text-3xl font-semibold text-gray-800 mb-2">Welcome, {{ auth()->user()->name }} 👋</h2>
