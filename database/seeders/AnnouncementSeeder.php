@@ -29,8 +29,8 @@ class AnnouncementSeeder extends Seeder
         for ($i = 1; $i <= 10; $i++) {
             Announcement::create([
                 'user_id' => $admin->id,
-                'title' => "Announcement $i",
-                'content' => "This is the content of announcement $i.",
+                'title' => "Pengumuman $i",
+                'content' => "Ini adalah detail pengumuman ke-$i.",
                 'roles' => $rolesOptions[array_rand($rolesOptions)], // Directly passing the array
                 'start_date' => now(),
                 'end_date' => now()->addDays(rand(5, 15)),
