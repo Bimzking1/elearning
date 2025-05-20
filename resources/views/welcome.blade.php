@@ -52,14 +52,20 @@
     <header class="bg-blue-500 text-white py-20 text-center">
         <h1 class="text-5xl font-bold mb-4">Welcome to Our E-Learning Platform</h1>
         <p class="text-xl">Flexible, Effective, and Student-Focused Learning</p>
-        <a href="{{ route('login') }}" class="mt-6 inline-block bg-white text-blue-600 px-6 py-3 rounded font-semibold">Get Started</a>
+        <a href="{{ route('login') }}" class="mt-6 inline-block bg-white text-blue-600 px-6 py-3 rounded font-semibold">Login</a>
     </header>
 
     <!-- About Us -->
     <section id="about" class="py-16 bg-white">
         <div class="max-w-5xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-6">Tentang PKBM BINA ABDI WIYATA</h2>
-            <p class="text-lg text-gray-600 mb-6">PKBM BINA ABDI WIYATA adalah lembaga pendidikan nonformal yang bernaung di bawah Kementerian Pendidikan dan Kebudayaan. Kami menyediakan layanan pendidikan Paket A, B, dan C untuk mendukung pembelajaran sepanjang hayat.</p>
+            <h2 class="text-3xl font-bold mb-6">About PKBM Bina Abdi Wiyata</h2>
+            <p class="text-lg text-gray-600 mb-6">
+                PKBM Bina Abdi Wiyata is a Community Learning Center (PKBM) that provides non-formal education programs, including Kejar Paket A (equivalent to elementary school), Paket B (junior high school), and Paket C (senior high school), as well as flexible and personalized homeschooling services. Our mission is to offer educational opportunities to individuals of all ages and backgrounds who are seeking to continue or complete their education outside the formal school system.
+
+                Founded on the principles of inclusion and empowerment, we believe that education is a fundamental right for everyone—regardless of age, economic status, or past educational experience. Through both our Kejar Paket and homeschooling programs, we offer learner-centered approaches that are aligned with the national curriculum and tailored to each student's needs.
+
+                Our homeschooling program is designed for families who prefer a home-based learning model. It offers flexible scheduling, personalized learning plans, academic support, and preparation for national examinations—all under the guidance of experienced educators.
+            </p>
         </div>
     </section>
 
@@ -67,7 +73,7 @@
     <section id="motto" class="py-16 bg-gray-100">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold mb-4">Our Motto</h2>
-            <p class="text-xl italic text-blue-600">"Empowering every learner to reach their full potential"</p>
+            <p class="text-xl italic text-blue-600">"A Life-improving Centre for Community Learning Activities"</p>
         </div>
     </section>
 
@@ -89,21 +95,21 @@
                     <!-- Slide 1 -->
                     <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mt-8" id="teacher-row-1">
                         <div class="text-center text-gray-500">
-                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://image1.masterfile.com/getImage/ODQ2LTAyNzk3NjM5ZW4uMDAwMDAwMDA=AFo58X/846-02797639en_Masterfile.jpg" alt="Bonnie Avatar">
+                            <img class="mx-auto mb-4 w-36 h-36 object-cover rounded-full" src="{{ asset('images/lukas-kambali.jpg') }}" alt="Lukas Kambali Avatar">
                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
                                 <a href="#">Drs. Lukas Kambali, S.H., M.H.</a>
                             </h3>
                             <p>Geografi</p>
                         </div>
                         <div class="text-center text-gray-500">
-                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://c8.alamy.com/comp/CMT5PB/1950s-frowning-businessman-in-jacket-and-tie-smoking-a-pipe-CMT5PB.jpg" alt="Helene Avatar">
+                            <img class="mx-auto mb-4 w-36 h-36 object-cover rounded-full" src="{{ asset('images/albert-kurniawan.jpg') }}" alt="Helene Avatar">
                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
                                 <a href="#">Albert Kurniawan, S.T.</a>
                             </h3>
                             <p>Fisika, Biologi, Kimia</p>
                         </div>
                         <div class="text-center text-gray-500">
-                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://image1.masterfile.com/getImage/ODQ2LTAyNzk2MTcyZW4uMDAwMDAwMDA=AO2p8X/846-02796172en_Masterfile.jpg" alt="Jese Avatar">
+                            <img class="mx-auto mb-4 w-36 h-36 object-cover rounded-full" src="{{ asset('images/williyan.jpg') }}" alt="Jese Avatar">
                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
                                 <a href="#">L. Williyan Putra Perdana, S.E., M.M.</a>
                             </h3>
@@ -111,7 +117,7 @@
                         </div>
                     </div>
                     <!-- Slide 2 -->
-                    <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-2">
+                    {{-- <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-2">
                         <div class="text-center text-gray-500">
                             <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Paulus Avatar">
                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
@@ -133,9 +139,9 @@
                             </h3>
                             <p>Agama Islam</p>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- Hidden Rows -->
-                    <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-3">
+                    {{-- <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-3">
                         <div class="text-center text-gray-500">
                             <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Rismawati Avatar">
                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
@@ -157,8 +163,8 @@
                             </h3>
                             <p>Bahasa Inggris</p>
                         </div>
-                    </div>
-                    <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-4">
+                    </div> --}}
+                    {{-- <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-4">
                         <div class="text-center text-gray-500">
                             <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Esti Avatar">
                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
@@ -180,14 +186,14 @@
                             </h3>
                             <p>PPKN</p>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- See More Button -->
-                    <div class="text-center mt-6">
+                    {{-- <div class="text-center mt-6">
                         <button id="see-more-btn" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300">
                             See More
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -198,7 +204,7 @@
     <section id="services" class="py-20 bg-blue-50">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-12 text-blue-700">Our Programs & Services</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
 
                 <!-- Paket A -->
                 <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
@@ -210,7 +216,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
                         </svg>
-                        <h3 class="text-xl font-semibold text-blue-600">Paket A (Setara SD)</h3>
+                        <h3 class="text-xl font-semibold text-blue-600">Paket A (SD)</h3>
                     </div>
                     <p>
                         A foundational education program for learners seeking an elementary school equivalent certification, aligned with national curriculum standards.
@@ -227,7 +233,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
                         </svg>
-                        <h3 class="text-xl font-semibold text-blue-600">Paket B (Setara SMP)</h3>
+                        <h3 class="text-xl font-semibold text-blue-600">Paket B (SMP)</h3>
                     </div>
                     <p>
                         A middle school equivalent program tailored for learners continuing their academic journey with a focus on core competencies and life skills.
@@ -244,10 +250,27 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
                         </svg>
-                        <h3 class="text-xl font-semibold text-blue-600">Paket C (Setara SMA)</h3>
+                        <h3 class="text-xl font-semibold text-blue-600">Paket C (SMA)</h3>
                     </div>
                     <p>
                         A high school level program for students aiming to complete their education and receive an SMA-equivalent diploma, preparing them for higher education or employment.
+                    </p>
+                </div>
+
+                <!-- Homeschooling -->
+                <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
+                        </svg>
+                        <h3 class="text-xl font-semibold text-blue-600">Homeschooling</h3>
+                    </div>
+                    <p>
+                        A flexible learning option that allows students to study independently from home under the guidance of educators, while following the national curriculum.
                     </p>
                 </div>
 
@@ -256,7 +279,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-blue-600 text-white py-10 mt-12">
+    <footer class="bg-blue-600 text-white py-10 mt-12 text-center md:text-left">
         <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
             <!-- Organization Info -->
             <div>
@@ -264,8 +287,9 @@
                 <p>JL. Jolotundo Baru 6, Tambaksari</p>
                 <p>Kelurahan Pacar Keling</p>
                 <p>Kota Surabaya, Jawa Timur</p>
-                <p>Email: <a href="mailto:pkbmbaw2019@gmail.com" class="underline">pkbmbaw2019@gmail.com</a></p>
-                <p>Website: <a href="https://www.binaabdiwiyata.com" target="_blank" class="underline">binaabdiwiyata.com</a></p>
+                <p class="mt-4">Email: <a href="mailto:pkbmbaw2019@gmail.com" class="underline">pkbmbaw2019@gmail.com</a></p>
+                <p>Website: <a href="https://www.binaabdiwiyata.id" target="_blank" class="underline">binaabdiwiyata.id</a></p>
+                <p>Nomor Telepon: 087701990961</p>
             </div>
 
             <!-- Quick Links -->
@@ -283,16 +307,17 @@
             <div>
                 <h3 class="text-lg font-semibold mb-3">Our Programs</h3>
                 <ul class="space-y-2">
-                    <li>Paket A (Setara SD)</li>
-                    <li>Paket B (Setara SMP)</li>
-                    <li>Paket C (Setara SMA)</li>
+                    <li>Paket A (SD)</li>
+                    <li>Paket B (SMP)</li>
+                    <li>Paket C (SMA)</li>
+                    <li>Homeschooling</li>
                 </ul>
             </div>
 
             <!-- Social Media -->
             <div>
                 <h3 class="text-lg font-semibold mb-3">Follow Us</h3>
-                <div class="flex space-x-4 mt-2">
+                <div class="flex justify-center items-center gap-4 md:space-x-4 mt-2 md:justify-start md:items-start md:gap-0">
                     <a href="#" class="hover:text-blue-200" aria-label="Facebook">
                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M22 12A10 10 0 1 0 12 22v-7h-2v-3h2v-2c0-1.7 1.3-3 3-3h2v3h-2c-.6 0-1 .4-1 1v1h3l-1 3h-2v7a10 10 0 0 0 8-10Z"/></svg>
                     </a>
