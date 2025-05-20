@@ -31,11 +31,12 @@ Route::middleware('guest')->group(function () {
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
+    // Route::post('reset-password', [NewPasswordController::class, 'store'])
+    //     ->name('password.store');
 });
 
 Route::middleware('auth')->group(function () {
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
@@ -57,3 +58,21 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
+
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('home', function () {
+        return view('admin.home.index');
+    })->name('home');
+});
+
+// Route::middleware('auth')->prefix('teacher')->name('teacher.')->group(function () {
+//     Route::get('home', function () {
+//         return view('teacher.home.index');
+//     })->name('home');
+// });
+
+// Route::middleware('auth')->prefix('student')->name('student.')->group(function () {
+//     Route::get('home', function () {
+//         return view('student.home.index');
+//     })->name('home');
+// });

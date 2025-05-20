@@ -10,11 +10,11 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nisn')->unique();
-            $table->date('date_of_birth');
-            $table->enum('gender', ['male', 'female']);
+            $table->date('date_of_birth')->nullable();
+            $table->enum('gender', ['male', 'female', 'other']);
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
-            $table->foreignId('class_id')->nullable()->constrained('classes')->onDelete('set null');
+            $table->foreignId('classroom_id')->nullable()->constrained('classrooms')->onDelete('set null');
             $table->string('guardian_name')->nullable();
             $table->string('guardian_phone')->nullable();
             $table->timestamps();

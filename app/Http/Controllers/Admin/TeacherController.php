@@ -9,6 +9,8 @@ use App\Models\Student;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TeacherController extends Controller {
     public function index() {
@@ -18,8 +20,8 @@ class TeacherController extends Controller {
     }
 
     public function create() {
-        $classes = Classroom::all();
-        return view('admin.teacher.create', compact('classes'));
+        $classrooms = Classroom::all();
+        return view('admin.teacher.create', compact('classrooms'));
     }
 
     public function store(Request $request) {
@@ -29,35 +31,67 @@ class TeacherController extends Controller {
             'password' => 'required|min:6|confirmed',
             'gender' => 'required|in:male,female,other',
             'date_of_birth' => 'nullable|date',
-            'nip' => 'required_if:role,teacher|nullable|string|max:20',
-            'specialization' => 'required_if:role,teacher|nullable|string|max:255',
-            'joined_date' => 'required_if:role,teacher|nullable|date',
+            'nip' => 'required|string|max:20|unique:teachers,nip',
+            'specialization' => 'required|string|max:255',
+            'joined_date' => 'required|date',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // First, create the User with the role set to 'teacher'
-        $user = User::create([
+        // First create the user
+        $data = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'teacher', // Automatically set the role as teacher
-        ]);
+            'role' => 'teacher',
+        ];
 
-        // Then, create the Teacher record, associating it with the user
+        $user = User::create($data);
+
+        // Now handle the photo upload
+        if ($request->hasFile('photo')) {
+            // Delete old photo if it exists
+            if ($user->photo) {
+                Storage::disk('public')->delete($user->photo);  // Delete the old photo
+            }
+
+            // Store the new photo and get the path
+            $photoPath = $request->file('photo')->store('teacher_photos', 'public');  // Store it using the 'public' disk
+            $user->update(['photo' => $photoPath]);  // Update the `photo` column in the `users` table
+        }
+
+        if ($request->has('cropped_photo')) {
+            $imageData = $request->input('cropped_photo');
+
+            // Decode base64 string and save to file
+            $image = str_replace('data:image/jpeg;base64,', '', $imageData);
+            $image = str_replace(' ', '+', $image);
+            $imageName = 'teacher_' . Str::random(10) . '.jpg';
+            $imagePath = 'teacher_photos/' . $imageName;
+
+            Storage::disk('public')->put($imagePath, base64_decode($image));
+            $user->update(['photo' => $imagePath]);
+        }
+
+        // Create the teacher details after user is created
         Teacher::create([
-            'user_id' => $user->id, // Associate the user ID to the teacher
+            'user_id' => $user->id,
             'date_of_birth' => $request->date_of_birth,
             'nip' => $request->nip,
             'gender' => $request->gender,
             'specialization' => $request->specialization,
             'joined_date' => $request->joined_date,
+            'phone' => $request->phone,
+            'address' => $request->address,
         ]);
 
         return redirect()->route('admin.teacher.index')->with('success', 'Teacher created successfully.');
     }
 
     public function edit(User $user) {
-        $classes = Classroom::all();
-        return view('admin.teacher.edit', compact('user', 'classes'));
+        $classrooms = Classroom::all();
+        return view('admin.teacher.edit', compact('user', 'classrooms'));
     }
 
     public function update(Request $request, User $user) {
@@ -71,16 +105,33 @@ class TeacherController extends Controller {
             'nip' => 'required_if:role,teacher|nullable|string|max:20',
             'specialization' => 'required_if:role,teacher|nullable|string|max:255',
             'joined_date' => 'required_if:role,teacher|nullable|date',
-            'phone' => 'required|string|max:20', // Add phone validation
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update the user data
-        $user->update([
+        // Prepare user data
+        $userData = [
             'name' => $request->name,
             'email' => $request->email,
-        ]);
+        ];
 
-        // Update the teacher details
+        // Handle photo upload (if provided)
+        if ($request->hasFile('photo')) {
+            // Delete old photo if it exists
+            if ($user->photo) {
+                Storage::disk('public')->delete($user->photo);  // Delete the old photo
+            }
+
+            // Store the new photo and get the path
+            $photoPath = $request->file('photo')->store('teacher_photos', 'public');  // Store it using the 'public' disk
+            $userData['photo'] = $photoPath;  // Add the photo path to user data
+        }
+
+        // Update user data
+        $user->update($userData);
+
+        // Update teacher details
         $teacher = $user->teacher;
         $teacher->update([
             'date_of_birth' => $request->date_of_birth,
@@ -88,17 +139,16 @@ class TeacherController extends Controller {
             'gender' => $request->gender,
             'specialization' => $request->specialization,
             'joined_date' => $request->joined_date,
-            'phone' => $request->phone, // Update phone field
+            'phone' => $request->phone,
+            'address' => $request->address,
         ]);
 
-        // Check if password needs to be updated
+        // Update password if requested
         if ($request->has('change_password') && $request->change_password) {
-            // Validate password only if the checkbox is checked
             $request->validate([
                 'password' => 'required|min:6|confirmed',
             ]);
 
-            // Update the password
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
