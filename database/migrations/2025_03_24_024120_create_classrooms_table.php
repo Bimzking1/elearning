@@ -9,13 +9,16 @@ return new class extends Migration {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            // $table->unsignedBigInteger('teacher_id')->nullable();
-            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
+            $table->foreignId('teacher_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
 
     public function down(): void {
+        Schema::table('classroom_subject', function (Blueprint $table) {
+            $table->dropForeign(['classroom_id']);
+        });
+
         Schema::dropIfExists('classrooms');
     }
 };
