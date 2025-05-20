@@ -12,23 +12,23 @@ class TeacherSeeder extends Seeder
     public function run(): void
     {
         $teachers = [
-            ['name' => 'Drs. Lukas Kambali, S.H., M.H.', 'subjects' => ['Geografi']],
-            ['name' => 'Paulus Widhi, S.E.', 'subjects' => ['Ekonomi', 'Geografi', 'Sosiologi', 'Sejarah']],
-            ['name' => 'L. Williyan Putra Perdana, S.E., M.M.', 'subjects' => ['Ekonomi']],
-            ['name' => 'Baihaqi Al Chasan, S.Hum.', 'subjects' => ['Sejarah']],
-            ['name' => 'Sutrisno', 'subjects' => ['Agama Islam']],
-            ['name' => 'Rismawati Sitanggang, S.Pd.', 'subjects' => ['Sosiologi']],
-            ['name' => 'Dr. B. Budiono, M.Pd.', 'subjects' => ['Bahasa Inggris']],
-            ['name' => 'Drs. Himawan Setyo W., M.Pd.', 'subjects' => ['Bahasa Inggris']],
-            ['name' => 'Drs. Esti Nugroho', 'subjects' => ['Matematika']],
-            ['name' => 'Drs. Soejatmiko', 'subjects' => ['Bahasa Indonesia']],
-            ['name' => 'Fajar Novianto', 'subjects' => ['PPKN']],
-            ['name' => 'Albert Kurniawan, S.T.', 'subjects' => ['Fisika', 'Biologi', 'Kimia']],
-            ['name' => 'Cristina, S.Pd., M.Pd.', 'subjects' => ['Matematika']],
-            ['name' => 'Fieda S., S.Pd., M.Pd.', 'subjects' => ['Budi Pekerti']],
-            ['name' => 'Johanes Nugroho, S.Kom.', 'subjects' => ['Komputer']],
-            ['name' => 'Nito, S.E.', 'subjects' => ['Wira Usaha']],
-            ['name' => 'Adi Ardiansyah, S.Si.', 'subjects' => ['Seni Musik']],
+            ['name' => 'Drs. Lukas Kambali, S.H., M.H.', 'email' => 'lukas@gmail.com', 'subjects' => ['Geografi']],
+            ['name' => 'Paulus Widhi, S.E.', 'email' => 'paulus@gmail.com', 'subjects' => ['Ekonomi', 'Geografi', 'Sosiologi', 'Sejarah']],
+            ['name' => 'L. Williyan Putra Perdana, S.E., M.M.', 'email' => 'williyan@gmail.com', 'subjects' => ['Ekonomi']],
+            ['name' => 'Baihaqi Al Chasan, S.Hum.', 'email' => 'baihaqi@gmail.com', 'subjects' => ['Sejarah']],
+            ['name' => 'Sutrisno', 'email' => 'sutrisno@gmail.com', 'subjects' => ['Agama Islam']],
+            ['name' => 'Rismawati Sitanggang, S.Pd.', 'email' => 'rismawati@gmail.com', 'subjects' => ['Sosiologi']],
+            ['name' => 'Dr. B. Budiono, M.Pd.', 'email' => 'budiono@gmail.com', 'subjects' => ['Bahasa Inggris']],
+            ['name' => 'Drs. Himawan Setyo W., M.Pd.', 'email' => 'himawan@gmail.com', 'subjects' => ['Bahasa Inggris']],
+            ['name' => 'Drs. Esti Nugroho', 'email' => 'esti@gmail.com', 'subjects' => ['Matematika']],
+            ['name' => 'Drs. Soejatmiko', 'email' => 'soejatmiko@gmail.com', 'subjects' => ['Bahasa Indonesia']],
+            ['name' => 'Fajar Novianto', 'email' => 'fajar@gmail.com', 'subjects' => ['PPKN']],
+            ['name' => 'Albert Kurniawan, S.T.', 'email' => 'albert@gmail.com', 'subjects' => ['Fisika', 'Biologi', 'Kimia']],
+            ['name' => 'Cristina, S.Pd., M.Pd.', 'email' => 'cristina@gmail.com', 'subjects' => ['Matematika']],
+            ['name' => 'Fieda S., S.Pd., M.Pd.', 'email' => 'fieda@gmail.com', 'subjects' => ['Budi Pekerti']],
+            ['name' => 'Johanes Nugroho, S.Kom.', 'email' => 'johanes@gmail.com', 'subjects' => ['Komputer']],
+            ['name' => 'Nito, S.E.', 'email' => 'nito@gmail.com', 'subjects' => ['Wira Usaha']],
+            ['name' => 'Adi Ardiansyah, S.Si.', 'email' => 'adi@gmail.com', 'subjects' => ['Seni Musik']],
         ];
 
         $nipStart = 2025010001; // start from NIP 2025010001
@@ -38,10 +38,8 @@ class TeacherSeeder extends Seeder
             // create user first
             $user = User::create([
                 'name' => $teacherData['name'],
-                'email' => strtolower(
-                    str_replace(' ', '.', str_replace('.', '', $teacherData['name']))
-                ) . '@example.com',
-                'password' => bcrypt('password'), // default password
+                'email' => $teacherData['email'],
+                'password' => bcrypt('12345678'), // default password
                 'role' => 'teacher',
             ]);
 
