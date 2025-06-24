@@ -62,7 +62,7 @@
     <div id="table2" class="table-view">
         @php
             $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-            $timeSlots = ['18:00-19:00', '19:00-20:00', '20:00-21:00'];
+            $timeSlots = ['19:00-20:00', '20:00-21:00', '21:00-21:30'];
         @endphp
 
         @foreach ($classrooms as $classroom)
@@ -94,10 +94,10 @@
                                         @endphp
                                         <td class="px-4 py-3 text-gray-700">
                                             @if ($matched)
-                                                <div>
+                                                <a href="{{ route('admin.schedules.edit', $matched->id) }}" class="block text-black rounded-md px-2 py-1 hover:bg-gray-200 transition cursor-pointer">
                                                     <strong>{{ $matched->subject->name }}</strong><br>
-                                                    <span class="text-gray-600 text-xs">{{ $matched->teacher->user->name }}</span>
-                                                </div>
+                                                    <span class="text-xs">{{ $matched->teacher->user->name }}</span>
+                                                </a>
                                             @else
                                                 <span class="text-gray-400 text-sm">-</span>
                                             @endif

@@ -25,7 +25,7 @@ class ScheduleController extends Controller
             ->get();
 
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-        $timeSlots = ['18:00-19:00', '19:00-20:00', '20:00-21:00'];
+        $timeSlots = ['19:00-20:00', '20:00-21:00', '21:00-21:30'];
 
         return view('student.schedule.index', compact('classroom', 'schedules', 'days', 'timeSlots'));
     }

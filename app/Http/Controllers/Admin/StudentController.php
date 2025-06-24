@@ -38,6 +38,7 @@ class StudentController extends Controller
                 'min:8',
                 Rule::unique('students', 'nis'),
             ],
+            'nisn' => 'nullable|string|max:255',
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
             'address' => 'required|string|max:255',
@@ -66,6 +67,7 @@ class StudentController extends Controller
         Student::create([
             'user_id' => $user->id,
             'nis' => $request->nis,
+            'nisn' => $request->nisn,
             'date_of_birth' => $request->date_of_birth,
             'gender' => $request->gender,
             'phone' => $request->phone,
@@ -95,6 +97,7 @@ class StudentController extends Controller
                 'min:8',
                 Rule::unique('students', 'nis')->ignore($student->id),
             ],
+            'nisn' => 'nullable|string|max:255',
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
             'address' => 'required|string|max:255',
@@ -134,6 +137,7 @@ class StudentController extends Controller
         // Update Student Data
         $student->update([
             'nis' => $request->nis,
+            'nisn' => $request->nisn,
             'date_of_birth' => $request->date_of_birth,
             'gender' => $request->gender,
             'phone' => $request->phone,

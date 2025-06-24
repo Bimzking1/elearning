@@ -2,7 +2,13 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-4">Create Schedule</h2>
+    <div>
+        <a href="{{ route('admin.schedules.index') }}"
+            class="inline-block bg-gray-300 text-gray-900 px-4 py-2 rounded-md shadow-md hover:bg-gray-400 transition">
+            ← Back
+        </a>
+    </div>
+    <h2 class="text-2xl font-bold my-4">Create Schedule</h2>
 
     <form action="{{ route('admin.schedules.store') }}" method="POST">
         @csrf
@@ -57,16 +63,15 @@
             </select>
         </div>
 
-        {{-- Start Time --}}
+        {{-- Time Slot --}}
         <div class="mb-4">
-            <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
-            <input type="time" name="start_time" id="start_time" class="w-full p-2 border border-gray-300 rounded-md" value="{{ old('start_time') }}" required>
-        </div>
-
-        {{-- End Time --}}
-        <div class="mb-4">
-            <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
-            <input type="time" name="end_time" id="end_time" class="w-full p-2 border border-gray-300 rounded-md" value="{{ old('end_time') }}" required>
+            <label for="time_slot" class="block text-sm font-medium text-gray-700">Time Slot</label>
+            <select name="time_slot" id="time_slot" class="w-full p-2 border border-gray-300 rounded-md" required>
+                <option value="" disabled selected>Select Time Slot</option>
+                <option value="19:00:00-20:00:00" {{ old('time_slot') == '19:00:00-20:00:00' ? 'selected' : '' }}>19:00 - 20:00</option>
+                <option value="20:00:00-21:00:00" {{ old('time_slot') == '20:00:00-21:00:00' ? 'selected' : '' }}>20:00 - 21:00</option>
+                <option value="21:00:00-21:30:00" {{ old('time_slot') == '21:00:00-21:30:00' ? 'selected' : '' }}>21:00 - 21:30</option>
+            </select>
         </div>
 
         <div class="text-right">

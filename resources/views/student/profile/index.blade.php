@@ -35,8 +35,12 @@
 
                     <!-- Student-specific fields -->
                     <div class="flex flex-col md:flex-row justify-between">
-                        <p class="font-semibold text-gray-700">NIS:</p>
+                        <p class="font-semibold text-gray-700">Student ID (NIS):</p>
                         <p class="text-gray-600 md:text-right">{{ $student->nis }}</p>
+                    </div>
+                    <div class="flex flex-col md:flex-row justify-between">
+                        <p class="font-semibold text-gray-700">NISN:</p>
+                        <p class="text-gray-600 md:text-right">{{ $student->nisn }}</p>
                     </div>
                     <div class="flex flex-col md:flex-row justify-between">
                         <p class="font-semibold text-gray-700">Date of Birth:</p>

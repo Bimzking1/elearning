@@ -23,22 +23,22 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'Teacher User',
-                'email' => 'teacher@gmail.com',
-                'password' => Hash::make('teacher'),
-                'role' => 'teacher',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Student User',
-                'email' => 'student@gmail.com',
-                'password' => Hash::make('student'),
-                'role' => 'student',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            // [
+            //     'name' => 'Teacher User',
+            //     'email' => 'teacher@gmail.com',
+            //     'password' => Hash::make('teacher'),
+            //     'role' => 'teacher',
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
+            // [
+            //     'name' => 'Student User',
+            //     'email' => 'student@gmail.com',
+            //     'password' => Hash::make('student'),
+            //     'role' => 'student',
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
         ]);
     }
 }

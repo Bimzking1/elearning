@@ -16,7 +16,7 @@ class ScheduleController extends Controller
 
         $dayOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-        $timeSlots = ['18:00-19:00', '19:00-20:00', '20:00-21:00'];
+        $timeSlots = ['19:00-20:00', '20:00-21:00', '21:00-21:30'];
 
         $schedules = Schedule::with(['subject', 'classroom'])
             ->where('teacher_id', $teacher->id)
@@ -32,7 +32,7 @@ class ScheduleController extends Controller
         $teacher = Auth::user()->teacher;
 
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-        $timeSlots = ['18:00-19:00', '19:00-20:00', '20:00-21:00'];
+        $timeSlots = ['19:00-20:00', '20:00-21:00', '21:00-21:30'];
 
         // Load schedules for all classes that this teacher teaches
         $schedules = Schedule::with(['subject', 'classroom', 'teacher.user'])

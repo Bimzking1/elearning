@@ -11,7 +11,7 @@
             <div class="flex flex-col items-center justify-center bg-gray-100 p-6 rounded-lg shadow-md">
                 <div class="w-36 h-36 xl:w-48 xl:h-48 rounded-full overflow-hidden bg-gray-200 mb-4">
                     <!-- If the user has a profile photo, display it, otherwise show a default avatar -->
-                    <img src="{{ $teacher->user->photo ? asset('storage/' . $teacher->user->photo) : asset('images/default-avatar.png') }}" alt="Profile Photo" class="w-full h-full object-cover">
+                    <img src="{{ $teacher && $teacher->user && $teacher->user->photo ? asset('storage/' . $teacher->user->photo) : asset('images/default-avatar.png') }}" alt="Profile Photo" class="w-full h-full object-cover">
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 text-center">{{ $user->name }}</h3>
                 <p class="text-gray-500">{{ $user->email }}</p>

@@ -35,6 +35,7 @@ class UserController extends Controller
             'specialization' => 'required_if:role,teacher|nullable|string|max:255',
             'joined_date' => 'required_if:role,teacher|nullable|date',
             'nis' => 'required_if:role,student|nullable|string|max:20',
+            'nisn' => 'required_if:role,student|nullable|string|max:255',
             'classroom_id' => 'required_if:role,student|nullable|exists:classrooms,id',
             'guardian_name' => 'required_if:role,student|nullable|string|max:255',
             'guardian_phone' => 'required_if:role,student|nullable|string|max:20',
@@ -61,6 +62,7 @@ class UserController extends Controller
             Student::create([
                 'user_id' => $user->id,
                 'nis' => $request->nis,
+                'nisn' => $request->nisn,
                 'classroom_id' => $request->classroom_id,
                 'guardian_name' => $request->guardian_name,
                 'guardian_phone' => $request->guardian_phone,
@@ -88,6 +90,7 @@ class UserController extends Controller
             'specialization' => 'required_if:role,teacher|nullable|string|max:255',
             'joined_date' => 'required_if:role,teacher|nullable|date',
             'nis' => 'required_if:role,student|nullable|string|max:20',
+            'nisn' => 'required_if:role,student|nullable|string|max:255',
             'classroom_id' => 'required_if:role,student|nullable|exists:classrooms,id',
             'guardian_name' => 'required_if:role,student|nullable|string|max:255',
             'guardian_phone' => 'required_if:role,student|nullable|string|max:20',
@@ -115,6 +118,7 @@ class UserController extends Controller
             if ($student) {
                 $student->update([
                     'nis' => $request->nis,
+                    'nisn' => $request->nisn,
                     'classroom_id' => $request->classroom_id,
                     'guardian_name' => $request->guardian_name,
                     'guardian_phone' => $request->guardian_phone,
