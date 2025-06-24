@@ -32,11 +32,11 @@ class StudentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'nisn' => [
+            'nis' => [
                 'required',
                 'numeric',
                 'min:8',
-                Rule::unique('students', 'nisn'),
+                Rule::unique('students', 'nis'),
             ],
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
@@ -65,7 +65,7 @@ class StudentController extends Controller
         // Create Student linked to the User
         Student::create([
             'user_id' => $user->id,
-            'nisn' => $request->nisn,
+            'nis' => $request->nis,
             'date_of_birth' => $request->date_of_birth,
             'gender' => $request->gender,
             'phone' => $request->phone,
@@ -89,11 +89,11 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255', // Ensure name is included
             'email' => 'required|email|unique:users,email,' . $student->user->id,
-            'nisn' => [
+            'nis' => [
                 'required',
                 'numeric',
                 'min:8',
-                Rule::unique('students', 'nisn')->ignore($student->id),
+                Rule::unique('students', 'nis')->ignore($student->id),
             ],
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
@@ -133,7 +133,7 @@ class StudentController extends Controller
 
         // Update Student Data
         $student->update([
-            'nisn' => $request->nisn,
+            'nis' => $request->nis,
             'date_of_birth' => $request->date_of_birth,
             'gender' => $request->gender,
             'phone' => $request->phone,

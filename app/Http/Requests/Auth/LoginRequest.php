@@ -19,7 +19,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string'], // Accepts email, NISN, or NIP
+            'login' => ['required', 'string'], // Accepts email, NIS, or NIP
             'password' => ['required', 'string'],
             'login_type' => ['required', 'string', 'in:email,nisn_nip'],
         ];
@@ -35,7 +35,7 @@ class LoginRequest extends FormRequest
         if ($loginType === 'email') {
             $field = 'email';
         } else {
-            $field = is_numeric($loginInput) ? 'nisn' : 'nip';
+            $field = is_numeric($loginInput) ? 'nis' : 'nip';
         }
 
         $credentials = [

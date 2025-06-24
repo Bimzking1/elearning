@@ -88,10 +88,10 @@
                     </div>
                 </div>
 
-                <!-- NISN -->
+                <!-- NIS -->
                 <div class="w-full">
-                    <label for="nisn" class="block text-sm font-medium text-gray-700">NISN</label>
-                    <input placeholder="Input NISN" type="text" name="nisn" id="nisn" value="{{ $student->nisn }}" required
+                    <label for="nis" class="block text-sm font-medium text-gray-700">NIS</label>
+                    <input placeholder="Input NIS" type="text" name="nis" id="nis" value="{{ $student->nis }}" required
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
                 </div>
 

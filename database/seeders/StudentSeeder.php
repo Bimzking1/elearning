@@ -14,7 +14,7 @@ class StudentSeeder extends Seeder
     public function run(): void
     {
         $classrooms = Classroom::all();
-        $nisn = 202502001; // Start from this number
+        $nis = 202502001; // Start from this number
 
         $faker = Faker::create(); // Instantiate Faker
 
@@ -28,7 +28,7 @@ class StudentSeeder extends Seeder
 
             Student::create([
                 'user_id' => $user->id,
-                'nisn' => (string)$nisn++, // Increment the NISN
+                'nis' => (string)$nis++, // Increment the NIS
                 'date_of_birth' => now()->subYears(15)->subDays(rand(0, 365)),
                 'gender' => ['male', 'female'][rand(0, 1)],
                 'phone' => '08' . rand(100000000, 999999999),
