@@ -46,7 +46,15 @@
                 <option value="" disabled selected>Select Teacher</option>
                 @foreach ($teachers as $teacher)
                     <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
-                        {{ $teacher->user->name }} - ({{ $teacher->specialization }})
+                        {{ $teacher->user->name }}
+                        @php
+                            $specs = is_array($teacher->specialization)
+                                ? $teacher->specialization
+                                : json_decode($teacher->specialization, true);
+                        @endphp
+                        @if (!empty($specs))
+                            - ({{ implode(', ', $specs) }})
+                        @endif
                     </option>
                 @endforeach
             </select>
@@ -63,14 +71,25 @@
             </select>
         </div>
 
+        @php
+            $availableSlots = ['19:00:00-20:00:00', '20:00:00-21:00:00', '21:00:00-21:30:00'];
+        @endphp
+
         {{-- Time Slot --}}
         <div class="mb-4">
             <label for="time_slot" class="block text-sm font-medium text-gray-700">Time Slot</label>
             <select name="time_slot" id="time_slot" class="w-full p-2 border border-gray-300 rounded-md" required>
-                <option value="" disabled selected>Select Time Slot</option>
-                <option value="19:00:00-20:00:00" {{ old('time_slot') == '19:00:00-20:00:00' ? 'selected' : '' }}>19:00 - 20:00</option>
-                <option value="20:00:00-21:00:00" {{ old('time_slot') == '20:00:00-21:00:00' ? 'selected' : '' }}>20:00 - 21:00</option>
-                <option value="21:00:00-21:30:00" {{ old('time_slot') == '21:00:00-21:30:00' ? 'selected' : '' }}>21:00 - 21:30</option>
+                <option value="" disabled {{ old('time_slot') ? '' : 'selected' }}>Select Time Slot</option>
+                @foreach ($availableSlots as $slot)
+                    @php
+                        [$start, $end] = explode('-', $slot);
+                        $formattedStart = \Carbon\Carbon::createFromFormat('H:i:s', $start)->format('H:i');
+                        $formattedEnd = \Carbon\Carbon::createFromFormat('H:i:s', $end)->format('H:i');
+                    @endphp
+                    <option value="{{ $slot }}" {{ old('time_slot') == $slot ? 'selected' : '' }}>
+                        {{ $formattedStart }} - {{ $formattedEnd }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
@@ -79,4 +98,49 @@
         </div>
     </form>
 </div>
+
+<script>
+    const allSlots = @json($availableSlots);
+    const occupied = @json($occupiedSlots);
+
+    const classroomSelect = document.getElementById('classroom_id');
+    const daySelect = document.getElementById('day');
+    const timeSlotSelect = document.getElementById('time_slot');
+
+    const formatTime = (timeString) => {
+        const [hour, minute] = timeString.split(':');
+        return `${hour}:${minute}`;
+    };
+
+    function updateTimeSlotOptions() {
+        const classroomId = classroomSelect.value;
+        const selectedDay = daySelect.value;
+
+        // Reset options
+        timeSlotSelect.innerHTML = '<option value="" disabled selected>Select Time Slot</option>';
+
+        allSlots.forEach(slot => {
+            const isTaken = occupied?.[classroomId]?.[selectedDay]?.includes(slot);
+            const option = document.createElement('option');
+            option.value = slot;
+
+            const [start, end] = slot.split('-');
+            option.textContent = `${formatTime(start)} - ${formatTime(end)}${isTaken ? ' (Not Available)' : ''}`;
+            option.disabled = !!isTaken;
+
+            if (slot === "{{ old('time_slot') }}") {
+                option.selected = true;
+            }
+
+            timeSlotSelect.appendChild(option);
+        });
+    }
+
+    classroomSelect.addEventListener('change', updateTimeSlotOptions);
+    daySelect.addEventListener('change', updateTimeSlotOptions);
+
+    // Initialize on page load
+    updateTimeSlotOptions();
+</script>
+
 @endsection

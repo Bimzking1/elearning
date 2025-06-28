@@ -11,6 +11,7 @@
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">
                 <tr>
                     <th class="w-1/4 px-4 py-3 text-left">Task Title</th>
+                    <th class="w-1/4 px-4 py-3 text-left">Subject</th>
                     <th class="w-1/4 px-4 py-3 text-left">Deadline</th>
                     <th class="w-1/4 px-4 py-3 text-left">Status</th>
                     <th class="w-1/4 px-4 py-3 text-left">Score</th> <!-- New Column for Score -->
@@ -21,6 +22,9 @@
                 @foreach($tasks as $task)
                     <tr class="hover:bg-gray-50">
                         <td class="px-4 py-3 font-medium text-gray-900">{{ $task->title }}</td>
+                        <td class="px-4 py-3 text-gray-800">
+                            {{ $task->subject->name ?? '-' }}
+                        </td>
                         <td class="px-4 py-3">
                             @if ($task->deadline)
                             @php

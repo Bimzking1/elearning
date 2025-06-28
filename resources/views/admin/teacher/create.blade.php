@@ -71,9 +71,31 @@
 
                 <!-- Specialization -->
                 <div class="w-full">
-                    <label for="specialization" class="block text-sm font-medium text-gray-700">Specialization</label>
-                    <input placeholder="Input specialization" type="text" name="specialization" id="specialization" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <label for="specialization" class="block text-sm font-medium text-gray-700">Specializations</label>
+
+                    @if ($subjects->isNotEmpty())
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2" id="specialization-group">
+                            @foreach ($subjects as $subject)
+                                <label class="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="specialization[]"
+                                        value="{{ $subject->name }}"
+                                        class="specialization-checkbox text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                        {{ in_array($subject->name, old('specialization', [])) ? 'checked' : '' }}
+                                    >
+                                    <span class="text-sm text-gray-700">{{ $subject->name }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        <p id="specialization-error" class="text-sm text-red-500 hidden mt-1">Please select at least one specialization.</p>
+                    @else
+                        <div class="mt-1 p-3 bg-yellow-100 border border-yellow-300 rounded-md text-sm text-yellow-800">
+                            ⚠ No subjects available. Please
+                            <a href="{{ route('admin.subjects.create') }}" class="text-blue-600 underline">create some subjects</a>
+                            first.
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Gender -->
@@ -115,10 +137,18 @@
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
-                <button type="submit"
-                    class="w-full bg-blue-600 text-white py-2 rounded-md shadow-md hover:bg-blue-700 transition">
+                <button
+                    type="submit"
+                    id="submit-button"
+                    class="w-full bg-blue-600 text-white py-2 rounded-md shadow-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    @if ($subjects->isEmpty()) disabled @endif>
                     Create Teacher
                 </button>
+
+                @if ($subjects->isEmpty())
+                    <p class="text-sm text-red-500 mb-2">⚠ Please add at least one subject before creating a teacher.</p>
+                @endif
+
             </div>
         </div>
     </form>
@@ -160,6 +190,24 @@
             fileInput.value = ''; // Clear selected file
             previewImg.src = defaultImg; // Reset preview
             deleteBtn.classList.add('hidden'); // Hide the button again
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.specialization-checkbox');
+            const submitButton = document.getElementById('submit-button');
+
+            function updateButtonState() {
+                const isChecked = Array.from(checkboxes).some(cb => cb.checked);
+                submitButton.disabled = !isChecked;
+            }
+
+            // Initial check on load
+            updateButtonState();
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', updateButtonState);
+            });
         });
     </script>
 

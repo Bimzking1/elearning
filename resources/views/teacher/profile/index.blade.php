@@ -55,8 +55,14 @@
                         <p class="text-gray-600 md:text-right">{{ $teacher->address ?? 'Not provided' }}</p>
                     </div>
                     <div class="flex flex-col md:flex-row justify-between">
-                        <p class="font-semibold text-gray-700">Subjects:</p>
-                        <p class="text-gray-600 md:text-right">{{ $teacher->subjects->pluck('name')->join(', ') ?? 'No subjects assigned' }}</p>
+                        <p class="font-semibold text-gray-700">Specializations:</p>
+                        <p class="text-gray-600 md:text-right">
+                            @if (is_array($teacher->specialization) && count($teacher->specialization))
+                                {{ implode(', ', $teacher->specialization) }}
+                            @else
+                                No subject assigned
+                            @endif
+                        </p>
                     </div>
                 </div>
             </div>

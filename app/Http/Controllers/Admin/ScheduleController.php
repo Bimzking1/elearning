@@ -27,7 +27,17 @@ class ScheduleController extends Controller
         $subjects = Subject::all();
         $teachers = Teacher::all();
 
-        return view('admin.schedule.create', compact('classrooms', 'subjects', 'teachers'));
+        // Get all existing schedules
+        $schedules = Schedule::select('classroom_id', 'day', 'start_time', 'end_time')->get();
+
+        // Build a map of occupied slots per classroom and day
+        $occupiedSlots = [];
+        foreach ($schedules as $schedule) {
+            $slot = $schedule->start_time . '-' . $schedule->end_time;
+            $occupiedSlots[$schedule->classroom_id][$schedule->day][] = $slot;
+        }
+
+        return view('admin.schedule.create', compact('classrooms', 'subjects', 'teachers', 'occupiedSlots'));
     }
 
     // Store new schedule
@@ -66,7 +76,19 @@ class ScheduleController extends Controller
         // Combine start and end time into a time_slot string
         $time_slot = $schedule->start_time . '-' . $schedule->end_time;
 
-        return view('admin.schedule.edit', compact('schedule', 'classrooms', 'subjects', 'teachers', 'time_slot'));
+        // Fetch all other schedules except the one being edited
+        $otherSchedules = Schedule::where('id', '!=', $schedule->id)
+            ->select('classroom_id', 'day', 'start_time', 'end_time')
+            ->get();
+
+        // Build occupiedSlots excluding the current one
+        $occupiedSlots = [];
+        foreach ($otherSchedules as $s) {
+            $slot = $s->start_time . '-' . $s->end_time;
+            $occupiedSlots[$s->classroom_id][$s->day][] = $slot;
+        }
+
+        return view('admin.schedule.edit', compact('schedule', 'classrooms', 'subjects', 'teachers', 'time_slot', 'occupiedSlots'));
     }
 
     // Update schedule
