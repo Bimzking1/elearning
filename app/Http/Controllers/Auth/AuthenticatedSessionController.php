@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
         if ($credentials['login_type'] === 'email') {
             $user = \App\Models\User::where('email', $identifier)->first();
         } else {
-            $student = \App\Models\Student::where('nisn', $identifier)->first();
+            $student = \App\Models\Student::where('nis', $identifier)->first();
             $teacher = \App\Models\Teacher::where('nip', $identifier)->first();
 
             $user = $student?->user ?? $teacher?->user;

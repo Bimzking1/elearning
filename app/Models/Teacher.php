@@ -13,6 +13,11 @@ class Teacher extends Model {
         'specialization', 'joined_date'
     ];
 
+    // 🔧 Add this block
+    protected $casts = [
+        'specialization' => 'array',
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
     }

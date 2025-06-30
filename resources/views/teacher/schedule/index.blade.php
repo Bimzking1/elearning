@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-bold text-gray-800">Jadwal Mengajar</h2>
+        <h2 class="text-3xl font-bold text-gray-800">Teaching Schedule</h2>
     </div>
 
     <div class="mb-4 flex space-x-2">
@@ -16,10 +16,10 @@
         <table class="min-w-full bg-white border border-gray-300 text-sm">
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">
                 <tr>
-                    <th class="px-4 py-2 border">Hari</th>
-                    <th class="px-4 py-2 border">Jam</th>
-                    <th class="px-4 py-2 border">Mata Pelajaran</th>
-                    <th class="px-4 py-2 border">Kelas</th>
+                    <th class="px-4 py-2 border">Day</th>
+                    <th class="px-4 py-2 border">Time</th>
+                    <th class="px-4 py-2 border">Subject</th>
+                    <th class="px-4 py-2 border">Class</th>
                 </tr>
             </thead>
             <tbody class="text-gray-700">
@@ -32,7 +32,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-4 py-2 text-center text-gray-500">Belum ada jadwal mengajar.</td>
+                        <td colspan="4" class="px-4 py-2 text-center text-gray-500">No teaching schedule yet.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -45,7 +45,7 @@
             <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm text-sm">
                 <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">
                     <tr>
-                        <th class="px-4 py-3 text-left w-1/6">Waktu</th>
+                        <th class="px-4 py-3 text-left w-1/6">Time</th>
                         @foreach ($days as $day)
                             <th class="px-4 py-3 text-left w-1/6">{{ $day }}</th>
                         @endforeach
@@ -68,7 +68,7 @@
                                     @if ($matched)
                                         <div>
                                             <strong>{{ $matched->subject->name }}</strong><br>
-                                            <span class="text-gray-600 text-xs">Kelas Paket {{ $matched->classroom->name }}</span>
+                                            <span class="text-gray-600 text-xs">Class Package {{ $matched->classroom->name }}</span>
                                         </div>
                                     @else
                                         <span class="text-gray-400 text-sm">-</span>

@@ -11,6 +11,34 @@ class TeacherSeeder extends Seeder
 {
     public function run(): void
     {
+        $nipStart = 2025010001;
+        $phoneStart = 87855162401;
+
+        // ✅ Add default teacher (matching teacher@gmail.com from UserSeeder)
+        $defaultUser = User::create([
+            'name' => 'Default Teacher',
+            'email' => 'teacher@gmail.com',
+            'password' => bcrypt('teacher'), // password: teacher
+            'role' => 'teacher',
+        ]);
+
+        $teacher = $defaultUser->teacher()->create([
+            'nip' => $nipStart++,
+            'date_of_birth' => now()->subYears(35),
+            'gender' => 'male',
+            'phone' => '087' . $phoneStart++,
+            'address' => 'Default Teacher Address',
+            'specialization' => 'Bahasa Indonesia',
+            'joined_date' => now(),
+        ]);
+
+        // Optional: attach one or more default subjects
+        $subject = Subject::where('name', 'Bahasa Indonesia')->first();
+        if ($subject) {
+            $teacher->subjects()->attach($subject->id);
+        }
+
+        // 🌀 Other teachers
         $teachers = [
             ['name' => 'Drs. Lukas Kambali, S.H., M.H.', 'email' => 'lukas@gmail.com', 'subjects' => ['Geografi']],
             ['name' => 'Paulus Widhi, S.E.', 'email' => 'paulus@gmail.com', 'subjects' => ['Ekonomi', 'Geografi', 'Sosiologi', 'Sejarah']],
@@ -31,33 +59,26 @@ class TeacherSeeder extends Seeder
             ['name' => 'Adi Ardiansyah, S.Si.', 'email' => 'adi@gmail.com', 'subjects' => ['Seni Musik']],
         ];
 
-        $nipStart = 2025010001; // start from NIP 2025010001
-        $phoneStart = 87855162401; // starting phone number 087855162401
-
         foreach ($teachers as $teacherData) {
-            // create user first
             $user = User::create([
                 'name' => $teacherData['name'],
                 'email' => $teacherData['email'],
-                'password' => bcrypt('12345678'), // default password
+                'password' => bcrypt('12345678'),
                 'role' => 'teacher',
             ]);
 
-            // Specialization = first subject
             $specialization = $teacherData['subjects'][0] ?? 'Teaching';
 
-            // create teacher profile
             $teacher = $user->teacher()->create([
-                'nip' => $nipStart++, // assign NIP then increment
+                'nip' => $nipStart++,
                 'date_of_birth' => now()->subYears(30),
                 'gender' => 'male',
-                'phone' => '087' . $phoneStart++, // increment phone number
+                'phone' => '087' . $phoneStart++,
                 'address' => fake()->address(),
                 'specialization' => $specialization,
                 'joined_date' => now(),
             ]);
 
-            // attach subjects
             foreach ($teacherData['subjects'] as $subjectName) {
                 $subject = Subject::where('name', $subjectName)->first();
                 if ($subject) {

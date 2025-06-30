@@ -34,7 +34,8 @@ class UserController extends Controller
             'nip' => 'required_if:role,teacher|nullable|string|max:20',
             'specialization' => 'required_if:role,teacher|nullable|string|max:255',
             'joined_date' => 'required_if:role,teacher|nullable|date',
-            'nisn' => 'required_if:role,student|nullable|string|max:20',
+            'nis' => 'required_if:role,student|nullable|string|max:20',
+            'nisn' => 'required_if:role,student|nullable|string|max:255',
             'classroom_id' => 'required_if:role,student|nullable|exists:classrooms,id',
             'guardian_name' => 'required_if:role,student|nullable|string|max:255',
             'guardian_phone' => 'required_if:role,student|nullable|string|max:20',
@@ -60,6 +61,7 @@ class UserController extends Controller
         } elseif ($request->role == 'student') {
             Student::create([
                 'user_id' => $user->id,
+                'nis' => $request->nis,
                 'nisn' => $request->nisn,
                 'classroom_id' => $request->classroom_id,
                 'guardian_name' => $request->guardian_name,
@@ -87,7 +89,8 @@ class UserController extends Controller
             'nip' => 'required_if:role,teacher|nullable|string|max:20',
             'specialization' => 'required_if:role,teacher|nullable|string|max:255',
             'joined_date' => 'required_if:role,teacher|nullable|date',
-            'nisn' => 'required_if:role,student|nullable|string|max:20',
+            'nis' => 'required_if:role,student|nullable|string|max:20',
+            'nisn' => 'required_if:role,student|nullable|string|max:255',
             'classroom_id' => 'required_if:role,student|nullable|exists:classrooms,id',
             'guardian_name' => 'required_if:role,student|nullable|string|max:255',
             'guardian_phone' => 'required_if:role,student|nullable|string|max:20',
@@ -114,6 +117,7 @@ class UserController extends Controller
             $student = Student::where('user_id', $user->id)->first();
             if ($student) {
                 $student->update([
+                    'nis' => $request->nis,
                     'nisn' => $request->nisn,
                     'classroom_id' => $request->classroom_id,
                     'guardian_name' => $request->guardian_name,

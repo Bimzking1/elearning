@@ -32,8 +32,29 @@ Route::get('/', function () {
         return redirect()->route('redirect');
     }
 
-    return view('welcome');
+    // Updated view path
+    return view('landing-pages.welcome');
 })->name('welcome');
+
+Route::get('/contact', function () {
+    // Updated view path
+    return view('landing-pages.contact');
+})->name('contact');
+
+Route::get('/register', function () {
+    // Updated view path
+    return view('landing-pages.register');
+})->name('register');
+
+Route::get('/activities', function () {
+    // Updated view path
+    return view('landing-pages.activities');
+})->name('activities');
+
+Route::get('/programs', function () {
+    // Updated view path
+    return view('landing-pages.programs');
+})->name('programs');
 
 // Dashboard (Redirect based on role)
 Route::get('/redirect', function () {
