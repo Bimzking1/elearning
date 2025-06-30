@@ -2,7 +2,13 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-4">Create Schedule</h2>
+    <div>
+        <a href="{{ route('admin.schedules.index') }}"
+            class="inline-block bg-gray-300 text-gray-900 px-4 py-2 rounded-md shadow-md hover:bg-gray-400 transition">
+            ← Back
+        </a>
+    </div>
+    <h2 class="text-2xl font-bold my-4">Create Schedule</h2>
 
     <form action="{{ route('admin.schedules.store') }}" method="POST">
         @csrf
@@ -40,7 +46,15 @@
                 <option value="" disabled selected>Select Teacher</option>
                 @foreach ($teachers as $teacher)
                     <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
-                        {{ $teacher->user->name }} - ({{ $teacher->specialization }})
+                        {{ $teacher->user->name }}
+                        @php
+                            $specs = is_array($teacher->specialization)
+                                ? $teacher->specialization
+                                : json_decode($teacher->specialization, true);
+                        @endphp
+                        @if (!empty($specs))
+                            - ({{ implode(', ', $specs) }})
+                        @endif
                     </option>
                 @endforeach
             </select>
@@ -57,16 +71,26 @@
             </select>
         </div>
 
-        {{-- Start Time --}}
-        <div class="mb-4">
-            <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
-            <input type="time" name="start_time" id="start_time" class="w-full p-2 border border-gray-300 rounded-md" value="{{ old('start_time') }}" required>
-        </div>
+        @php
+            $availableSlots = ['19:00:00-20:00:00', '20:00:00-21:00:00', '21:00:00-21:30:00'];
+        @endphp
 
-        {{-- End Time --}}
+        {{-- Time Slot --}}
         <div class="mb-4">
-            <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
-            <input type="time" name="end_time" id="end_time" class="w-full p-2 border border-gray-300 rounded-md" value="{{ old('end_time') }}" required>
+            <label for="time_slot" class="block text-sm font-medium text-gray-700">Time Slot</label>
+            <select name="time_slot" id="time_slot" class="w-full p-2 border border-gray-300 rounded-md" required>
+                <option value="" disabled {{ old('time_slot') ? '' : 'selected' }}>Select Time Slot</option>
+                @foreach ($availableSlots as $slot)
+                    @php
+                        [$start, $end] = explode('-', $slot);
+                        $formattedStart = \Carbon\Carbon::createFromFormat('H:i:s', $start)->format('H:i');
+                        $formattedEnd = \Carbon\Carbon::createFromFormat('H:i:s', $end)->format('H:i');
+                    @endphp
+                    <option value="{{ $slot }}" {{ old('time_slot') == $slot ? 'selected' : '' }}>
+                        {{ $formattedStart }} - {{ $formattedEnd }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="text-right">
@@ -74,4 +98,49 @@
         </div>
     </form>
 </div>
+
+<script>
+    const allSlots = @json($availableSlots);
+    const occupied = @json($occupiedSlots);
+
+    const classroomSelect = document.getElementById('classroom_id');
+    const daySelect = document.getElementById('day');
+    const timeSlotSelect = document.getElementById('time_slot');
+
+    const formatTime = (timeString) => {
+        const [hour, minute] = timeString.split(':');
+        return `${hour}:${minute}`;
+    };
+
+    function updateTimeSlotOptions() {
+        const classroomId = classroomSelect.value;
+        const selectedDay = daySelect.value;
+
+        // Reset options
+        timeSlotSelect.innerHTML = '<option value="" disabled selected>Select Time Slot</option>';
+
+        allSlots.forEach(slot => {
+            const isTaken = occupied?.[classroomId]?.[selectedDay]?.includes(slot);
+            const option = document.createElement('option');
+            option.value = slot;
+
+            const [start, end] = slot.split('-');
+            option.textContent = `${formatTime(start)} - ${formatTime(end)}${isTaken ? ' (Not Available)' : ''}`;
+            option.disabled = !!isTaken;
+
+            if (slot === "{{ old('time_slot') }}") {
+                option.selected = true;
+            }
+
+            timeSlotSelect.appendChild(option);
+        });
+    }
+
+    classroomSelect.addEventListener('change', updateTimeSlotOptions);
+    daySelect.addEventListener('change', updateTimeSlotOptions);
+
+    // Initialize on page load
+    updateTimeSlotOptions();
+</script>
+
 @endsection

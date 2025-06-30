@@ -15,9 +15,9 @@
                 input.setAttribute('type', 'email');
                 input.setAttribute('placeholder', 'Enter your email');
             } else {
-                label.innerText = 'NISN / NIP';
+                label.innerText = 'NIS / NIP';
                 input.setAttribute('type', 'text');
-                input.setAttribute('placeholder', 'Enter your NISN or NIP');
+                input.setAttribute('placeholder', 'Enter your NIS or NIP');
             }
 
             document.getElementById('login_type').value = method;
@@ -26,9 +26,9 @@
             document.getElementById('email-tab').classList.toggle('text-white', method === 'email');
             document.getElementById('email-tab').classList.toggle('bg-gray-200', method !== 'email');
 
-            document.getElementById('nisn-nip-tab').classList.toggle('bg-blue-600', method === 'nisn_nip');
-            document.getElementById('nisn-nip-tab').classList.toggle('text-white', method === 'nisn_nip');
-            document.getElementById('nisn-nip-tab').classList.toggle('bg-gray-200', method !== 'nisn_nip');
+            document.getElementById('nis-nip-tab').classList.toggle('bg-blue-600', method === 'nisn_nip');
+            document.getElementById('nis-nip-tab').classList.toggle('text-white', method === 'nisn_nip');
+            document.getElementById('nis-nip-tab').classList.toggle('bg-gray-200', method !== 'nisn_nip');
         }
     </script>
 </head>
@@ -56,8 +56,8 @@
         <div class="flex mb-6 border-b">
             <button id="email-tab" class="flex-1 py-2 text-center bg-blue-600 text-white rounded-l font-semibold"
                 onclick="switchLoginMethod('email')">Email</button>
-            <button id="nisn-nip-tab" class="flex-1 py-2 text-center bg-gray-200 rounded-r font-semibold"
-                onclick="switchLoginMethod('nisn_nip')">NISN / NIP</button>
+            <button id="nis-nip-tab" class="flex-1 py-2 text-center bg-gray-200 rounded-r font-semibold"
+                onclick="switchLoginMethod('nisn_nip')">NIS / NIP</button>
         </div>
 
         <!-- Login Form -->

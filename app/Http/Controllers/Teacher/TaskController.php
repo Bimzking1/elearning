@@ -27,14 +27,18 @@ class TaskController extends Controller
     public function create()
     {
         $teacher = Auth::user()->teacher;
+        $specializations = $teacher->specialization;
 
-        // Get all classrooms (not just the ones assigned to the teacher)
+        // Get all classrooms
         $classrooms = Classroom::all();
 
-        // Get the teacher's specialization and use it to determine the subject
-        $subject = Subject::where('name', $teacher->specialization)->first();
+        // Get subjects based on specialization array
+        $subjects = [];
+        if (is_array($specializations) && count($specializations) > 0) {
+            $subjects = Subject::whereIn('name', $specializations)->get();
+        }
 
-        return view('teacher.task.create', compact('classrooms', 'subject', 'teacher'));
+        return view('teacher.task.create', compact('classrooms', 'subjects', 'teacher'));
     }
 
     public function store(Request $request)
@@ -43,14 +47,12 @@ class TaskController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
+            'subject_id' => 'required|exists:subjects,id',
             'classroom_id' => 'required|exists:classrooms,id',
             'deadline' => 'required|date',
             'description' => 'nullable|string',
             'attachment_path' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
         ]);
-
-        // Get the teacher's specialization to assign subject automatically
-        $subject = Subject::where('name', Auth::user()->teacher->specialization)->first();
 
         $attachmentPath = null;
         if ($request->hasFile('attachment_path')) {
@@ -59,7 +61,7 @@ class TaskController extends Controller
 
         Task::create([
             'title' => $request->title,
-            'subject_id' => $subject->id,
+            'subject_id' => $request->subject_id,
             'classroom_id' => $request->classroom_id,
             'deadline' => Carbon::parse($request->deadline),
             'description' => $request->description,
@@ -78,13 +80,13 @@ class TaskController extends Controller
             return redirect()->route('teacher.tasks.index')->with('error', 'You are not authorized to edit this task.');
         }
 
-        // Get all classrooms (not just the ones assigned to the teacher)
         $classrooms = Classroom::all();
 
-        // Get the teacher's specialization and use it to determine the subject
-        $subject = Subject::where('name', $teacher->specialization)->first();
+        // Fetch subjects based on specialization
+        $specializations = $teacher->specialization;
+        $subjects = Subject::whereIn('name', is_array($specializations) ? $specializations : [$specializations])->get();
 
-        return view('teacher.task.edit', compact('task', 'classrooms', 'subject', 'teacher'));
+        return view('teacher.task.edit', compact('task', 'classrooms', 'subjects', 'teacher'));
     }
 
     public function update(Request $request, Task $task)
@@ -97,14 +99,12 @@ class TaskController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'subject_id' => 'required|exists:subjects,id',
             'classroom_id' => 'required|exists:classrooms,id',
             'description' => 'nullable|string',
             'deadline' => 'required|date',
             'attachment_path' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
         ]);
-
-        // Get the teacher's specialization to assign subject automatically
-        $subject = Subject::where('name', Auth::user()->teacher->specialization)->first();
 
         if ($request->hasFile('attachment_path')) {
             if ($task->attachment_path) {
@@ -115,7 +115,7 @@ class TaskController extends Controller
 
         $task->update([
             'title' => $validated['title'],
-            'subject_id' => $subject->id,
+            'subject_id' => $validated['subject_id'],
             'classroom_id' => $validated['classroom_id'],
             'deadline' => Carbon::parse($validated['deadline']),
             'description' => $validated['description'],

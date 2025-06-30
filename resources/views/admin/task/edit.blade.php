@@ -1,7 +1,7 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div>
         <a href="{{ route('admin.tasks.index') }}"
            class="inline-block bg-gray-300 text-gray-900 px-4 py-2 rounded-md shadow-md hover:bg-gray-400 transition">
@@ -74,7 +74,12 @@
                     <option value="" disabled>Select a Teacher</option>
                     @foreach($teachers as $teacher)
                         <option value="{{ $teacher->id }}" {{ old('teacher_id', $task->teacher_id) == $teacher->id ? 'selected' : '' }}>
-                            {{ $teacher->user->name }} - ({{ $teacher->specialization }})
+                            @php
+                                $specializations = is_array($teacher->specialization)
+                                    ? $teacher->specialization
+                                    : json_decode($teacher->specialization, true) ?? [];
+                            @endphp
+                            {{ $teacher->user->name }}@if($specializations) - ({{ implode(', ', $specializations) }})@endif
                         </option>
                     @endforeach
                 </select>

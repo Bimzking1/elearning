@@ -1,7 +1,7 @@
 @extends('layouts.teacher.dashboard')
 
 @section('content')
-<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div>
         <a href="{{ route('teacher.tasks.index') }}" class="inline-block bg-gray-300 text-gray-900 px-4 py-2 rounded-md shadow-md hover:bg-gray-400 transition">
             ← Back
@@ -31,6 +31,30 @@
                 <p class="text-red-600 text-sm">{{ $message }}</p>
             @enderror
         </div>
+
+        @php
+            $specializations = auth()->user()->teacher->specialization ?? [];
+        @endphp
+
+        @if (isset($subjects) && $subjects->count() > 1)
+            <div class="w-full">
+                <label for="subject_id" class="block text-sm font-medium text-gray-700">Subject</label>
+                <select name="subject_id" id="subject_id" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                    <option value="" disabled selected>Select a Subject</option>
+                    @foreach ($subjects as $subject)
+                        <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
+                            {{ $subject->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('subject_id')
+                    <p class="text-red-600 text-sm">{{ $message }}</p>
+                @enderror
+            </div>
+        @elseif (isset($subjects) && $subjects->count() === 1)
+            <input type="hidden" name="subject_id" value="{{ $subjects->first()->id }}">
+        @endif
 
         <div class="w-full">
             <label for="classroom_id" class="block text-sm font-medium text-gray-700">Classroom</label>
@@ -65,8 +89,6 @@
                 <p class="text-red-600 text-sm">{{ $message }}</p>
             @enderror
         </div>
-
-        <input type="hidden" name="subject_id" value="{{ auth()->user()->teacher->specialization }}">
 
         <input type="hidden" name="teacher_id" value="{{ auth()->user()->teacher->id }}">
 
