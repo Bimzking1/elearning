@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\MaterialController as AdminMaterialController;
+use App\Http\Controllers\Teacher\MaterialController as TeacherMaterialController;
+use App\Http\Controllers\Student\MaterialController as StudentMaterialController;
 use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
 use App\Http\Controllers\Student\ScheduleController as StudentScheduleController;
 use App\Http\Controllers\Teacher\ScheduleController as TeacherScheduleController;
@@ -150,6 +153,18 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
             Route::put('/{submission}', [AdminTaskSubmissionController::class, 'update'])->name('update'); // Make sure this is correct
         });
     });
+
+    Route::controller(AdminMaterialController::class)->group(function () {
+        Route::get('/materials', 'index')->name('admin.materials.index');
+        Route::get('/materials/create', 'create')->name('admin.materials.create');
+        Route::post('/materials', 'store')->name('admin.materials.store');
+        Route::get('/materials/classroom', 'byClassroom')->name('admin.materials.byClassroom');
+        Route::get('/materials/classroom/{subject}', 'bySubject')->name('admin.materials.bySubject');
+        Route::get('/materials/{material}/view', 'show')->name('admin.materials.view');
+        Route::get('/materials/{material}/edit', 'edit')->name('admin.materials.edit');
+        Route::put('/materials/{material}', 'update')->name('admin.materials.update');
+        Route::delete('/materials/{material}', 'destroy')->name('admin.materials.destroy');
+    });
 });
 
 // Teacher Routes (Only for Teachers)
@@ -165,6 +180,21 @@ Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class . ':teacher'
         Route::put('/{submission}', [TeacherTaskSubmissionController::class, 'update'])->name('update'); // Fixed route
     });
     Route::get('/profile', [TeacherProfileController::class, 'index'])->name('profile.index');
+
+    Route::controller(TeacherMaterialController::class)->group(function () {
+        Route::get('/materials', 'index')->name('teacher.materials.index');
+        Route::get('/materials/create', 'create')->name('teacher.materials.create');
+        Route::post('/materials', 'store')->name('teacher.materials.store');
+
+        // Optional: show classroom filtering like admin
+        Route::get('/materials/classroom', 'byClassroom')->name('teacher.materials.byClassroom');
+        Route::get('/materials/classroom/{subject}', 'bySubject')->name('teacher.materials.bySubject');
+
+        Route::get('/materials/{material}/view', 'show')->name('teacher.materials.view');
+        Route::get('/materials/{material}/edit', 'edit')->name('teacher.materials.edit');
+        Route::put('/materials/{material}', 'update')->name('teacher.materials.update');
+        Route::delete('/materials/{material}', 'destroy')->name('teacher.materials.destroy');
+    });
 });
 
 // Student Routes (Only for Students)
@@ -188,6 +218,13 @@ Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')
     });
 
     Route::get('/profile', [StudentProfileController::class, 'index'])->name('profile.index');
+
+    Route::prefix('materials')->name('materials.')->controller(StudentMaterialController::class)->group(function () {
+        Route::get('/', 'index')->name('index'); // /student/materials
+        Route::get('/classroom', 'byClassroom')->name('byClassroom'); // /student/materials/classroom (optional)
+        Route::get('/classroom/{subject}', 'bySubject')->name('bySubject'); // /student/materials/classroom/{subject}
+        Route::get('/{material}/view', 'show')->name('view'); // /student/materials/5/view
+    });
 });
 
 // Profile routes (For All Authenticated Users)

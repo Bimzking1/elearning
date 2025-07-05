@@ -18,4 +18,8 @@ class Classroom extends Model {
     public function students() {
         return $this->hasMany(Student::class, 'classroom_id');
     }
+
+    public function materials() {
+        return $this->hasMany(Material::class);
+    }
 }
