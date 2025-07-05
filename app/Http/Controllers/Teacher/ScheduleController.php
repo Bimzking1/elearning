@@ -24,7 +24,11 @@ class ScheduleController extends Controller
             ->orderBy('start_time')
             ->get();
 
-        return view('teacher.schedule.index', compact('schedules', 'days', 'timeSlots'));
+        $groupedSchedules = $schedules->groupBy(function ($schedule) {
+            return $schedule->classroom->name;
+        });
+
+        return view('teacher.schedule.index', compact('schedules', 'days', 'timeSlots', 'groupedSchedules'));
     }
 
     public function timetable()
@@ -34,13 +38,15 @@ class ScheduleController extends Controller
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
         $timeSlots = ['19:00-20:00', '20:00-21:00', '21:00-21:30'];
 
-        // Load schedules for all classes that this teacher teaches
         $schedules = Schedule::with(['subject', 'classroom', 'teacher.user'])
-            ->whereHas('teacher', function ($query) use ($teacher) {
-                $query->where('id', $teacher->id);
-            })
+            ->where('teacher_id', $teacher->id)
             ->get();
 
-        return view('teacher.schedule.timetable', compact('days', 'timeSlots', 'schedules'));
+        // Group schedules by classroom name
+        $groupedSchedules = $schedules->groupBy(function ($schedule) {
+            return $schedule->classroom->name;
+        });
+
+        return view('teacher.schedule.timetable', compact('groupedSchedules', 'days', 'timeSlots'));
     }
 }

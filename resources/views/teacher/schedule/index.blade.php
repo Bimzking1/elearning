@@ -7,12 +7,12 @@
     </div>
 
     <div class="mb-4 flex space-x-2">
+        <button onclick="toggleTableView('gridView')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow transition">Table View</button>
         <button onclick="toggleTableView('listView')" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow transition">List View</button>
-        <button onclick="toggleTableView('gridView')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow transition">Grid View</button>
     </div>
 
     <!-- List View -->
-    <div id="listView" class="table-view overflow-x-auto">
+    <div id="listView" class="table-view overflow-x-auto hidden">
         <table class="min-w-full bg-white border border-gray-300 text-sm">
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">
                 <tr>
@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody class="text-gray-700">
-                @forelse ($schedules as $schedule)
+                @forelse ($groupedSchedules->flatten() as $schedule)
                     <tr class="hover:bg-gray-50">
                         <td class="px-4 py-2 border">{{ ucfirst($schedule->day) }}</td>
                         <td class="px-4 py-2 border">{{ substr($schedule->start_time, 0, 5) }} - {{ substr($schedule->end_time, 0, 5) }}</td>
@@ -40,46 +40,53 @@
     </div>
 
     <!-- Grid View -->
-    <div id="gridView" class="table-view hidden">
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm text-sm">
-                <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">
-                    <tr>
-                        <th class="px-4 py-3 text-left w-1/6">Time</th>
-                        @foreach ($days as $day)
-                            <th class="px-4 py-3 text-left w-1/6">{{ $day }}</th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @foreach ($timeSlots as $time)
-                        @php [$start, $end] = explode('-', $time); @endphp
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3 font-medium text-gray-700">{{ $time }}</td>
-                            @foreach ($days as $day)
-                                @php
-                                    $matched = $schedules->first(function ($s) use ($day, $start) {
-                                        return strtolower($s->day) === strtolower($day)
-                                            && substr($s->start_time, 0, 5) <= $start
-                                            && substr($s->end_time, 0, 5) > $start;
-                                    });
-                                @endphp
-                                <td class="px-4 py-3 text-gray-700">
-                                    @if ($matched)
-                                        <div>
-                                            <strong>{{ $matched->subject->name }}</strong><br>
-                                            <span class="text-gray-600 text-xs">Class Package {{ $matched->classroom->name }}</span>
-                                        </div>
-                                    @else
-                                        <span class="text-gray-400 text-sm">-</span>
-                                    @endif
-                                </td>
+    <div id="gridView" class="table-view">
+        @forelse ($groupedSchedules as $classroomName => $schedules)
+            <div class="mb-10">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Classroom: {{ $classroomName }}</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm text-sm">
+                        <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3 text-left w-1/6">Time</th>
+                                @foreach ($days as $day)
+                                    <th class="px-4 py-3 text-left w-1/6">{{ $day }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            @foreach ($timeSlots as $time)
+                                @php [$start, $end] = explode('-', $time); @endphp
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium text-gray-700">{{ $time }}</td>
+                                    @foreach ($days as $day)
+                                        @php
+                                            $matched = $schedules->first(function ($s) use ($day, $start) {
+                                                return strtolower($s->day) === strtolower($day)
+                                                    && substr($s->start_time, 0, 5) <= $start
+                                                    && substr($s->end_time, 0, 5) > $start;
+                                            });
+                                        @endphp
+                                        <td class="px-4 py-3 text-gray-700">
+                                            @if ($matched)
+                                                <div>
+                                                    <strong>{{ $matched->subject->name }}</strong><br>
+                                                    <span class="text-gray-600 text-xs">Class Package {{ $matched->classroom->name }}</span>
+                                                </div>
+                                            @else
+                                                <span class="text-gray-400 text-sm">-</span>
+                                            @endif
+                                        </td>
+                                    @endforeach
+                                </tr>
                             @endforeach
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @empty
+            <p class="text-gray-500">No schedules available.</p>
+        @endforelse
     </div>
 </div>
 
