@@ -31,7 +31,7 @@ class AnnouncementSeeder extends Seeder
                 'user_id' => $admin->id,
                 'title' => "Pengumuman $i",
                 'content' => "Ini adalah detail pengumuman ke-$i.",
-                'roles' => $rolesOptions[array_rand($rolesOptions)], // Directly passing the array
+                'roles' => $rolesOptions[array_rand($rolesOptions)],
                 'start_date' => now(),
                 'end_date' => now()->addDays(rand(5, 15)),
                 'attachment' => null,
