@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Manage Announcements</h2>
         <a href="{{ route('admin.announcements.create') }}"
-           class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
+           class="w-full md:w-auto text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
             + Create New Announcement
         </a>
     </div>
 
     <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
+        <table class="w-full bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">#</th>

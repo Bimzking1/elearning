@@ -67,7 +67,7 @@ class TeacherSeeder extends Seeder
                 'role' => 'teacher',
             ]);
 
-            $specialization = $teacherData['subjects'][0] ?? 'Teaching';
+            $specialization = json_encode($teacherData['subjects']);
             $gender = $teacherData['gender'];
 
             $teacher = $user->teacher()->create([

@@ -19,11 +19,15 @@
 
     <!-- Sidebar -->
     <aside id="sidebar" class="w-64 bg-blue-600 min-h-screen text-white p-4 fixed md:relative md:translate-x-0 transition-transform duration-300 -translate-x-full z-10">
-        <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
-        <ul class="space-y-2">
+        <div class="flex items-center gap-3 mb-6">
+            <img src="{{ asset('images/baw-logo-white.png') }}" alt="Logo" class="w-8 h-8 object-contain">
+            <h2 class="text-2xl font-bold">Dashboard</h2>
+        </div>
+
+        <ul class="space-y-2 mt-12 md:mt-0">
             <li>
-                <a href="{{ url('/home') }}"
-                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                <a href="{{ url('/admin/home') }}"
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
                 data-page="home">
                     <i data-lucide="home" class="w-5 h-5"></i>
                     Home

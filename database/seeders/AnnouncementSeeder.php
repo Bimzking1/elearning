@@ -26,7 +26,7 @@ class AnnouncementSeeder extends Seeder
             ['staff', 'teacher'],
         ];
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             Announcement::create([
                 'user_id' => $admin->id,
                 'title' => "Pengumuman $i",

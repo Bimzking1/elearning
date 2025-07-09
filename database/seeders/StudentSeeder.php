@@ -41,7 +41,7 @@ class StudentSeeder extends Seeder
         for ($i = 1; $i <= 5; $i++) {
             $user = User::create([
                 'name' => $faker->name,
-                'email' => "student$i@example.com",
+                'email' => "student$i@gmail.com",
                 'password' => Hash::make('12345678'),
                 'role' => 'student',
             ]);

@@ -11,14 +11,14 @@
         </a>
     </div>
 
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 class="text-2xl font-bold text-gray-800">
             {{ $schedule->subject->name }} - Class {{ $classroom->name }}
         </h2>
 
         <button type="button"
             onclick="document.getElementById('openPresenceModal').classList.remove('hidden')"
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow font-semibold">
+            class="w-full md:w-auto text-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow font-semibold">
             + Open New Presence
         </button>
     </div>

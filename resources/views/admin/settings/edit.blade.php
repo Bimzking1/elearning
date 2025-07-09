@@ -2,7 +2,11 @@
 
 @section('content')
 <div class="w-full mx-auto bg-white p-8 rounded-xl shadow-md">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Admin Settings</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-2 border-b pb-2">Admin Settings</h2>
+
+    <p class="text-base text-blue-600 mb-6">
+        * This page is only for updating admin login credentials such as email and password.
+    </p>
 
     @if (session('success'))
         <div class="mb-6 px-4 py-3 bg-green-100 text-green-700 rounded-lg border border-green-300">
@@ -47,7 +51,7 @@
 
         <!-- Confirm Password -->
         <div>
-            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
             <input
                 type="password"
                 name="password_confirmation"
