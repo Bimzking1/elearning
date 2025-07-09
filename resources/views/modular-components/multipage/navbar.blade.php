@@ -11,7 +11,7 @@
 
         <div class="hidden lg:flex space-x-1 justify-center items-center">
             <a href="/" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Home</a>
-            <a href="{{ route('register') }}" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Register</a>
+            <a href="{{ route('register') }}" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Admission</a>
             <a href="{{ route('programs') }}" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Our Programs</a>
             <a href="{{ route('contact') }}" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Contact Us</a>
             <a href="{{ route('activities') }}" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Our Activities</a>
@@ -33,7 +33,7 @@
     <!-- Mobile Dropdown -->
     <div x-show="open" @click.away="open = false" x-transition class="lg:hidden mt-2 px-4 py-4 bg-blue-600 space-y-2 rounded-lg shadow">
         <a href="/" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Home</a>
-        <a href="{{ route('register') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Register</a>
+        <a href="{{ route('register') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Admission</a>
         <a href="{{ route('programs') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Our Programs</a>
         <a href="{{ route('activities') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Our Activities</a>
         <a href="{{ route('contact') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Contact Us</a>

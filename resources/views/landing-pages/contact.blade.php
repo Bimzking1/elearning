@@ -12,12 +12,12 @@
     @include('/modular-components/multipage/navbar')
 
     <main class="bg-gradient-to-b from-white to-blue-200 py-8 md:py-16">
-        <div class="w-full mx-auto px-6 lg:px-8 space-y-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
 
             <!-- Section: Contact Info + Image -->
             <div class="grid md:grid-cols-2 gap-10 items-center">
                 <!-- Left: Contact Info -->
-                <div class="space-y-10">
+                <div class="space-y-4">
                     <!-- Heading -->
                     <div>
                         <h1 class="text-4xl font-extrabold text-blue-900 mb-2">Contact Us</h1>
@@ -31,13 +31,18 @@
                             Jl. Jolotundo Baru No.6, Pacar Keling,<br />
                             Tambaksari District, Surabaya, East Java 60131
                         </p>
+                    </div>
+
+                    <!-- Whatsapp Card -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-2">Whatsapp</h2>
                         <p class="text-gray-800 font-medium mt-4">
-                            Phone: <span class="text-blue-900">0877-0199-0961</span>
+                            Phone: <span class="text-blue-900 text-xl">0877-0199-0961</span>
                         </p>
                         <p class="text-gray-800 font-medium">
                             WhatsApp:
-                            <a href="https://wa.me/6287701990961" target="_blank" rel="noopener noreferrer" class="text-blue-900 hover:underline">
-                                087701990961
+                            <a href="https://wa.me/6287701990961" target="_blank" rel="noopener noreferrer" class="text-xl text-blue-900 hover:underline">
+                                0877-0199-0961
                             </a>
                         </p>
                     </div>
@@ -46,7 +51,7 @@
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h2 class="text-2xl font-semibold text-gray-800 mb-2">Email</h2>
                         <p class="text-gray-900">Send your questions or inquiries to our official email address:</p>
-                        <a href="mailto:pkbmbaw2019@gmail.com" class="block mt-3 text-2xl text-blue-600 font-semibold hover:underline">
+                        <a href="mailto:pkbmbaw2019@gmail.com" class="block mt-2 text-xl text-blue-600 font-semibold hover:underline">
                             pkbmbaw2019@gmail.com
                         </a>
                     </div>
@@ -64,7 +69,7 @@
 
     <!-- Section: Google Map -->
     <section class="bg-gradient-to-b from-blue-200 to-white md:py-16 pb-8">
-        <div class="w-full mx-auto px-6 lg:px-8 space-y-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-10">
             <div>
                 <h2 class="text-4xl font-extrabold text-blue-900 mb-2">Visit Our Location</h2>
                 <p class="text-lg text-gray-600">We warmly welcome you and are ready to provide the best information and services.</p>

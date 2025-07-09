@@ -14,10 +14,23 @@
                 Together with us, help your child grow to their full potential and achieve a limitless future!
             </p>
             <div class="w-full md:w-fit flex flex-col md:flex-row justify-center items-center gap-4">
-                <a href="{{ route('register') }}" class="w-full md:w-fit text-xl animate-cta inline-block bg-blue-600 text-white hover:bg-blue-700 transition px-6 py-3 rounded font-semibold shadow-md text-center">
-                    Register as New Student
+                <!-- Register Button -->
+                <a href="{{ route('register') }}"
+                class="w-full md:w-fit text-xl animate-cta inline-block bg-blue-600 text-white hover:bg-blue-700 transition px-6 py-3 rounded font-semibold shadow-md text-center">
+                    Student Admission
                 </a>
-                <a href="{{ route('contact') }}" class="w-full md:w-fit inline-block bg-white text-blue-600 hover:bg-gray-100 transition px-6 py-3 rounded font-semibold shadow-md text-center">
+
+                <!-- Login Button -->
+                <a href="{{ route('login') }}"
+                class="w-full md:w-fit text-xl inline-block bg-indigo-600 text-white hover:bg-indigo-700 transition px-6 py-3 rounded font-semibold shadow-md text-center">
+                    Login as Student/Teacher
+                </a>
+            </div>
+
+            <!-- Contact Us Button -->
+            <div class="w-full md:w-fit flex justify-center md:justify-end mt-4">
+                <a href="{{ route('contact') }}"
+                class="w-full md:w-fit inline-block bg-white text-blue-600 hover:bg-blue-100 transition px-6 py-3 rounded font-semibold shadow-md text-center">
                     Contact Us
                 </a>
             </div>
