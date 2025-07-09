@@ -84,7 +84,13 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
         return view('admin.home.index');
     })->name('admin.home');
 
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
+
+    // Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    //     Route::get('home', function () {
+    //         return view('admin.home.index');
+    //     })->name('home');
+    // });
 
     // Teacher & Student Management
     Route::controller(TeacherController::class)->group(function () {

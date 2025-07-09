@@ -22,8 +22,8 @@
         <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
         <ul class="space-y-2">
             <li>
-                <a href="{{ url('/admin/home') }}"
-                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                <a href="{{ url('/home') }}"
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
                 data-page="home">
                     <i data-lucide="home" class="w-5 h-5"></i>
                     Home
