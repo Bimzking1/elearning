@@ -179,6 +179,11 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
         Route::get('/{classroom}/{schedule}/{presence}', 'viewPresence')->name('view'); // View students in presence
         Route::put('/update-name/{presence}', 'updateName')->name('updateName');
     });
+
+    Route::prefix('settings')->name('admin.settings.')->group(function () {
+        Route::get('/', [AdminController::class, 'editSettings'])->name('edit');
+        Route::put('/', [AdminController::class, 'updateSettings'])->name('update');
+    });
 });
 
 // Teacher Routes (Only for Teachers)
@@ -193,7 +198,13 @@ Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class . ':teacher'
         Route::get('/{submission}/edit', [TeacherTaskSubmissionController::class, 'edit'])->name('edit');
         Route::put('/{submission}', [TeacherTaskSubmissionController::class, 'update'])->name('update'); // Fixed route
     });
-    Route::get('/profile', [TeacherProfileController::class, 'index'])->name('profile.index');
+
+    // Profile routes (with name prefix and path prefix)
+    Route::prefix('profile')->name('teacher.profile.')->group(function () {
+        Route::get('/', [TeacherProfileController::class, 'index'])->name('index');
+        Route::get('/edit', [TeacherProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [TeacherProfileController::class, 'update'])->name('update');
+    });
 
     Route::controller(TeacherMaterialController::class)->group(function () {
         Route::get('/materials', 'index')->name('teacher.materials.index');
@@ -246,7 +257,11 @@ Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')
         Route::put('/{task}/update', [StudentTaskSubmissionController::class, 'update'])->name('update');
     });
 
-    Route::get('/profile', [StudentProfileController::class, 'index'])->name('profile.index');
+    Route::prefix('profile')->name('student.profile.')->group(function () {
+        Route::get('/', [StudentProfileController::class, 'index'])->name('index');
+        Route::get('/edit', [StudentProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [StudentProfileController::class, 'update'])->name('update');
+    });
 
     Route::prefix('materials')->name('materials.')->controller(StudentMaterialController::class)->group(function () {
         Route::get('/', 'index')->name('index'); // /student/materials
