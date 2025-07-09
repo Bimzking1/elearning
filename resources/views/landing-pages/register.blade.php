@@ -11,14 +11,14 @@
 
     @include('/modular-components/multipage/navbar')
 
-    <main class="bg-gradient-to-b from-white to-blue-200 py-16">
+    <main class="bg-gradient-to-b from-white to-blue-200 py-8 md:py-16">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
             <div class="grid md:grid-cols-2 gap-10 items-center">
 
                 <!-- Left: Info and CTA -->
                 <div class="space-y-10">
                     <div>
-                        <h1 class="text-4xl font-extrabold text-blue-900 mb-4">New Student Registration</h1>
+                        <h1 class="text-4xl font-extrabold text-blue-900 mb-4">New Student Admission</h1>
                         <p class="text-lg text-gray-700">
                             Register now to join us at PKBM Bina Abdi Wiyata.
                             Flexible, quality education with official certification awaits you.

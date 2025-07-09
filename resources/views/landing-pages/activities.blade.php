@@ -11,7 +11,7 @@
 
   @include('/modular-components/multipage/navbar')
 
-  <main class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+  <main class="max-w-7xl mx-auto px-6 lg:px-8 py-8 md:py-16">
     <section>
       <h1 class="text-4xl font-extrabold text-blue-900 mb-6">School Activities</h1>
       <p class="text-lg text-gray-600 mb-12 max-w-3xl">

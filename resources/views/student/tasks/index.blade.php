@@ -1,7 +1,7 @@
 @extends('layouts.student.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Your Tasks</h2>
     </div>

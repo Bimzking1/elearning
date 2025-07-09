@@ -11,7 +11,7 @@
 
     <!-- Navbar -->
     <nav class="bg-blue-600 p-4 shadow" x-data="{ open: false }">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="w-full mx-auto flex justify-between items-center">
             <!-- Logo -->
             <a href="/" class="text-white text-2xl font-bold">E-Learning</a>
 
@@ -71,7 +71,7 @@
 
     <!-- Motto -->
     <section id="motto" class="py-16 bg-gray-100">
-        <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="w-full w-full mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold mb-4">Our Motto</h2>
             <p class="text-xl italic text-blue-600">"A Life-improving Centre for Community Learning Activities"</p>
         </div>
@@ -280,7 +280,7 @@
 
     <!-- Footer -->
     <footer class="bg-blue-600 text-white py-10 mt-12 text-center md:text-left">
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+        <div class="w-full mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
             <!-- Organization Info -->
             <div>
                 <h3 class="text-lg font-semibold mb-3">PKBM BINA ABDI WIYATA</h3>

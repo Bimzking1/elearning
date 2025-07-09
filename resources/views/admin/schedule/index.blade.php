@@ -1,11 +1,11 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <div class="flex justify-between items-center mb-6">
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Manage Schedules</h2>
         <a href="{{ route('admin.schedules.create') }}"
-           class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
+           class="w-full md:w-auto text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
             + Add Schedule
         </a>
     </div>
