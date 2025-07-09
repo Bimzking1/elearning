@@ -48,7 +48,7 @@
     <!-- Splash Screen -->
     <div id="splash-screen" class="fixed inset-0 bg-white flex flex-col justify-center items-center z-50">
         <img src="{{ asset('images/baw-logo.png') }}" alt="Logo" class="w-[100px] mb-4 fade-in" />
-        <h1 class="text-3xl font-bold text-blue-900">PKBM Bina Abdi Wiyata</h1>
+        <h1 class="text-3xl font-bold text-blue-900 text-center">PKBM Bina Abdi Wiyata</h1>
     </div>
 
     @include('/modular-components/multipage/navbar')

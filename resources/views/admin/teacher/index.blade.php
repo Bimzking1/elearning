@@ -1,10 +1,10 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <div class="flex justify-between items-center mb-6">
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Manage Teachers</h2>
-        <a href="{{ route('admin.teacher.create') }}" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow-md transition">
+        <a href="{{ route('admin.teacher.create') }}" class="w-full md:w-auto text-center inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow-md transition">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 4v16m8-8H4"></path>
             </svg>

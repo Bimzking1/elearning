@@ -1,13 +1,20 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\MaterialController as AdminMaterialController;
+use App\Http\Controllers\Teacher\MaterialController as TeacherMaterialController;
+use App\Http\Controllers\Student\MaterialController as StudentMaterialController;
 use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
 use App\Http\Controllers\Student\ScheduleController as StudentScheduleController;
 use App\Http\Controllers\Teacher\ScheduleController as TeacherScheduleController;
+use App\Http\Controllers\Admin\PresenceController as AdminPresenceController;
+use App\Http\Controllers\Student\PresenceController as StudentPresenceController;
+use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
@@ -76,6 +83,14 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
     Route::get('/home', function () {
         return view('admin.home.index');
     })->name('admin.home');
+
+    Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
+
+    // Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    //     Route::get('home', function () {
+    //         return view('admin.home.index');
+    //     })->name('home');
+    // });
 
     // Teacher & Student Management
     Route::controller(TeacherController::class)->group(function () {
@@ -150,6 +165,34 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
             Route::put('/{submission}', [AdminTaskSubmissionController::class, 'update'])->name('update'); // Make sure this is correct
         });
     });
+
+    Route::controller(AdminMaterialController::class)->group(function () {
+        Route::get('/materials', 'index')->name('admin.materials.index');
+        Route::get('/materials/create', 'create')->name('admin.materials.create');
+        Route::post('/materials', 'store')->name('admin.materials.store');
+        Route::get('/materials/classroom', 'byClassroom')->name('admin.materials.byClassroom');
+        Route::get('/materials/classroom/{subject}', 'bySubject')->name('admin.materials.bySubject');
+        Route::get('/materials/{material}/view', 'show')->name('admin.materials.view');
+        Route::get('/materials/{material}/edit', 'edit')->name('admin.materials.edit');
+        Route::put('/materials/{material}', 'update')->name('admin.materials.update');
+        Route::delete('/materials/{material}', 'destroy')->name('admin.materials.destroy');
+    });
+
+    Route::controller(AdminPresenceController::class)->prefix('presence')->name('admin.presence.')->group(function () {
+        Route::get('/', 'index')->name('index'); // View all schedules
+        Route::get('/{classroom}/{schedule}', 'showSchedulePresence')->name('show'); // View schedule-specific presence list
+        Route::post('/{classroom}/{schedule}/open', 'openPresence')->name('open'); // Open new presence
+        Route::post('/{classroom}/{schedule}/{presence}/close', 'closePresence')->name('close'); // Close presence
+        Route::post('/{classroom}/{schedule}/{presence}/reopen', 'reopenPresence')->name('reopen'); // Reopen presence
+        Route::delete('/{classroom}/{schedule}/{presence}', 'destroy')->name('destroy'); // Delete presence
+        Route::get('/{classroom}/{schedule}/{presence}', 'viewPresence')->name('view'); // View students in presence
+        Route::put('/update-name/{presence}', 'updateName')->name('updateName');
+    });
+
+    Route::prefix('settings')->name('admin.settings.')->group(function () {
+        Route::get('/', [AdminController::class, 'editSettings'])->name('edit');
+        Route::put('/', [AdminController::class, 'updateSettings'])->name('update');
+    });
 });
 
 // Teacher Routes (Only for Teachers)
@@ -164,11 +207,48 @@ Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class . ':teacher'
         Route::get('/{submission}/edit', [TeacherTaskSubmissionController::class, 'edit'])->name('edit');
         Route::put('/{submission}', [TeacherTaskSubmissionController::class, 'update'])->name('update'); // Fixed route
     });
-    Route::get('/profile', [TeacherProfileController::class, 'index'])->name('profile.index');
+
+    // Profile routes (with name prefix and path prefix)
+    Route::prefix('profile')->name('teacher.profile.')->group(function () {
+        Route::get('/', [TeacherProfileController::class, 'index'])->name('index');
+        Route::get('/edit', [TeacherProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [TeacherProfileController::class, 'update'])->name('update');
+    });
+
+    Route::controller(TeacherMaterialController::class)->group(function () {
+        Route::get('/materials', 'index')->name('teacher.materials.index');
+        Route::get('/materials/create', 'create')->name('teacher.materials.create');
+        Route::post('/materials', 'store')->name('teacher.materials.store');
+
+        // Optional: show classroom filtering like admin
+        Route::get('/materials/classroom', 'byClassroom')->name('teacher.materials.byClassroom');
+        Route::get('/materials/classroom/{subject}', 'bySubject')->name('teacher.materials.bySubject');
+
+        Route::get('/materials/{material}/view', 'show')->name('teacher.materials.view');
+        Route::get('/materials/{material}/edit', 'edit')->name('teacher.materials.edit');
+        Route::put('/materials/{material}', 'update')->name('teacher.materials.update');
+        Route::delete('/materials/{material}', 'destroy')->name('teacher.materials.destroy');
+    });
+
+    // Teacher Presence Routes
+    Route::controller(TeacherPresenceController::class)->prefix('presence')->name('teacher.presence.')->group(function () {
+        Route::get('/', 'index')->name('index'); // Show all teacher's schedules
+
+        Route::get('/{classroom}/{schedule}', 'showSchedulePresence')->name('show'); // Show presences for one schedule
+        Route::post('/{classroom}/{schedule}/open', 'openPresence')->name('open'); // Open new presence
+
+        Route::post('/{classroom}/{schedule}/{presence}/close', 'closePresence')->name('close'); // Close presence
+        Route::post('/{classroom}/{schedule}/{presence}/reopen', 'reopenPresence')->name('reopen'); // Reopen presence
+
+        Route::get('/{classroom}/{schedule}/{presence}', 'viewPresence')->name('view'); // View submissions
+        Route::put('/update-name/{presence}', 'updateName')->name('updateName'); // Rename session
+        Route::delete('/{classroom}/{schedule}/{presence}', 'destroy')->name('destroy'); // Delete session
+    });
 });
 
 // Student Routes (Only for Students)
-Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')->group(function () {
+Route::prefix('student')->middleware(['auth', RoleMiddleware::class . ':student'])->name('student.')->group(function () {
+
     // Student Dashboard Route
     Route::get('/home', [StudentHomeController::class, 'index'])->name('home');
 
@@ -181,13 +261,32 @@ Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')
         Route::get('/{task}/submit', [StudentTaskSubmissionController::class, 'create'])->name('submit');
         Route::post('/{task}/submit', [StudentTaskSubmissionController::class, 'store'])->name('store');
         Route::get('/{task}/submission', [StudentTaskSubmissionController::class, 'show'])->name('show');
-
-        // New Routes for Edit and Update
         Route::get('/{task}/edit', [StudentTaskSubmissionController::class, 'edit'])->name('edit');
         Route::put('/{task}/update', [StudentTaskSubmissionController::class, 'update'])->name('update');
     });
 
-    Route::get('/profile', [StudentProfileController::class, 'index'])->name('profile.index');
+    // Profile Routes
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [StudentProfileController::class, 'index'])->name('index');
+        Route::get('/edit', [StudentProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [StudentProfileController::class, 'update'])->name('update');
+    });
+
+    // Materials Routes
+    Route::prefix('materials')->name('materials.')->controller(StudentMaterialController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/classroom', 'byClassroom')->name('byClassroom');
+        Route::get('/classroom/{subject}', 'bySubject')->name('bySubject');
+        Route::get('/{material}/view', 'show')->name('view');
+    });
+
+    // Presence Routes
+    Route::prefix('presence')->name('presence.')->controller(StudentPresenceController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/schedule/{schedule}', 'scheduleHistory')->name('schedule.history');
+        Route::get('/{presence}', 'show')->name('show');
+        Route::post('/{presence}/submit', 'submit')->name('submit');
+    });
 });
 
 // Profile routes (For All Authenticated Users)

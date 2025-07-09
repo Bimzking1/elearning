@@ -59,11 +59,11 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 });
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('home', function () {
-        return view('admin.home.index');
-    })->name('home');
-});
+// Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+//     Route::get('home', function () {
+//         return view('admin.home.index');
+//     })->name('home');
+// });
 
 // Route::middleware('auth')->prefix('teacher')->name('teacher.')->group(function () {
 //     Route::get('home', function () {

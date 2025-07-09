@@ -1,9 +1,13 @@
 @extends('layouts.student.dashboard')
 
 @section('content')
-    <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <div class="flex justify-between items-center mb-6">
+    <div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
             <h2 class="text-3xl font-bold text-gray-800">Profile</h2>
+            <a href="{{ route('student.profile.edit') }}"
+            class="w-full md:w-auto text-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                Edit Profile
+            </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
