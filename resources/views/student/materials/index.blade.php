@@ -1,7 +1,7 @@
 @extends('layouts.student.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow-md">
+<div class="w-full mx-auto p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Class Materials</h2>
 
     @if($subjects->count())

@@ -1,7 +1,7 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-8 rounded-xl shadow-md">
+<div class="w-full mx-auto bg-white p-8 rounded-xl shadow-md">
     <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Admin Settings</h2>
 
     @if (session('success'))

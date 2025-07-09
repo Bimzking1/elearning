@@ -1,7 +1,7 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Subjects</h2>
         <a href="{{ route('admin.subjects.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">

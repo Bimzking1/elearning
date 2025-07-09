@@ -11,8 +11,8 @@
 
     @include('/modular-components/multipage/navbar')
 
-    <main class="bg-gradient-to-b from-white to-blue-200 py-16">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
+    <main class="bg-gradient-to-b from-white to-blue-200 py-8 md:py-16">
+        <div class="w-full mx-auto px-6 lg:px-8 space-y-16">
 
             <!-- Section: Contact Info + Image -->
             <div class="grid md:grid-cols-2 gap-10 items-center">
@@ -64,7 +64,7 @@
 
     <!-- Section: Google Map -->
     <section class="bg-gradient-to-b from-blue-200 to-white md:py-16 pb-8">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-10">
+        <div class="w-full mx-auto px-6 lg:px-8 space-y-10">
             <div>
                 <h2 class="text-4xl font-extrabold text-blue-900 mb-2">Visit Our Location</h2>
                 <p class="text-lg text-gray-600">We warmly welcome you and are ready to provide the best information and services.</p>

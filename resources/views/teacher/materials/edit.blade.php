@@ -1,7 +1,7 @@
 @extends('layouts.teacher.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
     <div>
         <a href="{{ route('teacher.materials.bySubject', $subject->id) }}?classroom_id={{ $classroom->id }}"
             class="inline-flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md text-sm font-medium shadow transition">

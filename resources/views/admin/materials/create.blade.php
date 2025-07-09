@@ -1,7 +1,7 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
     <div>
         <a href="{{ route('admin.materials.index') }}"
             class="inline-block bg-gray-300 text-gray-900 px-4 py-2 rounded-md shadow-md hover:bg-gray-400 transition">

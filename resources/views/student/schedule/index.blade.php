@@ -1,7 +1,7 @@
 @extends('layouts.student.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-2xl font-bold text-gray-800 mb-4">Schedule - Class {{ $classroom->name }}</h2>
 
     <div class="overflow-x-auto">

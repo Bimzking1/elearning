@@ -11,8 +11,8 @@
 
     @include('/modular-components/multipage/navbar')
 
-    <main class="bg-gradient-to-b from-white to-blue-200 py-16">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
+    <main class="bg-gradient-to-b from-white to-blue-200 py-8 md:py-16">
+        <div class="w-full mx-auto px-6 lg:px-8 space-y-16">
             <div class="grid md:grid-cols-2 gap-10 items-center">
 
                 <!-- Left: Info and CTA -->

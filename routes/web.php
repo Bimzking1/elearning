@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\SubjectController;
@@ -82,6 +83,8 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
     Route::get('/home', function () {
         return view('admin.home.index');
     })->name('admin.home');
+
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     // Teacher & Student Management
     Route::controller(TeacherController::class)->group(function () {

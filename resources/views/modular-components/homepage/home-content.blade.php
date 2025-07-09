@@ -1,8 +1,8 @@
 <!-- Hybrid Learning Section -->
-<section class="bg-gradient-to-b from-white to-blue-200 text-blue-900 py-20">
+<section class="bg-gradient-to-b from-white to-blue-200 text-blue-900 py-8 md:py-20">
     <div class="container mx-auto flex flex-col md:flex-row items-center justify-center px-6 gap-10">
         <!-- Text Content -->
-        <div class="flex flex-col justify-start md:justify-end items-start md:items-end max-w-xl text-left md:text-right">
+        <div class="w-full md:w-fit flex flex-col justify-start md:justify-end items-start md:items-end max-w-xl text-left md:text-right">
             <h2 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">Hybrid Learning</h2>
             <p class="text-lg mb-4 leading-relaxed">
                 PKBM Bina Abdi Wiyata — A trusted non-formal education institution with years of experience and an A-level accreditation.
@@ -13,11 +13,11 @@
             <p class="text-lg mb-6 leading-relaxed">
                 Together with us, help your child grow to their full potential and achieve a limitless future!
             </p>
-            <div class="flex justify-center items-center gap-4">
-                <a href="{{ route('register') }}" class="text-xl animate-cta inline-block bg-blue-600 text-white hover:bg-blue-700 transition px-6 py-3 rounded font-semibold shadow-md">
+            <div class="w-full md:w-fit flex flex-col md:flex-row justify-center items-center gap-4">
+                <a href="{{ route('register') }}" class="w-full md:w-fit text-xl animate-cta inline-block bg-blue-600 text-white hover:bg-blue-700 transition px-6 py-3 rounded font-semibold shadow-md text-center">
                     Register as New Student
                 </a>
-                <a href="{{ route('contact') }}" class="inline-block bg-white text-blue-600 hover:bg-gray-100 transition px-6 py-3 rounded font-semibold shadow-md">
+                <a href="{{ route('contact') }}" class="w-full md:w-fit inline-block bg-white text-blue-600 hover:bg-gray-100 transition px-6 py-3 rounded font-semibold shadow-md text-center">
                     Contact Us
                 </a>
             </div>
@@ -27,13 +27,13 @@
         <div class="w-fit flex justify-start items-start">
             <img src="{{ asset('images/welcome-merged.png') }}"
                 alt="Welcome"
-                class="h-[450px] w-auto object-contain" />
+                class="h-fit md:h-[450px] w-auto object-contain" />
         </div>
     </div>
 </section>
 
 <!-- About Us -->
-<section id="about" class="py-16 bg-gradient-to-b from-blue-200 to-white text-blue-900">
+<section id="about" class="py-8 md:py-16 bg-gradient-to-b from-blue-200 to-white text-blue-900">
     <div class="max-w-5xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold text-blue-900 mb-4">About PKBM Bina Abdi Wiyata</h2>
         <p class="text-lg text-gray-600 mb-6">
@@ -46,8 +46,8 @@
     </div>
 </section>
 
-<section id="why" class="py-16 bg-gray-50" id="why-us">
-  <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-12">
+<section id="why" class="py-8 md:py-16 bg-gray-50" id="why-us">
+  <div class="w-full mx-auto px-6 md:px-12 flex flex-col gap-12">
 
     <!-- Title -->
     <div class="w-full space-y-4 flex flex-col justify-center items-center text-center">
@@ -119,23 +119,115 @@
 </section>
 
 <!-- Motto -->
-<section id="motto" class="py-16 bg-blue-50 flex flex-col justify-center items-center">
+<section id="motto" class="py-8 md:py-16 bg-blue-50 flex flex-col justify-center items-center">
     <div class="max-w-4xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold text-blue-900 mb-4">Our Motto</h2>
         <p class="text-xl italic text-blue-600">"A Life-improving Centre for Community Learning Activities"</p>
     </div>
 
-    <!-- Interactive Image -->
-    <div class="relative w-fit flex justify-start items-start">
-    <img src="{{ asset('images/activities/together.png') }}"
-        alt="Welcome"
-        class="h-[350px] w-auto object-contain rounded-lg mask-blur" />
+    <!-- Mobile Image: Visible on small screens -->
+    <div class="relative w-fit flex justify-start items-start md:hidden">
+        <img src="{{ asset('images/together-mobile.png') }}"
+            alt="Welcome"
+            class="h-fit w-auto object-contain rounded-lg mask-blur px-4" />
+    </div>
+
+    <!-- Desktop Image: Visible on medium screens and above -->
+    <div class="relative w-fit md:flex hidden justify-start items-start">
+        <img src="{{ asset('images/together.png') }}"
+            alt="Welcome"
+            class="h-fit max-h-[350px] w-auto object-contain rounded-lg mask-blur" />
+    </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="py-8 md:py-16 bg-blue-50">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-blue-900 mb-10">Our Programs & Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+
+            <!-- Paket A -->
+            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center space-x-3 mb-4">
+                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-blue-600">Paket A (SD)</h3>
+                </div>
+                <p>
+                    A foundational education program for learners seeking an elementary school equivalent certification, aligned with national curriculum standards.
+                </p>
+            </div>
+
+            <!-- Paket B -->
+            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center space-x-3 mb-4">
+                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-blue-600">Paket B (SMP)</h3>
+                </div>
+                <p>
+                    A middle school equivalent program tailored for learners continuing their academic journey with a focus on core competencies and life skills.
+                </p>
+            </div>
+
+            <!-- Paket C -->
+            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center space-x-3 mb-4">
+                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-blue-600">Paket C (SMA)</h3>
+                </div>
+                <p>
+                    A high school level program for students aiming to complete their education and receive an SMA-equivalent diploma, preparing them for higher education or employment.
+                </p>
+            </div>
+
+            <!-- Homeschooling -->
+            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center space-x-3 mb-4">
+                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-blue-600">Homeschooling</h3>
+                </div>
+                <p>
+                    A flexible learning option that allows students to study independently from home under the guidance of educators, while following the national curriculum.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- See More Button -->
+    <div class="text-center mt-10">
+      <a href="{{ route('programs') }}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded font-semibold hover:bg-blue-700 transition">
+        See More Programs
+      </a>
     </div>
 </section>
 
 <!-- Our Teachers -->
 
-<section id="teachers" class="py-16 bg-white">
+<section id="teachers" class="py-8 md:py-16 bg-white">
     <div class="max-w-5xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold text-blue-900 mb-4">Meet Our Dedicated Teachers</h2>
         <p class="text-lg text-gray-600 mb-6">
@@ -255,87 +347,8 @@
     </div>
 </section>
 
-
-    <!-- Services -->
-<section id="services" class="py-20 bg-blue-50">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-blue-900 mb-10">Our Programs & Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-
-            <!-- Paket A -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-4">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-                    </svg>
-                    <h3 class="text-xl font-semibold text-blue-600">Paket A (SD)</h3>
-                </div>
-                <p>
-                    A foundational education program for learners seeking an elementary school equivalent certification, aligned with national curriculum standards.
-                </p>
-            </div>
-
-            <!-- Paket B -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-4">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-                    </svg>
-                    <h3 class="text-xl font-semibold text-blue-600">Paket B (SMP)</h3>
-                </div>
-                <p>
-                    A middle school equivalent program tailored for learners continuing their academic journey with a focus on core competencies and life skills.
-                </p>
-            </div>
-
-            <!-- Paket C -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-4">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-                    </svg>
-                    <h3 class="text-xl font-semibold text-blue-600">Paket C (SMA)</h3>
-                </div>
-                <p>
-                    A high school level program for students aiming to complete their education and receive an SMA-equivalent diploma, preparing them for higher education or employment.
-                </p>
-            </div>
-
-            <!-- Homeschooling -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-4">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-                    </svg>
-                    <h3 class="text-xl font-semibold text-blue-600">Homeschooling</h3>
-                </div>
-                <p>
-                    A flexible learning option that allows students to study independently from home under the guidance of educators, while following the national curriculum.
-                </p>
-            </div>
-
-        </div>
-    </div>
-</section>
-
 <!-- Activities Preview -->
-<section id="activities" class="py-16 bg-white" x-data="previewGallery()" @keydown.escape.window="closeLightbox()">
+<section id="activities" class="py-8 md:py-16 bg-white" x-data="previewGallery()" @keydown.escape.window="closeLightbox()">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center mb-10">
       <h2 class="text-3xl font-bold text-blue-900 mb-4">Student Activities</h2>

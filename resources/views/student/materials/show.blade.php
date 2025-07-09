@@ -1,7 +1,7 @@
 @extends('layouts.student.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-md space-y-6">
+<div class="w-full mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-md space-y-6">
 
     {{-- Header --}}
     <div>

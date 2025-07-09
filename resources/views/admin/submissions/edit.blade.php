@@ -1,7 +1,7 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
     <a href="{{ route('admin.tasks.submissions.index', ['task' => $submission->task->id]) }}"
        class="bg-gray-300 text-gray-900 py-2 px-4 rounded-lg shadow-md transition">
         &larr; Back to Submissions

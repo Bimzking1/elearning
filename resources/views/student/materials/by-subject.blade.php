@@ -1,7 +1,7 @@
 @extends('layouts.student.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto p-6 bg-white rounded-2xl shadow-md space-y-6">
+<div class="w-full mx-auto p-6 bg-white rounded-2xl shadow-md space-y-6">
 
     {{-- Back Button --}}
     <div>

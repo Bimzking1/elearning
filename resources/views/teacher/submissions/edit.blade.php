@@ -1,7 +1,7 @@
 @extends('layouts.teacher.dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-md space-y-8">
+<div class="w-full mx-auto bg-white p-6 rounded-xl shadow-md space-y-8">
 
     {{-- Back Button --}}
     <a href="{{ route('teacher.tasks.submissions.index', ['task' => $submission->task->id]) }}"
