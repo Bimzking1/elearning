@@ -66,6 +66,11 @@
                    data-page="materials">Materials</a>
             </li>
             <li class="mb-2">
+                <a href="{{ url('/admin/presence') }}"
+                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/presence') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="presence">Presence</a>
+            </li>
+            <li class="mb-2">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="block py-2 bg-red-500 rounded w-full text-center text-white">

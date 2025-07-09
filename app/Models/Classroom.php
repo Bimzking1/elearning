@@ -22,4 +22,9 @@ class Classroom extends Model {
     public function materials() {
         return $this->hasMany(Material::class);
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }

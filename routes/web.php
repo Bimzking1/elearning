@@ -11,6 +11,9 @@ use App\Http\Controllers\Student\MaterialController as StudentMaterialController
 use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
 use App\Http\Controllers\Student\ScheduleController as StudentScheduleController;
 use App\Http\Controllers\Teacher\ScheduleController as TeacherScheduleController;
+use App\Http\Controllers\Admin\PresenceController as AdminPresenceController;
+use App\Http\Controllers\Student\PresenceController as StudentPresenceController;
+use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
@@ -165,6 +168,17 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
         Route::put('/materials/{material}', 'update')->name('admin.materials.update');
         Route::delete('/materials/{material}', 'destroy')->name('admin.materials.destroy');
     });
+
+    Route::controller(AdminPresenceController::class)->prefix('presence')->name('admin.presence.')->group(function () {
+        Route::get('/', 'index')->name('index'); // View all schedules
+        Route::get('/{classroom}/{schedule}', 'showSchedulePresence')->name('show'); // View schedule-specific presence list
+        Route::post('/{classroom}/{schedule}/open', 'openPresence')->name('open'); // Open new presence
+        Route::post('/{classroom}/{schedule}/{presence}/close', 'closePresence')->name('close'); // Close presence
+        Route::post('/{classroom}/{schedule}/{presence}/reopen', 'reopenPresence')->name('reopen'); // Reopen presence
+        Route::delete('/{classroom}/{schedule}/{presence}', 'destroy')->name('destroy'); // Delete presence
+        Route::get('/{classroom}/{schedule}/{presence}', 'viewPresence')->name('view'); // View students in presence
+        Route::put('/update-name/{presence}', 'updateName')->name('updateName');
+    });
 });
 
 // Teacher Routes (Only for Teachers)
@@ -195,6 +209,21 @@ Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class . ':teacher'
         Route::put('/materials/{material}', 'update')->name('teacher.materials.update');
         Route::delete('/materials/{material}', 'destroy')->name('teacher.materials.destroy');
     });
+
+    // Teacher Presence Routes
+    Route::controller(TeacherPresenceController::class)->prefix('presence')->name('teacher.presence.')->group(function () {
+        Route::get('/', 'index')->name('index'); // Show all teacher's schedules
+
+        Route::get('/{classroom}/{schedule}', 'showSchedulePresence')->name('show'); // Show presences for one schedule
+        Route::post('/{classroom}/{schedule}/open', 'openPresence')->name('open'); // Open new presence
+
+        Route::post('/{classroom}/{schedule}/{presence}/close', 'closePresence')->name('close'); // Close presence
+        Route::post('/{classroom}/{schedule}/{presence}/reopen', 'reopenPresence')->name('reopen'); // Reopen presence
+
+        Route::get('/{classroom}/{schedule}/{presence}', 'viewPresence')->name('view'); // View submissions
+        Route::put('/update-name/{presence}', 'updateName')->name('updateName'); // Rename session
+        Route::delete('/{classroom}/{schedule}/{presence}', 'destroy')->name('destroy'); // Delete session
+    });
 });
 
 // Student Routes (Only for Students)
@@ -224,6 +253,13 @@ Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')
         Route::get('/classroom', 'byClassroom')->name('byClassroom'); // /student/materials/classroom (optional)
         Route::get('/classroom/{subject}', 'bySubject')->name('bySubject'); // /student/materials/classroom/{subject}
         Route::get('/{material}/view', 'show')->name('view'); // /student/materials/5/view
+    });
+
+    Route::prefix('presence')->name('presence.')->controller(StudentPresenceController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/schedule/{schedule}', 'scheduleHistory')->name('schedule.history');
+        Route::get('/{presence}', 'show')->name('show');
+        Route::post('/{presence}/submit', 'submit')->name('submit');
     });
 });
 

@@ -36,6 +36,11 @@
                    data-page="schedules">Schedules</a>
             </li>
             <li class="mb-2">
+                <a href="{{ url('/teacher/presence') }}"
+                   class="block py-2 px-2 rounded page-link {{ request()->is('teacher/presence') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="presence">Presence</a>
+            </li>
+            <li class="mb-2">
                 <a href="{{ url('/teacher/tasks') }}"
                    class="block py-2 px-2 rounded page-link {{ request()->is('teacher/tasks') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
                    data-page="tasks">Tasks</a>

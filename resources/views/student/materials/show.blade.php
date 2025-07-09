@@ -5,7 +5,7 @@
 
     {{-- Header --}}
     <div>
-        <a href="{{ url()->previous() }}"
+        <a href="{{ route('student.materials.bySubject', ['subject' => $subject->id]) }}"
            class="inline-flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md text-sm font-medium shadow transition">
             ← Back to Materials
         </a>

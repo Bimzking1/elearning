@@ -71,7 +71,7 @@
 
     <!-- Motto -->
     <section id="motto" class="py-16 bg-gray-100">
-        <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="w-full max-w-7xl mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold mb-4">Our Motto</h2>
             <p class="text-xl italic text-blue-600">"A Life-improving Centre for Community Learning Activities"</p>
         </div>
