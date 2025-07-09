@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-bold text-gray-800">Presence Schedule</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Presence</h2>
         <div class="space-x-2">
             <button onclick="togglePresenceView('listView')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
                 List View
@@ -57,13 +57,15 @@
 
     {{-- TABLE VIEW --}}
     <div id="tableView" class="presence-view">
+        <p class="mb-4 text-sm text-blue-600">
+            📌 <span class="font-medium">Click the subject's name</span> to attend or view your presence.
+        </p>
         @php
             $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
             $timeSlots = ['19:00-20:00', '20:00-21:00', '21:00-21:30'];
         @endphp
 
         <div class="mb-10">
-            <h3 class="text-xl font-semibold mb-3 text-gray-800">Weekly Schedule</h3>
             <div class="overflow-x-auto">
                 <table class="min-w-full table-fixed bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm text-sm">
                     <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">

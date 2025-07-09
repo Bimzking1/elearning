@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">Jadwal Pelajaran - Paket {{ $classroom->name }}</h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Schedule - Class {{ $classroom->name }}</h2>
 
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm text-sm">

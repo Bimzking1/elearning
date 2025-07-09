@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Student Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="flex w-full">
 
@@ -22,40 +23,62 @@
         <ul>
             <li class="mb-2 mt-8 md:mt-0">
                 <a href="{{ url('/student/home') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('student/home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="home">Home</a>
+                   class="flex items-center gap-2 py-2 px-2 rounded page-link {{ request()->is('student/home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="home">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    Home
+                </a>
             </li>
             <li class="mb-2">
                 <a href="{{ url('/student/materials') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('student/materials') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="materials">Materials</a>
-            </li>
-            <li class="mb-2">
-                <a href="{{ url('/student/schedules') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('student/schedules') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="schedules">Schedule</a>
-            </li>
-            <li class="mb-2">
-                <a href="{{ url('/student/presence') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('student/presence') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="presence">Presence</a>
+                   class="flex items-center gap-2 py-2 px-2 rounded page-link {{ request()->is('student/materials') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="materials">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                    Materials
+                </a>
             </li>
             <li class="mb-2">
                 <a href="{{ url('/student/tasks') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('student/tasks') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="tasks">Task</a>
+                   class="flex items-center gap-2 py-2 px-2 rounded page-link {{ request()->is('student/tasks') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="tasks">
+                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                    Task
+                </a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url('/student/schedules') }}"
+                   class="flex items-center gap-2 py-2 px-2 rounded page-link {{ request()->is('student/schedules') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="schedules">
+                    <i data-lucide="calendar" class="w-5 h-5"></i>
+                    Schedule
+                </a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url('/student/presence') }}"
+                   class="flex items-center gap-2 py-2 px-2 rounded page-link {{ request()->is('student/presence') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="presence">
+                    <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                    Presence
+                </a>
             </li>
             <li class="mb-2">
                 <a href="{{ url('/student/profile') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('student/profile') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="profile">Profile</a>
+                   class="flex items-center gap-2 py-2 px-2 rounded page-link {{ request()->is('student/profile') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                   data-page="profile">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                    Profile
+                </a>
             </li>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="block py-2 bg-red-500 rounded w-full text-center text-white">
-                    Logout
-                </button>
-            </form>
+            <li class="mb-2">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center gap-2 py-2 px-2 bg-red-500 rounded w-full text-white hover:bg-red-600 transition">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                        Logout
+                    </button>
+                </form>
+            </li>
         </ul>
     </aside>
 
@@ -71,9 +94,8 @@
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
 
-        // Toggle sidebar visibility on mobile
         menuToggle?.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full'); // Show/hide the sidebar
+            sidebar.classList.toggle('-translate-x-full');
         });
 
         const currentPath = window.location.pathname;
@@ -83,6 +105,9 @@
                 link.classList.add('bg-blue-800', 'rounded', 'px-2');
             }
         });
+
+        // Load Lucide icons
+        lucide.createIcons();
     </script>
     @stack('scripts')
 

@@ -11,7 +11,9 @@
         </a>
     </div>
 
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">Presence History</h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">
+        Presence History – {{ $presences->first()?->schedule->subject->name ?? 'Unknown Subject' }}
+    </h2>
 
     @if ($presences->isEmpty())
         <p class="text-gray-600">No presence sessions found for this schedule.</p>

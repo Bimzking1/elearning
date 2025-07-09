@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="flex w-full">
 
@@ -18,67 +19,101 @@
 
     <!-- Sidebar -->
     <aside id="sidebar" class="w-64 bg-blue-600 min-h-screen text-white p-4 fixed md:relative md:translate-x-0 transition-transform duration-300 -translate-x-full z-10">
-        <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
-        <ul>
-            <li class="mb-2">
+        <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
+        <ul class="space-y-2">
+            <li>
                 <a href="{{ url('/admin/home') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="home">Home</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/home') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="home">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    Home
+                </a>
             </li>
-            <li class="mb-2">
+            <li>
                 <a href="{{ url('/admin/announcements') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/announcements') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="announcements">Announcement</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/announcements') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="announcements">
+                    <i data-lucide="megaphone" class="w-5 h-5"></i>
+                    Announcement
+                </a>
             </li>
-            <li class="mb-2">
+            <li>
                 <a href="{{ url('/admin/teacher') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/teacher') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="teacher">Teacher</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/teacher') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="teacher">
+                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                    Teacher
+                </a>
             </li>
-            <li class="mb-2">
+            <li>
                 <a href="{{ url('/admin/students') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/students') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="students">Student</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/students') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="students">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    Student
+                </a>
             </li>
-            <li class="mb-2">
+            <li>
                 <a href="{{ url('/admin/classrooms') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/classrooms') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="classrooms">Classroom</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/classrooms') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="classrooms">
+                    <i data-lucide="building-2" class="w-5 h-5"></i>
+                    Classroom
+                </a>
             </li>
-            <li class="mb-2">
+            <li>
                 <a href="{{ url('/admin/subjects') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/subjects') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="subjects">Subject</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/subjects') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="subjects">
+                    <i data-lucide="book" class="w-5 h-5"></i>
+                    Subject
+                </a>
             </li>
-            <li class="mb-2">
-                <a href="{{ url('/admin/schedules') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/schedules') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="schedules">Schedule</a>
-            </li>
-            <li class="mb-2">
-                <a href="{{ url('/admin/tasks') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/tasks') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="tasks">Student Task</a>
-            </li>
-            <li class="mb-2">
+            <li>
                 <a href="{{ url('/admin/materials') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/materials') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="materials">Materials</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/materials') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="materials">
+                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                    Materials
+                </a>
             </li>
-            <li class="mb-2">
+            <li>
+                <a href="{{ url('/admin/tasks') }}"
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/tasks') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="tasks">
+                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                    Student Task
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/admin/schedules') }}"
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/schedules') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="schedules">
+                    <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+                    Schedule
+                </a>
+            </li>
+            <li>
                 <a href="{{ url('/admin/presence') }}"
-                   class="block py-2 px-2 rounded page-link {{ request()->is('admin/presence') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                   data-page="presence">Presence</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/presence') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="presence">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                    Presence
+                </a>
             </li>
-            <li class="mb-2">
+            <li>
                 <a href="{{ route('admin.settings.edit') }}"
-                class="block py-2 px-2 rounded page-link {{ request()->is('admin/settings') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
-                data-page="settings">Setting</a>
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/settings') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="settings">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    Setting
+                </a>
             </li>
-            <li class="mb-2">
+            <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="block py-2 bg-red-500 rounded w-full text-center text-white">
+                    <button type="submit" class="flex items-center gap-x-2 w-full py-2 px-3 bg-red-500 hover:bg-red-600 rounded text-white">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
                         Logout
                     </button>
                 </form>
@@ -120,6 +155,9 @@
                 // window.location.href = `/admin/${page}`;
             });
         });
+    </script>
+    <script>
+        lucide.createIcons();
     </script>
     @stack('scripts')
 

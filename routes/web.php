@@ -238,7 +238,8 @@ Route::prefix('teacher')->middleware(['auth', RoleMiddleware::class . ':teacher'
 });
 
 // Student Routes (Only for Students)
-Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')->group(function () {
+Route::prefix('student')->middleware(['auth', RoleMiddleware::class . ':student'])->name('student.')->group(function () {
+
     // Student Dashboard Route
     Route::get('/home', [StudentHomeController::class, 'index'])->name('home');
 
@@ -251,25 +252,26 @@ Route::prefix('student')->middleware(['auth', 'role:student'])->name('student.')
         Route::get('/{task}/submit', [StudentTaskSubmissionController::class, 'create'])->name('submit');
         Route::post('/{task}/submit', [StudentTaskSubmissionController::class, 'store'])->name('store');
         Route::get('/{task}/submission', [StudentTaskSubmissionController::class, 'show'])->name('show');
-
-        // New Routes for Edit and Update
         Route::get('/{task}/edit', [StudentTaskSubmissionController::class, 'edit'])->name('edit');
         Route::put('/{task}/update', [StudentTaskSubmissionController::class, 'update'])->name('update');
     });
 
-    Route::prefix('profile')->name('student.profile.')->group(function () {
+    // Profile Routes
+    Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('/', [StudentProfileController::class, 'index'])->name('index');
         Route::get('/edit', [StudentProfileController::class, 'edit'])->name('edit');
         Route::put('/update', [StudentProfileController::class, 'update'])->name('update');
     });
 
+    // Materials Routes
     Route::prefix('materials')->name('materials.')->controller(StudentMaterialController::class)->group(function () {
-        Route::get('/', 'index')->name('index'); // /student/materials
-        Route::get('/classroom', 'byClassroom')->name('byClassroom'); // /student/materials/classroom (optional)
-        Route::get('/classroom/{subject}', 'bySubject')->name('bySubject'); // /student/materials/classroom/{subject}
-        Route::get('/{material}/view', 'show')->name('view'); // /student/materials/5/view
+        Route::get('/', 'index')->name('index');
+        Route::get('/classroom', 'byClassroom')->name('byClassroom');
+        Route::get('/classroom/{subject}', 'bySubject')->name('bySubject');
+        Route::get('/{material}/view', 'show')->name('view');
     });
 
+    // Presence Routes
     Route::prefix('presence')->name('presence.')->controller(StudentPresenceController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/schedule/{schedule}', 'scheduleHistory')->name('schedule.history');
