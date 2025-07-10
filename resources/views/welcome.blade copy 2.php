@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Learning Platform</title>
+    <title>Bina Abdi Wiyata</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
@@ -50,7 +50,7 @@
 
     <!-- Hero -->
     <header class="bg-blue-500 text-white py-20 text-center">
-        <h1 class="text-5xl font-bold mb-4">Welcome to Our E-Learning Platform</h1>
+        <h1 class="text-5xl font-bold mb-4">Welcome to Our Bina Abdi Wiyata</h1>
         <p class="text-xl">Flexible, Effective, and Student-Focused Learning</p>
         <a href="{{ route('login') }}" class="mt-6 inline-block bg-white text-blue-600 px-6 py-3 rounded font-semibold">Login</a>
     </header>
