@@ -34,20 +34,20 @@
 </head>
 <body class="bg-gradient-to-r from-indigo-100 to-blue-200 min-h-screen flex items-center justify-center font-sans px-4 md:px-0">
 
-    <div class="w-full max-w-5xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
+    <div class="w-full max-w-5xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row my-32 md:my-0">
 
-    <!-- Left Side (Image + School Name) -->
-    <div class="hidden md:flex md:w-1/2 bg-white flex-col justify-center items-center text-[#262626] p-10">
-        <img src="{{ asset('images/login.png') }}" alt="School" class="w-full h-fit object-cover rounded-lg mb-6">
+        <!-- Left Side (Image + School Name) -->
+        <div class="hidden md:flex md:w-1/2 bg-white flex-col justify-center items-center text-[#262626] p-10">
+            <img src="{{ asset('images/login.png') }}" alt="School" class="w-full h-fit object-cover rounded-lg mb-6">
 
-        <!-- School Name + Logo -->
-        <div class="flex items-center space-x-3 mb-1">
-            <img src="{{ asset('images/baw-500.png') }}" alt="Logo" class="w-8 h-8 object-contain">
-            <h2 class="text-3xl font-bold">Bina Abdi Wiyata</h2>
+            <!-- School Name + Logo -->
+            <div class="flex items-center space-x-3 mb-1">
+                <img src="{{ asset('images/baw-500.png') }}" alt="Logo" class="w-8 h-8 object-contain">
+                <h2 class="text-3xl font-bold">Bina Abdi Wiyata</h2>
+            </div>
+
+            <p class="text-sm mt-2 text-center italic">A Life-improving Centre for Community Learning Activities</p>
         </div>
-
-        <p class="text-sm mt-2 text-center italic">A Life-improving Centre for Community Learning Activities</p>
-    </div>
 
         <!-- Right Side (Login Form) -->
         <div class="w-full md:w-1/2 p-8">

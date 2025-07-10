@@ -5,7 +5,7 @@
     <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 class="text-3xl font-bold text-gray-800">My Presence Schedule</h2>
 
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap md:justify-end md:items-end gap-2">
             <button onclick="togglePresenceView('listView')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
                 List View
             </button>
