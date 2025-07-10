@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Login</title>
+    <title>Login - Bina Abdi Wiyata</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         function switchLoginMethod(method) {
@@ -46,7 +46,7 @@
             <h2 class="text-3xl font-bold">Bina Abdi Wiyata</h2>
         </div>
 
-        <p class="text-sm mt-2 text-center">A Life-improving Centre for Community Learning Activities</p>
+        <p class="text-sm mt-2 text-center italic">A Life-improving Centre for Community Learning Activities</p>
     </div>
 
         <!-- Right Side (Login Form) -->
@@ -95,8 +95,9 @@
                     placeholder="Enter your password" required>
 
                 <!-- Forgot Password -->
-                <div class="text-right mb-6">
-                    <a href="{{ route('password.request') }}" class="text-blue-600 hover:underline text-sm">
+                <div class="flex justify-end mb-6">
+                    <a href="{{ route('password.request') }}"
+                    class="text-sm font-medium text-gray-600 hover:text-blue-700 transition duration-200">
                         Forgot Password?
                     </a>
                 </div>
@@ -109,9 +110,17 @@
             </form>
 
             <!-- Back to Landing -->
-            <div class="mt-6 text-center">
-                <a href="{{ route('welcome') }}" class="text-sm text-gray-600 hover:text-blue-600 underline">
-                    ← Back to Landing Page
+            <div class="mt-8 flex justify-center">
+                <a href="{{ route('welcome') }}"
+                class="inline-flex justify-center items-center text-sm font-medium text-gray-600 hover:text-blue-600 transition duration-200">
+                    <svg class="w-4 h-4 mr-1 mt-1" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    <span>
+                        Back to Landing Page
+                    </span>
                 </a>
             </div>
         </div>
