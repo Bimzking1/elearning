@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="flex w-full">
+<body class="flex w-full h-full">
 
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 w-full bg-blue-600 text-white p-4 md:hidden flex justify-between items-center z-20">
@@ -18,7 +18,7 @@
     </nav>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="w-64 bg-blue-600 min-h-screen text-white p-4 fixed md:relative md:translate-x-0 transition-transform duration-300 -translate-x-full z-10">
+    <aside id="sidebar" class="w-64 bg-blue-600 h-screen overflow-y-auto text-white p-4 fixed md:relative md:translate-x-0 transition-transform duration-300 -translate-x-full z-10">
         <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
         <ul>
             <li class="mb-2 mt-8 md:mt-0">
@@ -73,7 +73,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="flex items-center gap-2 py-2 px-2 bg-red-500 rounded w-full text-white hover:bg-red-600 transition">
+                        class="flex items-center gap-2 py-2 px-2 bg-red-500 rounded w-full text-white hover:bg-red-600 transition mb-16">
                         <i data-lucide="log-out" class="w-5 h-5"></i>
                         Logout
                     </button>
@@ -83,7 +83,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main id="mainContent" class="w-full flex-1 p-6 mt-16 md:mt-0 bg-gray-100 transition-all duration-300">
+    <main id="mainContent" class="w-full flex-1 p-6 mt-16 md:mt-0 bg-gray-100 transition-all duration-300 overflow-y-auto">
         <div id="contentContainer">
             @yield('content')
         </div>

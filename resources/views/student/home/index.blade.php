@@ -1,10 +1,10 @@
 @extends('layouts.student.dashboard')
 
 @section('content')
-<div class="w-full mx-auto p-6">
+<div class="w-full mx-auto mt-2 md:mt-0">
     {{-- Welcome Box --}}
     <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-2">Welcome, {{ auth()->user()->name }} 👋</h2>
+        <h2 class="text-3xl font-semibold text-gray-800 mb-4">Welcome, {{ auth()->user()->name }}</h2>
         <p class="text-gray-600 text-base">This is your student dashboard. Here you’ll find the latest announcements and updates from your school.</p>
     </div>
 

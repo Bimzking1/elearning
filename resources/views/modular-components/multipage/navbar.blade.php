@@ -31,8 +31,8 @@
     </div>
 
     <!-- Mobile Dropdown -->
-    <div x-show="open" @click.away="open = false" x-transition class="lg:hidden mt-2 px-4 py-4 bg-blue-600 space-y-2 rounded-lg shadow">
-        <a href="/" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Home</a>
+    <div x-show="open" @click.away="open = false" x-transition class="lg:hidden mt-2 bg-blue-600 space-y-2 rounded-lg shadow">
+        <a href="/" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition mt-4">Home</a>
         <a href="{{ route('register') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Admission</a>
         <a href="{{ route('programs') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Our Programs</a>
         <a href="{{ route('activities') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Our Activities</a>
