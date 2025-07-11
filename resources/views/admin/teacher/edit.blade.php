@@ -21,7 +21,7 @@
 
                 <div class="mb-2 w-48 aspect-[3/4] bg-gray-100 rounded-md overflow-hidden shadow relative">
                     <img id="photo-preview"
-                        src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('images/default-avatar.png') }}"
+                        src="{{ $user->photo ? assetSubmissionPhoto($user->photo) : asset('images/default-avatar.png') }}"
                         alt="Photo Preview"
                         class="w-full h-full object-cover absolute inset-0">
                 </div>
@@ -192,7 +192,7 @@
         const fileInput = document.getElementById('photo');
         const previewImg = document.getElementById('photo-preview');
         const deleteBtn = document.getElementById('delete-photo-btn');
-        const defaultImg = "{{ $user->photo ? asset('storage/' . $user->photo) : asset('images/default-avatar.png') }}";
+        const defaultImg = "{{ $user->photo ? assetSubmissionPhoto($user->photo) : asset('images/default-avatar.png') }}";
 
         fileInput.addEventListener('change', function (event) {
             const [file] = event.target.files;

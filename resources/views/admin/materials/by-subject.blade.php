@@ -28,7 +28,7 @@
 
                     @if($material->file_path)
                         <p class="text-sm text-blue-600 mb-1">
-                            <a href="{{ asset('storage/' . $material->file_path) }}" target="_blank" class="underline">View File</a>
+                            <a href="{{ assetSubmissionPhoto($material->file_path) }}" target="_blank" class="underline">View File</a>
                         </p>
                     @endif
 
