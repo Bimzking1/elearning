@@ -41,7 +41,7 @@
             @error('photo') <span class="text-red-500">{{ $message }}</span> @enderror
 
             @if($user->photo)
-                <img src="{{ asset('storage/' . $user->photo) }}" class="mt-2 w-24 h-24 rounded-full object-cover">
+                <img src="{{ assetSubmissionPhoto($user->photo) }}" class="mt-2 w-24 h-24 rounded-full object-cover">
             @endif
         </div>
 

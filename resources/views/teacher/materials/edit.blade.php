@@ -58,7 +58,7 @@
             <label class="block text-gray-700 font-medium">Replace File (Optional)</label>
             @if($material->file_path)
                 <p class="text-sm text-blue-600 mb-1">
-                    Current file: <a href="{{ asset('storage/' . $material->file_path) }}" target="_blank" class="underline">Download</a>
+                    Current file: <a href="{{ assetSubmissionPhoto($material->file_path) }}" target="_blank" class="underline">Download</a>
                 </p>
             @endif
             <input type="file" name="file" class="w-full mt-1">
