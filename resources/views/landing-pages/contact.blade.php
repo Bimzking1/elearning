@@ -11,7 +11,7 @@
 
     @include('/modular-components/multipage/navbar')
 
-    <main class="bg-gradient-to-b from-white to-blue-200 py-8 md:py-16">
+    <main class="bg-gradient-to-b from-white to-blue-200 py-8 md:py-10">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
 
             <!-- Section: Contact Info + Image -->
@@ -19,7 +19,7 @@
                 <!-- Left: Contact Info -->
                 <div class="space-y-4">
                     <!-- Heading -->
-                    <div>
+                    <div class="mb-8 md:mb-10">
                         <h1 class="text-4xl font-extrabold text-blue-900 mb-2">Contact Us</h1>
                         <p class="text-lg text-gray-600">We are ready to assist you with the best information and services.</p>
                     </div>
@@ -35,23 +35,16 @@
 
                     <!-- Whatsapp Card -->
                     <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h2 class="text-2xl font-semibold text-gray-800 mb-2">Whatsapp</h2>
-                        <p class="text-gray-800 font-medium mt-4">
-                            Phone: <span class="text-blue-900 text-xl">0877-0199-0961</span>
-                        </p>
-                        <p class="text-gray-800 font-medium">
-                            WhatsApp:
-                            <a href="https://wa.me/6287701990961" target="_blank" rel="noopener noreferrer" class="text-xl text-blue-900 hover:underline">
-                                0877-0199-0961
-                            </a>
-                        </p>
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-2">Whatsapp or Phone</h2>
+                        <a href="https://wa.me/6287701990961" target="_blank" rel="noopener noreferrer" class="text-xl text-blue-900 font-semibold hover:underline">
+                            0877-0199-0961
+                        </a>
                     </div>
 
                     <!-- Email Card -->
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h2 class="text-2xl font-semibold text-gray-800 mb-2">Email</h2>
-                        <p class="text-gray-900">Send your questions or inquiries to our official email address:</p>
-                        <a href="mailto:pkbmbaw2019@gmail.com" class="block mt-2 text-xl text-blue-600 font-semibold hover:underline">
+                        <a href="mailto:pkbmbaw2019@gmail.com" class="block mt-2 text-xl text-blue-900 font-semibold hover:underline">
                             pkbmbaw2019@gmail.com
                         </a>
                     </div>
