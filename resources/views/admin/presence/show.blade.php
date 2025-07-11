@@ -29,7 +29,6 @@
                 <tr>
                     <th class="px-4 py-3 text-left">ID</th>
                     <th class="px-4 py-3 text-left">Name</th>
-                    <th class="px-4 py-3 text-left">Subject</th>
                     <th class="px-4 py-3 text-left">Class</th>
                     <th class="px-4 py-3 text-left">Time</th>
                     <th class="px-4 py-3 text-left">Date Opened</th>
@@ -43,8 +42,7 @@
                 @forelse ($presences as $presence)
                     <tr class="border-b">
                         <td class="px-4 py-2">{{ $presence->id }}</td>
-                        <td class="px-4 py-2">{{ $presence->name }}</td>
-                        <td class="px-4 py-2">{{ $schedule->subject->name }}</td>
+                        <td class="px-4 py-2 min-w-[200px]">{{ $presence->name }}</td>
                         <td class="px-4 py-2">{{ $classroom->name }}</td>
                         <td class="px-4 py-2">{{ $schedule->start_time }} - {{ $schedule->end_time }}</td>
                         <td class="px-4 py-2">{{ $presence->opened_at->format('D, M j Y, H:i') }}</td>

@@ -27,19 +27,19 @@
             <tbody class="divide-y divide-gray-200">
                 @forelse ($users as $user)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
+                        <td class="px-6 py-4 max-w-[200px] truncate">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{{ $user->name }}</td>
-                        {{-- <td class="px-6 py-4 whitespace-nowrap">{{ $user->teacher->specialization ?? 'N/A' }}</td> --}}
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        {{-- <td class="px-6 py-4 max-w-[200px] truncate">{{ $user->teacher->specialization ?? 'N/A' }}</td> --}}
+                        <td class="px-6 py-4 max-w-[200px] truncate">
                             @php
                                 $spec = $user->teacher->specialization ?? [];
                                 $formatted = is_array($spec) ? $spec : json_decode($spec, true);
                             @endphp
                             {{ !empty($formatted) ? implode(', ', $formatted) : 'N/A' }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap capitalize">{{ $user->role }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                        <td class="px-6 py-4 max-w-[200px] truncate">{{ $user->email }}</td>
+                        <td class="px-6 py-4 max-w-[200px] truncate capitalize">{{ $user->role }}</td>
+                        <td class="px-6 py-4 max-w-[200px] truncate text-center">
                             <div class="flex justify-center space-x-2">
                                 <a
                                     href="{{ route('admin.teacher.edit', $user) }}"

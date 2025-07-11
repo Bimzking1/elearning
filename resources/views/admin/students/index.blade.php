@@ -25,7 +25,7 @@
                 @foreach ($students as $index => $student)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $index + 1 }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $student->user->name }}</td>
+                        <td class="px-6 py-4 max-w-[500px] truncate text-sm font-medium text-gray-900">{{ $student->user->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $student->classroom->name ?? 'N/A' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $student->phone }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">

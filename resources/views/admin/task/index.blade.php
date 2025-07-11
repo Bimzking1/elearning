@@ -26,7 +26,7 @@
                 @forelse ($tasks as $index => $task)
                     <tr class="hover:bg-gray-50">
                         <td class="px-4 py-3">{{ $index + 1 }}</td>
-                        <td class="px-4 py-3 font-medium text-gray-900">{{ $task->title }}</td>
+                        <td class="px-4 py-3 font-medium text-gray-900 max-w-[400px] truncate">{{ $task->title }}</td>
                         <td class="px-4 py-3">{{ $task->subject->name }}</td>
                         <td class="px-4 py-3">{{ $task->classroom->name }}</td>
                         <td class="px-4 py-3">
