@@ -36,7 +36,9 @@
             $specializations = auth()->user()->teacher->specialization ?? [];
         @endphp
 
-        @if (isset($subjects) && $subjects->count() > 1)
+        @if ($subjects->count() === 1)
+            <input type="hidden" name="subject_id" value="{{ $subjects->first()->id }}">
+        @elseif ($subjects->count() > 1)
             <div class="w-full">
                 <label for="subject_id" class="block text-sm font-medium text-gray-700">Subject</label>
                 <select name="subject_id" id="subject_id" required
@@ -52,8 +54,6 @@
                     <p class="text-red-600 text-sm">{{ $message }}</p>
                 @enderror
             </div>
-        @elseif (isset($subjects) && $subjects->count() === 1)
-            <input type="hidden" name="subject_id" value="{{ $subjects->first()->id }}">
         @endif
 
         <div class="w-full">

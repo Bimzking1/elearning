@@ -26,7 +26,7 @@
                 @foreach ($announcements as $announcement)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $announcement->title }}</td>
+                        <td class="px-6 py-4 max-w-[400px] truncate text-sm font-medium text-gray-900">{{ $announcement->title }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $announcement->start_date ?? 'No start date' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $announcement->end_date ?? 'No expiry' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">

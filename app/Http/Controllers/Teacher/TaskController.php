@@ -33,7 +33,7 @@ class TaskController extends Controller
         $classrooms = Classroom::all();
 
         // Get subjects based on specialization array
-        $subjects = [];
+        $subjects = collect(); // always use collection
         if (is_array($specializations) && count($specializations) > 0) {
             $subjects = Subject::whereIn('name', $specializations)->get();
         }

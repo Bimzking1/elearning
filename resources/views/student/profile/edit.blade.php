@@ -37,12 +37,15 @@
 
         <div class="mb-4">
             <label class="block font-medium text-gray-700">Profile Photo</label>
-            <input type="file" name="photo" class="w-full border rounded p-2">
+            <input type="file" name="photo" id="photo" class="w-full border rounded p-2" accept="image/*" onchange="previewPhoto(event)">
             @error('photo') <span class="text-red-500">{{ $message }}</span> @enderror
 
-            @if($user->photo)
-                <img src="{{ assetSubmissionPhoto($user->photo) }}" class="mt-2 w-24 h-24 rounded-full object-cover">
-            @endif
+            <div class="mt-2">
+                <img id="photoPreview"
+                    src="{{ $user->photo ? assetSubmissionPhoto($user->photo) : asset('images/default-avatar.png') }}"
+                    class="w-24 h-24 rounded-full object-cover border"
+                    alt="Profile Preview">
+            </div>
         </div>
 
         <hr class="my-6">
@@ -65,4 +68,19 @@
         </div>
     </form>
 </div>
+
+@push('scripts')
+<script>
+    function previewPhoto(event) {
+        const input = event.target;
+        const preview = document.getElementById('photoPreview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => preview.src = e.target.result;
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+@endpush
+
 @endsection
