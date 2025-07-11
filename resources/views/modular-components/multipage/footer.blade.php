@@ -1,6 +1,6 @@
 <!-- Footer -->
 <footer class="bg-blue-600 text-white py-10 text-center md:text-left">
-    <div class="w-full mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+    <div class="w-full max-w-[1280px] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
         <!-- Organization Info -->
         <div class="flex flex-col justify-center items-center md:justify-start md:items-start">
             <div class="w-[80px] flex justify-center md:justify-start items-center mb-4">
@@ -66,6 +66,6 @@
     </div>
 
     <div class="border-t border-blue-400 mt-8 pt-4 text-center text-sm">
-        <p>&copy; {{ date('Y') }} PKBM BINA ABDI WIYATA. All rights reserved.</p>
+        <p>&copy; {{ date('Y') }} PKBM BINA ABDI WIYATA</p>
     </div>
 </footer>

@@ -59,7 +59,7 @@
     </div>
 </section>
 
-<section id="why" class="py-8 md:py-16 bg-gray-50" id="why-us">
+<section id="why" class="py-8 md:py-16 bg-white" id="why-us">
   <div class="w-full mx-auto px-6 md:px-12 flex flex-col gap-12">
 
     <!-- Title -->
@@ -132,7 +132,7 @@
 </section>
 
 <!-- Motto -->
-<section id="motto" class="py-8 md:py-16 bg-blue-50 flex flex-col justify-center items-center">
+<section id="motto" class="py-8 md:py-16 bg-gradient-to-b from-white to-blue-200 flex flex-col justify-center items-center">
     <div class="max-w-4xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold text-blue-900 mb-4">Our Motto</h2>
         <p class="text-xl italic text-blue-600">"A Life-improving Centre for Community Learning Activities"</p>
@@ -154,7 +154,7 @@
 </section>
 
 <!-- Services -->
-<section id="services" class="py-8 md:py-16 bg-blue-50">
+<section id="services" class="py-8 md:py-16 bg-gradient-to-b from-blue-200 to-white">
     <div class="max-w-6xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold text-blue-900 mb-10">Our Programs & Services</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
@@ -361,7 +361,7 @@
 </section>
 
 <!-- Activities Preview -->
-<section id="activities" class="py-8 md:py-16 bg-white" x-data="previewGallery()" @keydown.escape.window="closeLightbox()">
+<section id="activities" class="py-8 md:py-16 bg-gradient-to-b from-white to-blue-200" x-data="previewGallery()" @keydown.escape.window="closeLightbox()">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center mb-10">
       <h2 class="text-3xl font-bold text-blue-900 mb-4">Student Activities</h2>
@@ -404,7 +404,7 @@
     <div
       x-show="lightboxOpen"
       style="display: none;"
-      class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+      class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-200"
       @click.self="closeLightbox()"
     >
       <button

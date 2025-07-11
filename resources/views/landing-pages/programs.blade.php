@@ -13,8 +13,8 @@
 
   <main class="max-w-7xl mx-auto px-6 lg:px-8 py-8 md:py-16">
     <section x-data="programPreview()" @keydown.escape.window="closeLightbox()">
-      <h1 class="text-4xl font-extrabold text-blue-900 mb-6 text-center">Our Programs</h1>
-      <p class="text-lg text-gray-600 mb-12 max-w-3xl mx-auto text-center">
+      <h1 class="text-4xl font-extrabold text-blue-900 mb-6 text-left">Our Programs</h1>
+      <p class="w-full text-lg text-gray-600 mb-12 text-left">
         PKBM Bina Abdi Wiyata offers alternative education pathways through the Kejar Paket programs and Homeschooling — ensuring everyone has the opportunity to complete their education at their own pace.
       </p>
 

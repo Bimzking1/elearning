@@ -9,7 +9,7 @@
             <div class="text-white text-2xl font-bold flex justify-center items-center">PKBM Bina Abdi Wiyata</div>
         </a>
 
-        <div class="hidden lg:flex space-x-1 justify-center items-center">
+        <div class="hidden lg:flex space-x-2 justify-center items-center">
             <a href="/" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Home</a>
             <a href="{{ route('register') }}" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Admission</a>
             <a href="{{ route('programs') }}" class="text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Our Programs</a>
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Mobile Dropdown -->
-    <div x-show="open" @click.away="open = false" x-transition class="lg:hidden mt-2 bg-blue-600 space-y-2 rounded-lg shadow">
+    <div x-show="open" @click.away="open = false" x-transition class="lg:hidden mt-2 bg-blue-600 space-y-3 rounded-lg">
         <a href="/" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition mt-4">Home</a>
         <a href="{{ route('register') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Admission</a>
         <a href="{{ route('programs') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Our Programs</a>
@@ -39,7 +39,7 @@
         <a href="{{ route('contact') }}" class="block text-white font-medium px-3 py-2 rounded hover:bg-blue-700 transition">Contact Us</a>
 
         <!-- Login Button -->
-        <a href="{{ route('login') }}" class="block text-center bg-white text-blue-600 font-semibold px-4 py-2 rounded hover:bg-blue-100 transition">
+        <a href="{{ route('login') }}" class="block text-center bg-white text-blue-600 font-semibold px-4 py-2 mt-2 rounded hover:bg-blue-100 transition">
             Login
         </a>
     </div>
