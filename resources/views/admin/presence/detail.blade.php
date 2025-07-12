@@ -67,7 +67,7 @@
                             <td class="px-4 py-2">{{ $submission->created_at->format('D, M j Y, H:i') }}</td>
                             <td class="px-4 py-2">
                                 @if ($submission->photo_path)
-                                    <button onclick="openPhotoModal('{{ assetSubmissionPhoto($submission->photo_path) }}')"
+                                    <button onclick="openPhotoModal('{{ app()->environment('local') ? asset('storage/' . $submission->photo_path) : asset('public/' . $submission->photo_path) }}')"
                                             class="text-blue-600 hover:underline">
                                         View Photo
                                     </button>
