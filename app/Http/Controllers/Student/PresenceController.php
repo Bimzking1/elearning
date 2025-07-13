@@ -77,6 +77,6 @@ class PresenceController extends Controller
             'photo_path' => $path,
         ]);
 
-        return redirect()->route('student.presence.index')->with('success', 'Presence submitted!');
+        return redirect()->route('student.presence.schedule.history', $presence->schedule_id)->with('success', 'Presence submitted!');
     }
 }

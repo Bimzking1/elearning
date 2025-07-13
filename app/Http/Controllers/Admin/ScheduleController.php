@@ -12,12 +12,49 @@ use Illuminate\Http\Request;
 class ScheduleController extends Controller
 {
     // Show all schedules
-    public function index()
+    public function index(Request $request)
     {
-        $schedules = Schedule::with(['classroom', 'subject', 'teacher'])->get();
+        $view = $request->get('view', 'table2');
+        $subjectFilter = $request->input('subject');
+        $classroomFilter = $request->input('classroom');
+
+        if ($view === 'table2') {
+            // Table View: show all classrooms and filter displayed schedule in blade
+            $schedules = Schedule::with(['classroom', 'subject', 'teacher.user'])->get();
+            $classrooms = Classroom::with(['schedules.subject', 'schedules.teacher.user'])->get();
+
+            return view('admin.schedule.index', compact('schedules', 'classrooms', 'view'))
+                ->with(['subjectFilter' => $subjectFilter, 'classroomFilter' => $classroomFilter]);
+        }
+
+        // List View
+        $query = Schedule::with(['classroom', 'subject', 'teacher.user']);
+
+        if ($subjectFilter) {
+            $query->whereHas('subject', function ($q) use ($subjectFilter) {
+                $q->where('name', 'like', '%' . $subjectFilter . '%');
+            });
+        }
+
+        if ($classroomFilter) {
+            $query->whereHas('classroom', function ($q) use ($classroomFilter) {
+                $q->where('name', 'like', '%' . $classroomFilter . '%');
+            });
+        }
+
+        $allowedSorts = ['day', 'start_time', 'classroom_id', 'subject_id', 'teacher_id'];
+        $sort = $request->get('sort');
+        $direction = $request->get('direction', 'asc');
+
+        if (in_array($sort, $allowedSorts)) {
+            $query->orderBy($sort, $direction);
+        }
+
+        $schedules = $query->paginate(20)->withQueryString();
         $classrooms = Classroom::all();
 
-        return view('admin.schedule.index', compact('schedules', 'classrooms'));
+        return view('admin.schedule.index', compact('schedules', 'classrooms', 'view', 'sort', 'direction'))
+            ->with(['subjectFilter' => $subjectFilter, 'classroomFilter' => $classroomFilter]);
     }
 
     // Show create form

@@ -13,9 +13,36 @@ use Illuminate\Support\Str;
 use App\Models\Subject;
 
 class TeacherController extends Controller {
-    public function index() {
-        $users = User::where('role', 'teacher')->get();
-        return view('admin.teacher.index', compact('users'));
+    public function index(Request $request)
+    {
+        $query = User::where('role', 'teacher')->with('teacher');
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('specialization')) {
+            $spec = $request->specialization;
+
+            // Filter by specialization inside the teacher relation
+            $query->whereHas('teacher', function ($q) use ($spec) {
+                $q->where(function ($q2) use ($spec) {
+                    $q2->where('specialization', 'like', '%' . $spec . '%');
+                });
+            });
+        }
+
+        $allowedSorts = ['name', 'email', 'role'];
+        $sort = $request->get('sort', 'name');
+        $direction = $request->get('direction', 'asc');
+
+        if (in_array($sort, $allowedSorts)) {
+            $query->orderBy($sort, $direction);
+        }
+
+        $users = $query->paginate(20)->withQueryString();
+
+        return view('admin.teacher.index', compact('users', 'sort', 'direction'));
     }
 
     public function create() {

@@ -11,7 +11,10 @@
 
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 w-full bg-blue-600 text-white p-4 md:hidden flex justify-between items-center z-20">
-        <h2 class="text-xl font-bold">Dashboard</h2>
+        <div class="flex items-center gap-3">
+            <img src="{{ asset('images/baw-logo-white.png') }}" alt="Logo" class="w-auto h-8">
+            <h2 class="text-xl font-bold">Dashboard</h2>
+        </div>
         <button id="menuToggle" class="bg-white text-blue-600 p-2 rounded-md">
             ☰
         </button>

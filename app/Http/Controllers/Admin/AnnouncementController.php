@@ -9,9 +9,23 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 class AnnouncementController extends Controller {
-    public function index() {
-        $announcements = Announcement::latest()->get();
-        return view('admin.announcement.index', compact('announcements'));
+    public function index(Request $request)
+    {
+        $query = Announcement::query();
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $sortableColumns = ['id', 'title', 'start_date', 'end_date'];
+        $sort = in_array($request->get('sort'), $sortableColumns) ? $request->get('sort') : 'start_date';
+        $direction = $request->get('direction') === 'asc' ? 'asc' : 'desc';
+
+        $announcements = $query->orderBy($sort, $direction)
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('admin.announcement.index', compact('announcements', 'sort', 'direction'));
     }
 
     public function create() {

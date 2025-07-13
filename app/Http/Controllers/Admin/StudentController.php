@@ -14,10 +14,39 @@ use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with('user', 'classroom')->get();
-        return view('admin.students.index', compact('students'));
+        $query = Student::with('user', 'classroom');
+
+        // 🔍 Search
+        if ($request->filled('search')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // 🔃 Sorting
+        $allowedSorts = ['name', 'classroom', 'phone'];
+        $sort = $request->get('sort', 'name');
+        $direction = $request->get('direction', 'asc');
+
+        if (in_array($sort, $allowedSorts)) {
+            if ($sort === 'name') {
+                $query->join('users', 'students.user_id', '=', 'users.id')
+                    ->orderBy('users.name', $direction)
+                    ->select('students.*');
+            } elseif ($sort === 'classroom') {
+                $query->leftJoin('classrooms', 'students.classroom_id', '=', 'classrooms.id')
+                    ->orderBy('classrooms.name', $direction)
+                    ->select('students.*');
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        }
+
+        $students = $query->paginate(20)->withQueryString();
+
+        return view('admin.students.index', compact('students', 'sort', 'direction'));
     }
 
     public function create()

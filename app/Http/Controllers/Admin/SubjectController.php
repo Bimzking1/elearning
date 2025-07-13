@@ -9,10 +9,27 @@ use Illuminate\Http\Request;
 class SubjectController extends Controller
 {
     // Show list of subject
-    public function index()
+    public function index(Request $request)
     {
-        $subject = Subject::all();
-        return view('admin.subjects.index', compact('subject'));
+        $query = Subject::query();
+
+        // 🔍 Search by subject name
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // 🔃 Sorting
+        $allowedSorts = ['name', 'description'];
+        $sort = $request->get('sort', 'name');
+        $direction = $request->get('direction', 'asc');
+
+        if (in_array($sort, $allowedSorts)) {
+            $query->orderBy($sort, $direction);
+        }
+
+        $subjects = $query->paginate(20)->withQueryString();
+
+        return view('admin.subjects.index', compact('subjects', 'sort', 'direction'));
     }
 
     // Show form to create new subject

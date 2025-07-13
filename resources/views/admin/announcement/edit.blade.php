@@ -78,7 +78,7 @@
                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             @if($announcement->attachment)
                 <div class="mt-4">
-                    <a class="italic text-blue-600" href="{{ assetSubmissionPhoto($announcement->attachment) }}" target="_blank">Click to view attachment file or image</a>
+                    <a class="italic text-blue-600" href="{{ asset('storage/' . $announcement->attachment) }}" target="_blank">Click to view attachment file or image</a>
                 </div>
             @endif
         </div>

@@ -13,10 +13,32 @@ use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::with(['classroom', 'subject', 'teacher'])->latest()->get();
-        return view('admin.task.index', compact('tasks'));
+        $query = Task::query()
+            ->leftJoin('subjects', 'tasks.subject_id', '=', 'subjects.id')
+            ->leftJoin('classrooms', 'tasks.classroom_id', '=', 'classrooms.id')
+            ->leftJoin('teachers', 'tasks.teacher_id', '=', 'teachers.id')
+            ->select('tasks.*', 'subjects.name as subject_name', 'classrooms.name as classroom_name')
+            ->with(['subject', 'classroom', 'teacher']);
+
+        // 🔍 Search by task title
+        if ($request->filled('search')) {
+            $query->where('tasks.title', 'like', '%' . $request->search . '%');
+        }
+
+        // 🔃 Sorting logic
+        $allowedSorts = ['title', 'deadline', 'subject_name', 'classroom_name'];
+        $sort = $request->get('sort', 'deadline');
+        $direction = $request->get('direction', 'desc');
+
+        if (in_array($sort, $allowedSorts)) {
+            $query->orderBy($sort, $direction);
+        }
+
+        $tasks = $query->paginate(20)->withQueryString();
+
+        return view('admin.task.index', compact('tasks', 'sort', 'direction'));
     }
 
     public function create()

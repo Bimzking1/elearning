@@ -38,11 +38,27 @@ class MaterialController extends Controller
         $subject = Subject::findOrFail($subjectId);
         $classroom = Classroom::findOrFail($classroomId);
 
-        $materials = Material::where('subject_id', $subjectId)
-                            ->where('classroom_id', $classroomId)
-                            ->get();
+        $query = Material::where('subject_id', $subjectId)
+                        ->where('classroom_id', $classroomId);
 
-        return view('admin.materials.by-subject', compact('subject', 'classroom', 'materials'));
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $sortableColumns = ['name', 'created_at'];
+        $sort = in_array($request->get('sort'), $sortableColumns) ? $request->get('sort') : 'created_at';
+        $direction = $request->get('direction') === 'asc' ? 'asc' : 'desc';
+
+        $materials = $query->orderBy($sort, $direction)
+                        ->paginate(20)
+                        ->appends([
+                            'search' => $request->search,
+                            'view' => $request->view,
+                            'sort' => $sort,
+                            'direction' => $direction
+                        ]);
+
+        return view('admin.materials.by-subject', compact('subject', 'classroom', 'materials', 'sort', 'direction'));
     }
 
     public function create(Request $request)

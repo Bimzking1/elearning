@@ -50,10 +50,10 @@
 
         <div class="mt-4">
             <p class="font-medium text-gray-700 mb-2">Your submitted photo:</p>
-            <img src="{{ assetSubmissionPhoto($submitted->photo_path) }}"
+            <img src="{{ asset('storage/' . $submitted->photo_path) }}"
                  alt="Selfie submission"
                  class="w-48 h-auto rounded-md border border-gray-300 shadow-sm cursor-pointer hover:opacity-90 transition"
-                 onclick="openPhotoModal('{{ assetSubmissionPhoto($submitted->photo_path) }}')">
+                 onclick="openPhotoModal('{{ asset('storage/' . $submitted->photo_path) }}')">
 
             <p class="text-sm text-gray-600 mt-2">
                 Submitted at: {{ \Carbon\Carbon::parse($submitted->created_at)->format('D, M j Y, H:i') }}

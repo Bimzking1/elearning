@@ -10,14 +10,41 @@ use App\Models\Task;
 class TaskSubmissionController extends Controller
 {
     // Show list of all task submissions (optional: filter by admin's tasks)
-    public function index($taskId)
+    public function index(Request $request, $taskId)
     {
-        // Only get submissions for the specific task
-        $submissions = TaskSubmission::with(['task', 'student.user'])
-                        ->where('task_id', $taskId)
-                        ->get();
+        $query = TaskSubmission::with(['task', 'student.user'])
+            ->where('task_id', $taskId);
 
-        return view('admin.submissions.index', compact('submissions'));
+        // Search
+        if ($request->filled('search')) {
+            $query->whereHas('student.user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Sorting
+        $allowedSorts = ['student_name', 'task_title', 'created_at', 'score'];
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+
+        if (in_array($sort, $allowedSorts)) {
+            if ($sort === 'student_name') {
+                $query->join('students', 'task_submissions.student_id', '=', 'students.id')
+                    ->join('users', 'students.user_id', '=', 'users.id')
+                    ->orderBy('users.name', $direction)
+                    ->select('task_submissions.*');
+            } elseif ($sort === 'task_title') {
+                $query->join('tasks', 'task_submissions.task_id', '=', 'tasks.id')
+                    ->orderBy('tasks.title', $direction)
+                    ->select('task_submissions.*');
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        }
+
+        $submissions = $query->paginate(20)->withQueryString();
+
+        return view('admin.submissions.index', compact('submissions', 'sort', 'direction'));
     }
 
     // Show form to grade a submission

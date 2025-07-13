@@ -42,7 +42,7 @@
 
             <div class="mt-2">
                 <img id="photoPreview"
-                    src="{{ $user->photo ? assetSubmissionPhoto($user->photo) : asset('images/default-avatar.png') }}"
+                    src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('images/default-avatar.png') }}"
                     class="w-24 h-24 rounded-full object-cover border"
                     alt="Profile Preview">
             </div>
