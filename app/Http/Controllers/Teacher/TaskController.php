@@ -13,15 +13,34 @@ use Carbon\Carbon;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $teacherId = Auth::user()->teacher->id;
-        $tasks = Task::with(['classroom', 'subject'])
-                     ->where('teacher_id', $teacherId)
-                     ->latest()
-                     ->get();
 
-        return view('teacher.task.index', compact('tasks'));
+        $query = Task::with(['classroom', 'subject'])
+                    ->where('teacher_id', $teacherId);
+
+        // Search by task title
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Sorting
+        $allowedSorts = ['title', 'due_date', 'subject_id', 'classroom_id'];
+        $sort = $request->get('sort', 'title');
+        $direction = $request->get('direction', 'asc');
+
+        if (in_array($sort, $allowedSorts)) {
+            if (in_array($sort, ['subject_id', 'classroom_id'])) {
+                $query->orderBy($sort, $direction);
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        }
+
+        $tasks = $query->paginate(20)->withQueryString();
+
+        return view('teacher.task.index', compact('tasks', 'sort', 'direction'));
     }
 
     public function create()

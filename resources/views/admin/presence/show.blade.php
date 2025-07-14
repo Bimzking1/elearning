@@ -23,18 +23,47 @@
         </button>
     </div>
 
+    {{-- NEW: Search Bar --}}
+    <form method="GET" class="mb-4 flex flex-col md:flex-row gap-2 items-center">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by presence name"
+            class="w-full md:w-1/3 border border-gray-300 rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+
+        <div class="flex gap-2">
+            <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                Search
+            </button>
+
+            @if(request('search'))
+                <a href="{{ url()->current() }}"
+                    class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 transition">
+                    Clear Search
+                </a>
+            @endif
+        </div>
+    </form>
+
     <div class="overflow-x-auto">
         <table class="w-full min-w-[1000px] table-auto bg-white border border-gray-300 text-sm">
             <thead class="bg-gray-100 text-gray-700 uppercase">
                 <tr>
-                    <th class="px-4 py-3 text-left">ID</th>
-                    <th class="px-4 py-3 text-left">Name</th>
+                    @php
+                        function sortLink($label, $column, $sort, $direction) {
+                            $isSorted = $sort === $column;
+                            $newDirection = ($isSorted && $direction === 'asc') ? 'desc' : 'asc';
+                            $arrow = $isSorted ? ($direction === 'asc' ? '↑' : '↓') : '';
+                            $url = request()->fullUrlWithQuery(['sort' => $column, 'direction' => $newDirection]);
+                            return '<a href="'.$url.'" class="hover:underline">'.$label.' '.$arrow.'</a>';
+                        }
+                    @endphp
+                    <th class="px-4 py-3 text-left">{!! sortLink('ID', 'id', $sort, $direction) !!}</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('Name', 'name', $sort, $direction) !!}</th>
                     <th class="px-4 py-3 text-left">Class</th>
                     <th class="px-4 py-3 text-left">Time</th>
-                    <th class="px-4 py-3 text-left">Date Opened</th>
-                    <th class="px-4 py-3 text-left">Date Re-Opened</th>
-                    <th class="px-4 py-3 text-left">Last Date Closed</th>
-                    <th class="px-4 py-3 text-left">Status</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('Date Opened', 'opened_at', $sort, $direction) !!}</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('Date Re-Opened', 'reopened_at', $sort, $direction) !!}</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('Last Date Closed', 'closed_at', $sort, $direction) !!}</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('Status', 'status', $sort, $direction) !!}</th>
                     <th class="px-4 py-3 text-left">Action</th>
                 </tr>
             </thead>
@@ -42,18 +71,14 @@
                 @forelse ($presences as $presence)
                     <tr class="border-b">
                         <td class="px-4 py-2">{{ $presence->id }}</td>
-                        <td class="px-4 py-2 min-w-[200px]">{{ $presence->name }}</td>
+                        <td class="px-4 py-2">{{ $presence->name }}</td>
                         <td class="px-4 py-2">{{ $classroom->name }}</td>
                         <td class="px-4 py-2">{{ $schedule->start_time }} - {{ $schedule->end_time }}</td>
-                        <td class="px-4 py-2">{{ $presence->opened_at->format('D, M j Y, H:i') }}</td>
-                        <td class="px-4 py-2">
-                            {{ $presence->reopened_at ? $presence->reopened_at->format('D, M j Y, H:i') : '-' }}
-                        </td>
-                        <td class="px-4 py-2">
-                            {{ $presence->closed_at ? $presence->closed_at->format('D, M j Y, H:i') : '-' }}
-                        </td>
+                        <td class="px-4 py-2">{{ $presence->opened_at?->format('D, M j Y, H:i') }}</td>
+                        <td class="px-4 py-2">{{ $presence->reopened_at?->format('D, M j Y, H:i') ?? '-' }}</td>
+                        <td class="px-4 py-2">{{ $presence->closed_at?->format('D, M j Y, H:i') ?? '-' }}</td>
                         <td class="px-4 py-2 font-medium">
-                            @if ($presence->closed_at === null)
+                            @if (is_null($presence->closed_at))
                                 <span class="text-green-600">Open</span>
                             @else
                                 <span class="text-gray-600">Closed</span>
@@ -61,11 +86,11 @@
                         </td>
                         <td class="px-4 py-2">
                             <div class="flex flex-wrap gap-2">
-                                @if ($presence->closed_at === null)
+                                @if (is_null($presence->closed_at))
                                     <form action="{{ route('admin.presence.close', [$classroom->id, $schedule->id, $presence->id]) }}" method="POST">
                                         @csrf
                                         <button type="submit"
-                                                class="inline-flex items-center px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded hover:bg-red-200">
+                                            class="inline-flex items-center px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded hover:bg-red-200">
                                             Close
                                         </button>
                                     </form>
@@ -73,20 +98,20 @@
                                     <form action="{{ route('admin.presence.reopen', [$classroom->id, $schedule->id, $presence->id]) }}" method="POST">
                                         @csrf
                                         <button type="submit"
-                                                class="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded hover:bg-yellow-200">
+                                            class="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded hover:bg-yellow-200">
                                             Reopen
                                         </button>
                                     </form>
                                 @endif
 
                                 <button type="button"
-                                        onclick="openEditModal({{ $presence->id }}, '{{ addslashes($presence->name) }}')"
-                                        class="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded hover:bg-indigo-200">
+                                    onclick="openEditModal({{ $presence->id }}, '{{ addslashes($presence->name) }}')"
+                                    class="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded hover:bg-indigo-200">
                                     Edit
                                 </button>
 
                                 <a href="{{ route('admin.presence.view', [$classroom->id, $schedule->id, $presence->id]) }}"
-                                class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded hover:bg-blue-200">
+                                    class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded hover:bg-blue-200">
                                     View
                                 </a>
 
@@ -96,7 +121,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                            class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded hover:bg-gray-200">
+                                        class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded hover:bg-gray-200">
                                         Delete
                                     </button>
                                 </form>
@@ -105,11 +130,16 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="9" class="text-center text-gray-500 py-4">No presence history yet.</td>
+                        <td colspan="9" class="text-center text-gray-500 py-4">No presence history found.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
+    </div>
+
+    {{-- NEW: Pagination --}}
+    <div class="mt-6">
+        {{ $presences->links() }}
     </div>
 
     <div id="openPresenceModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
@@ -162,50 +192,6 @@
             </form>
         </div>
     </div>
+
 </div>
-
-<script>
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-            document.getElementById('openPresenceModal').classList.add('hidden');
-        }
-    });
-
-    document.addEventListener('click', function(event) {
-        const modal = document.getElementById('openPresenceModal');
-        if (event.target === modal) {
-            modal.classList.add('hidden');
-        }
-    });
-</script>
-
-<script>
-    function openEditModal(presenceId, presenceName) {
-        const modal = document.getElementById('editPresenceModal');
-        const form = document.getElementById('editPresenceForm');
-        const nameInput = document.getElementById('edit_name');
-
-        form.action = `/admin/presence/update-name/${presenceId}`;
-        nameInput.value = presenceName;
-
-        modal.classList.remove('hidden');
-    }
-
-    // Close modal on escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-            document.getElementById('editPresenceModal').classList.add('hidden');
-        }
-    });
-
-    // Close modal when clicking outside
-    document.addEventListener('click', function(event) {
-        const modal = document.getElementById('editPresenceModal');
-        if (event.target === modal) {
-            modal.classList.add('hidden');
-        }
-    });
-</script>
-
 @endsection
-

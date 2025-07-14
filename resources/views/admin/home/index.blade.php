@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-3xl font-bold text-gray-800">Home Page</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Home Page</h2>
         <p>Welcome to the Admin Dashboard.</p>
     </div>
     <div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md mt-6">

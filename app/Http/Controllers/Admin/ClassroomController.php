@@ -12,10 +12,34 @@ class ClassroomController extends Controller
     /**
      * Display a listing of the classrooms.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $classrooms = Classroom::with('teacher')->get();
-        return view('admin.classrooms.index', compact('classrooms'));
+        $query = Classroom::with('teacher.user');
+
+        // 🔍 Search by classroom name
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // 🔃 Sorting
+        $allowedSorts = ['name', 'teacher'];
+        $sort = $request->get('sort', 'name');
+        $direction = $request->get('direction', 'asc');
+
+        if (in_array($sort, $allowedSorts)) {
+            if ($sort === 'teacher') {
+                $query->leftJoin('teachers', 'classrooms.teacher_id', '=', 'teachers.id')
+                    ->leftJoin('users', 'teachers.user_id', '=', 'users.id')
+                    ->orderBy('users.name', $direction)
+                    ->select('classrooms.*');
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        }
+
+        $classrooms = $query->paginate(20)->withQueryString();
+
+        return view('admin.classrooms.index', compact('classrooms', 'sort', 'direction'));
     }
 
     /**

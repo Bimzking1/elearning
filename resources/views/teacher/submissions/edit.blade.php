@@ -89,7 +89,7 @@
         @if($submission->submission_file)
             <div>
                 <h4 class="text-md font-semibold text-gray-700">Submitted File:</h4>
-                <a href="{{ assetSubmissionPhoto($submission->submission_file) }}"
+                <a href="{{ asset('storage/' . $submission->submission_file) }}"
                    class="text-blue-600 hover:underline text-sm font-medium"
                    download>
                     Download Submission File

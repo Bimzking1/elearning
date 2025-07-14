@@ -14,31 +14,15 @@ class StudentSeeder extends Seeder
     public function run(): void
     {
         $classrooms = Classroom::all();
-        $nis = 202502001; // Start from this number
         $faker = Faker::create();
 
-        // ✅ Add default student first
-        // $defaultStudentUser = User::create([
-        //     'name' => 'Default Student',
-        //     'email' => 'student@gmail.com',
-        //     'password' => Hash::make('12345678'), // password: student
-        //     'role' => 'student',
-        // ]);
+        $nis = 202502001; // Start from this number
 
-        // Student::create([
-        //     'user_id' => $defaultStudentUser->id,
-        //     'nis' => (string)$nis++,
-        //     'date_of_birth' => now()->subYears(15)->subDays(rand(0, 365)),
-        //     'gender' => 'female',
-        //     'phone' => '081234567890',
-        //     'address' => 'Default Student Address',
-        //     'classroom_id' => $classrooms->random()->id,
-        //     'guardian_name' => $faker->name,
-        //     'guardian_phone' => '081122334455',
-        // ]);
-
-        // 🌀 Add random students
         for ($i = 1; $i <= 5; $i++) {
+            // Generate nisn by appending the last 4 digits of nis
+            $last3 = substr($nis, -3); // get last 4 digits
+            $nisn = $nis . $last3;
+
             $user = User::create([
                 'name' => $faker->name,
                 'email' => "student$i@gmail.com",
@@ -48,7 +32,8 @@ class StudentSeeder extends Seeder
 
             Student::create([
                 'user_id' => $user->id,
-                'nis' => (string)$nis++,
+                'nis' => (string)$nis,
+                'nisn' => (string)$nisn,
                 'date_of_birth' => now()->subYears(15)->subDays(rand(0, 365)),
                 'gender' => ['male', 'female'][rand(0, 1)],
                 'phone' => '08' . rand(100000000, 999999999),
@@ -57,6 +42,8 @@ class StudentSeeder extends Seeder
                 'guardian_name' => $faker->name,
                 'guardian_phone' => '08' . rand(100000000, 999999999),
             ]);
+
+            $nis++; // increment for next student
         }
     }
 }

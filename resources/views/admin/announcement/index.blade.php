@@ -10,22 +10,52 @@
         </a>
     </div>
 
+    {{-- Search --}}
+    <form method="GET" class="mb-4 flex flex-col md:flex-row gap-2 items-center max-w-md">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title"
+            class="w-full border border-gray-300 rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+
+        <div class="flex gap-2">
+            <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                Search
+            </button>
+
+            @if(request('search'))
+                <a href="{{ url()->current() }}"
+                    class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 transition">
+                    Clear Search
+                </a>
+            @endif
+        </div>
+    </form>
+
     <div class="overflow-x-auto">
+        @php
+            function sortLink($label, $column, $sort, $direction) {
+                $isSorted = $sort === $column;
+                $newDirection = ($isSorted && $direction === 'asc') ? 'desc' : 'asc';
+                $arrow = $isSorted ? ($direction === 'asc' ? '↑' : '↓') : '';
+                $url = request()->fullUrlWithQuery(['sort' => $column, 'direction' => $newDirection]);
+                return '<a href="'.$url.'" class="hover:underline">'.$label.' '.$arrow.'</a>';
+            }
+        @endphp
+
         <table class="w-full bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
             <thead class="bg-gray-100">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">#</th>
-                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Title</th>
-                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Start Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">End Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">{!! sortLink('#', 'id', $sort, $direction) !!}</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">{!! sortLink('Title', 'title', $sort, $direction) !!}</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">{!! sortLink('Start Date', 'start_date', $sort, $direction) !!}</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">{!! sortLink('End Date', 'end_date', $sort, $direction) !!}</th>
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Roles</th>
                     <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-                @foreach ($announcements as $announcement)
+                @forelse ($announcements as $announcement)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $loop->iteration }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $announcement->id }}</td>
                         <td class="px-6 py-4 max-w-[400px] truncate text-sm font-medium text-gray-900">{{ $announcement->title }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $announcement->start_date ?? 'No start date' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $announcement->end_date ?? 'No expiry' }}</td>
@@ -54,17 +84,18 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
-
-                @if ($announcements->isEmpty())
+                @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                            No announcements found.
-                        </td>
+                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">No announcements found.</td>
                     </tr>
-                @endif
+                @endforelse
             </tbody>
         </table>
+    </div>
+
+    {{-- Pagination --}}
+    <div class="mt-6">
+        {{ $announcements->links() }}
     </div>
 </div>
 @endsection

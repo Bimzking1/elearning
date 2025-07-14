@@ -1,6 +1,18 @@
 @extends('layouts.teacher.dashboard')
 
 @section('content')
+@php
+    function sortLink($column, $label, $currentSort, $currentDirection) {
+        $newDirection = ($currentSort === $column && $currentDirection === 'asc') ? 'desc' : 'asc';
+        $arrow = ($currentSort === $column) ? ($currentDirection === 'asc' ? '↑' : '↓') : '';
+        $query = request()->all();
+        $query['sort'] = $column;
+        $query['direction'] = $newDirection;
+        $url = url()->current() . '?' . http_build_query($query);
+        return "<a href=\"$url\" class=\"hover:underline\">$label $arrow</a>";
+    }
+@endphp
+
 <div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
 
     {{-- Back Button --}}
@@ -42,6 +54,25 @@
         @endif
     </div>
 
+    {{-- Search --}}
+    <form method="GET" class="mb-4 flex flex-wrap gap-2 items-center">
+        <input type="text" name="search" value="{{ request('search') }}"
+               placeholder="Search by student name..."
+               class="px-4 py-2 border rounded w-full sm:w-auto">
+
+        <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            Search
+        </button>
+
+        @if(request('search'))
+            <a href="{{ url()->current() }}"
+               class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded transition">
+                Clear Search
+            </a>
+        @endif
+    </form>
+
     {{-- Submission Table --}}
     @if ($submissions->isEmpty())
         <div class="text-center text-gray-500 py-6">No students have submitted presence yet.</div>
@@ -51,22 +82,22 @@
                 <thead class="bg-gray-100 text-gray-700 uppercase">
                     <tr>
                         <th class="px-4 py-3 text-left">#</th>
-                        <th class="px-4 py-3 text-left">Student Name</th>
-                        <th class="px-4 py-3 text-left">NIS</th>
-                        <th class="px-4 py-3 text-left">Attended At</th>
+                        <th class="px-4 py-3 text-left">{!! sortLink('student_name', 'Student Name', $sort ?? '', $direction ?? '') !!}</th>
+                        <th class="px-4 py-3 text-left">{!! sortLink('nis', 'NIS', $sort ?? '', $direction ?? '') !!}</th>
+                        <th class="px-4 py-3 text-left">{!! sortLink('created_at', 'Attended At', $sort ?? '', $direction ?? '') !!}</th>
                         <th class="px-4 py-3 text-left">Photo</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-800">
                     @foreach ($submissions as $index => $submission)
                         <tr class="border-b hover:bg-gray-50">
-                            <td class="px-4 py-2">{{ $index + 1 }}</td>
+                            <td class="px-4 py-2">{{ ($submissions->currentPage() - 1) * $submissions->perPage() + $index + 1 }}</td>
                             <td class="px-4 py-2">{{ $submission->student->user->name }}</td>
                             <td class="px-4 py-2">{{ $submission->student->nis }}</td>
                             <td class="px-4 py-2">{{ $submission->created_at->format('D, M j Y, H:i') }}</td>
                             <td class="px-4 py-2">
                                 @if ($submission->photo_path)
-                                    <button onclick="openPhotoModal('{{ assetSubmissionPhoto($submission->photo_path) }}')"
+                                    <button onclick="openPhotoModal('{{ asset('storage/' . $submission->photo_path) }}')"
                                             class="text-blue-600 hover:underline">
                                         View Photo
                                     </button>
@@ -78,6 +109,11 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+
+        {{-- Pagination --}}
+        <div class="mt-6">
+            {{ $submissions->links() }}
         </div>
     @endif
 </div>

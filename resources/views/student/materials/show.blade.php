@@ -39,7 +39,7 @@
     @if($material->file_path)
     <div>
         <h3 class="text-lg font-semibold text-gray-800 mb-1">Attached File</h3>
-        <a href="{{ assetSubmissionPhoto($material->file_path) }}" target="_blank"
+        <a href="{{ asset('storage/' . $material->file_path) }}" target="_blank"
            class="text-blue-600 underline hover:text-blue-800 text-sm">
             View / Download File
         </a>

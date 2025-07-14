@@ -51,7 +51,7 @@
         @if($submission->submission_file)
         <div class="mb-6">
             <strong>Submitted File:</strong>
-            <a href="{{ assetSubmissionPhoto($submission->submission_file) }}" class="text-blue-600 hover:text-blue-700" download>
+            <a href="{{ asset('storage/' . $submission->submission_file) }}" class="text-blue-600 hover:text-blue-700" download>
                 Download Submission File
             </a>
         </div>

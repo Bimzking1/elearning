@@ -13,14 +13,41 @@ use Carbon\Carbon;
 class TaskSubmissionController extends Controller
 {
     // Display all tasks assigned to the student
-    public function index()
+    public function index(Request $request)
     {
         $studentId = Auth::user()->student->id;
-        $tasks = Task::whereHas('classroom.students', function($query) use ($studentId) {
-            $query->where('students.id', $studentId);
-        })->get();
 
-        return view('student.tasks.index', compact('tasks'));
+        $query = Task::whereHas('classroom.students', function ($q) use ($studentId) {
+            $q->where('students.id', $studentId);
+        });
+
+        if ($request->filled('task')) {
+            $query->where('title', 'like', '%' . $request->task . '%');
+        }
+
+        if ($request->filled('subject')) {
+            $query->whereHas('subject', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->subject . '%');
+            });
+        }
+
+        $sortable = ['title', 'deadline'];
+        $sort = in_array($request->get('sort'), $sortable) ? $request->get('sort') : 'deadline';
+        $direction = $request->get('direction') === 'asc' ? 'asc' : 'desc';
+
+        $tasks = $query->with(['subject', 'submissions' => function ($q) use ($studentId) {
+            $q->where('student_id', $studentId);
+        }])
+        ->orderBy($sort, $direction)
+        ->paginate(20)
+        ->appends([
+            'task' => $request->task,
+            'subject' => $request->subject,
+            'sort' => $sort,
+            'direction' => $direction
+        ]);
+
+        return view('student.tasks.index', compact('tasks', 'sort', 'direction'));
     }
 
     // Display the task submission form for a particular task
