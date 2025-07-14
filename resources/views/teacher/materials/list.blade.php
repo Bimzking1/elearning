@@ -8,7 +8,7 @@
             ← Back
         </a>
     </div>
-    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mt-4 mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Subjects in {{ $classroom->name }}</h2>
         <a href="{{ route('teacher.materials.create') }}?classroom_id={{ $classroom->id }}"
            class="w-full md:w-auto text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">

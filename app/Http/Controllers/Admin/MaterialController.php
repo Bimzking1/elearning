@@ -55,8 +55,10 @@ class MaterialController extends Controller
                             'search' => $request->search,
                             'view' => $request->view,
                             'sort' => $sort,
-                            'direction' => $direction
-                        ]);
+                            'direction' => $direction,
+                            'classroom_id' => $classroomId,
+                        ])
+                        ->withPath(route('admin.materials.bySubject', ['subject' => $subjectId])); // 🔧 fix URL base
 
         return view('admin.materials.by-subject', compact('subject', 'classroom', 'materials', 'sort', 'direction'));
     }

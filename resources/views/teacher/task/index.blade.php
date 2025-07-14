@@ -1,7 +1,20 @@
 @extends('layouts.teacher.dashboard')
 
 @section('content')
+@php
+    function sortLink($column, $label, $currentSort, $currentDirection) {
+        $newDirection = ($currentSort === $column && $currentDirection === 'asc') ? 'desc' : 'asc';
+        $arrow = ($currentSort === $column) ? ($currentDirection === 'asc' ? '↑' : '↓') : '';
+        $query = request()->all();
+        $query['sort'] = $column;
+        $query['direction'] = $newDirection;
+        $url = route('teacher.tasks.index', $query);
+        return "<a href=\"$url\" class=\"hover:underline\">$label $arrow</a>";
+    }
+@endphp
+
 <div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
+    {{-- Header --}}
     <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Manage Tasks</h2>
         <a href="{{ route('teacher.tasks.create') }}"
@@ -10,22 +23,42 @@
         </a>
     </div>
 
+    {{-- Search --}}
+    <form method="GET" class="mb-4 flex flex-wrap gap-2 items-center">
+        <input type="text" name="search" value="{{ request('search') }}"
+               placeholder="Search by task title..."
+               class="px-4 py-2 border rounded w-full sm:w-auto">
+
+        <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            Search
+        </button>
+
+        @if(request('search'))
+            <a href="{{ route('teacher.tasks.index') }}"
+               class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded transition">
+                Clear Search
+            </a>
+        @endif
+    </form>
+
+    {{-- Table --}}
     <div class="overflow-x-auto">
         <table class="min-w-full table-fixed bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm text-sm">
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold tracking-wider">
                 <tr>
                     <th class="w-12 px-4 py-3 text-left">#</th>
-                    <th class="w-1/4 px-4 py-3 text-left">Title</th>
-                    <th class="w-1/5 px-4 py-3 text-left">Subject</th>
-                    <th class="w-1/5 px-4 py-3 text-left">Classroom</th>
-                    <th class="w-1/5 px-4 py-3 text-left">Due Date</th>
+                    <th class="w-1/4 px-4 py-3 text-left">{!! sortLink('title', 'Title', $sort ?? '', $direction ?? '') !!}</th>
+                    <th class="w-1/5 px-4 py-3 text-left">{!! sortLink('subject_id', 'Subject', $sort ?? '', $direction ?? '') !!}</th>
+                    <th class="w-1/5 px-4 py-3 text-left">{!! sortLink('classroom_id', 'Classroom', $sort ?? '', $direction ?? '') !!}</th>
+                    <th class="w-1/5 px-4 py-3 text-left">{!! sortLink('due_date', 'Due Date', $sort ?? '', $direction ?? '') !!}</th>
                     <th class="w-32 px-4 py-3 text-center">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-                @forelse ($tasks as $task)
+                @forelse ($tasks as $index => $task)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-3">{{ ($tasks->currentPage() - 1) * $tasks->perPage() + $index + 1 }}</td>
                         <td class="px-4 py-3 font-medium text-gray-900 min-w-[200px]">{{ $task->title }}</td>
                         <td class="px-4 py-3">{{ $task->subject->name }}</td>
                         <td class="px-4 py-3">{{ $task->classroom->name }}</td>
@@ -46,7 +79,9 @@
                                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md shadow text-sm transition">
                                     Edit
                                 </a>
-                                <form action="{{ route('teacher.tasks.destroy', $task->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');" class="inline-block">
+                                <form action="{{ route('teacher.tasks.destroy', $task->id) }}" method="POST"
+                                      onsubmit="return confirm('Are you sure you want to delete this task?');"
+                                      class="inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
@@ -64,6 +99,11 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
+
+    {{-- Pagination --}}
+    <div class="mt-6">
+        {{ $tasks->links() }}
     </div>
 </div>
 @endsection

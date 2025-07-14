@@ -68,11 +68,29 @@ class MaterialController extends Controller
             abort(403, 'You are not allowed to view this subject.');
         }
 
-        $materials = Material::where('subject_id', $subjectId)
-            ->where('classroom_id', $classroomId)
-            ->get();
+        $query = Material::where('subject_id', $subjectId)
+            ->where('classroom_id', $classroomId);
 
-        return view('teacher.materials.by-subject', compact('subject', 'classroom', 'materials'));
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $sortableColumns = ['name', 'created_at'];
+        $sort = in_array($request->get('sort'), $sortableColumns) ? $request->get('sort') : 'created_at';
+        $direction = $request->get('direction') === 'asc' ? 'asc' : 'desc';
+
+        $materials = $query->orderBy($sort, $direction)
+            ->paginate(20)
+            ->appends([
+                'search' => $request->search,
+                'view' => $request->view,
+                'sort' => $sort,
+                'direction' => $direction,
+                'classroom_id' => $classroomId,
+            ])
+            ->withPath(route('teacher.materials.bySubject', ['subject' => $subjectId])); // 🔧 fix URL base
+
+        return view('teacher.materials.by-subject', compact('subject', 'classroom', 'materials', 'sort', 'direction'));
     }
 
     public function create()

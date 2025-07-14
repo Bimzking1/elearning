@@ -25,15 +25,29 @@ class PresenceController extends Controller
         return view('teacher.presence.index', compact('schedules'));
     }
 
-    public function showSchedulePresence(Classroom $classroom, Schedule $schedule)
+    public function showSchedulePresence(Request $request, Classroom $classroom, Schedule $schedule)
     {
         $this->authorizeSchedule($schedule);
 
-        $presences = Presence::where('schedule_id', $schedule->id)
-            ->orderByDesc('opened_at')
-            ->get();
+        $query = Presence::where('schedule_id', $schedule->id);
 
-        return view('teacher.presence.show', compact('classroom', 'schedule', 'presences'));
+        // Search
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Sorting
+        $allowedSorts = ['name', 'opened_at', 'reopened_at', 'closed_at'];
+        $sort = $request->get('sort', 'opened_at');
+        $direction = $request->get('direction', 'desc');
+
+        if (in_array($sort, $allowedSorts)) {
+            $query->orderBy($sort, $direction);
+        }
+
+        $presences = $query->paginate(20)->withQueryString();
+
+        return view('teacher.presence.show', compact('classroom', 'schedule', 'presences', 'sort', 'direction'));
     }
 
     public function openPresence(Classroom $classroom, Schedule $schedule, Request $request)
@@ -80,9 +94,34 @@ class PresenceController extends Controller
     {
         $this->authorizeSchedule($schedule);
 
-        $submissions = $presence->submissions()->with('student.user')->get();
+        $query = $presence->submissions()
+            ->select('presence_submissions.*')
+            ->join('students', 'presence_submissions.student_id', '=', 'students.id')
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->with('student.user');
 
-        return view('teacher.presence.detail', compact('schedule', 'classroom', 'presence', 'submissions'));
+        // Search by student name
+        if (request('search')) {
+            $query->where('users.name', 'like', '%' . request('search') . '%');
+        }
+
+        // Sorting
+        $sort = request('sort', 'presence_submissions.created_at');
+        $direction = request('direction', 'desc');
+
+        $sortable = [
+            'student_name' => 'users.name',
+            'nis' => 'students.nis',
+            'created_at' => 'presence_submissions.created_at',
+        ];
+
+        if (isset($sortable[$sort])) {
+            $query->orderBy($sortable[$sort], $direction);
+        }
+
+        $submissions = $query->paginate(20)->withQueryString();
+
+        return view('teacher.presence.detail', compact('schedule', 'classroom', 'presence', 'submissions', 'sort', 'direction'));
     }
 
     public function updateName(Request $request, Presence $presence)

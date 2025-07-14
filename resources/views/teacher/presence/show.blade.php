@@ -1,8 +1,19 @@
 @extends('layouts.teacher.dashboard')
 
 @section('content')
-<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
+@php
+    function sortLink($column, $label, $currentSort, $currentDirection) {
+        $newDirection = ($currentSort === $column && $currentDirection === 'asc') ? 'desc' : 'asc';
+        $arrow = ($currentSort === $column) ? ($currentDirection === 'asc' ? '↑' : '↓') : '';
+        $query = request()->all();
+        $query['sort'] = $column;
+        $query['direction'] = $newDirection;
+        $url = url()->current() . '?' . http_build_query($query);
+        return "<a href=\"$url\" class=\"hover:underline\">$label $arrow</a>";
+    }
+@endphp
 
+<div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
     {{-- Back Button --}}
     <div class="mb-4">
         <a href="{{ url('/teacher/presence') }}"
@@ -11,38 +22,60 @@
         </a>
     </div>
 
-    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    {{-- Header --}}
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
         <h2 class="text-2xl font-bold text-gray-800">
             {{ $schedule->subject->name }} - Class {{ $classroom->name }}
         </h2>
-
         <button type="button"
-            onclick="document.getElementById('openPresenceModal').classList.remove('hidden')"
-            class="w-full md:w-auto text-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow font-semibold">
+                onclick="document.getElementById('openPresenceModal').classList.remove('hidden')"
+                class="w-full md:w-auto text-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow font-semibold">
             + Open New Presence
         </button>
     </div>
 
+    {{-- Search --}}
+    <form method="GET" class="mb-4 flex flex-wrap gap-2 items-center">
+        <input type="text" name="search" value="{{ request('search') }}"
+               placeholder="Search by presence name..."
+               class="px-4 py-2 border rounded w-full sm:w-auto">
+
+        <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            Search
+        </button>
+
+        @if(request('search'))
+            <a href="{{ url()->current() }}"
+               class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded transition">
+                Clear
+            </a>
+        @endif
+    </form>
+
+    {{-- Table --}}
     <div class="overflow-x-auto">
         <table class="w-full min-w-[1000px] table-auto bg-white border border-gray-300 text-sm">
-            <thead class="bg-gray-100 text-gray-700 uppercase">
+            <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-bold">
                 <tr>
-                    <th class="px-4 py-3 text-left">ID</th>
-                    <th class="px-4 py-3 text-left">Name</th>
+                    <th class="px-4 py-3 text-left">#</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('name', 'Name', $sort ?? '', $direction ?? '') !!}</th>
                     <th class="px-4 py-3 text-left">Subject</th>
                     <th class="px-4 py-3 text-left">Class</th>
                     <th class="px-4 py-3 text-left">Time</th>
-                    <th class="px-4 py-3 text-left">Date Opened</th>
-                    <th class="px-4 py-3 text-left">Date Re-Opened</th>
-                    <th class="px-4 py-3 text-left">Last Date Closed</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('opened_at', 'Date Opened', $sort ?? '', $direction ?? '') !!}</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('reopened_at', 'Date Reopened', $sort ?? '', $direction ?? '') !!}</th>
+                    <th class="px-4 py-3 text-left">{!! sortLink('closed_at', 'Date Closed', $sort ?? '', $direction ?? '') !!}</th>
                     <th class="px-4 py-3 text-left">Status</th>
                     <th class="px-4 py-3 text-left">Action</th>
                 </tr>
             </thead>
             <tbody class="text-gray-800">
-                @forelse ($presences as $presence)
+                @forelse ($presences as $index => $presence)
                     <tr class="border-b">
-                        <td class="px-4 py-2">{{ $presence->id }}</td>
+                        <td class="px-4 py-2">
+                            {{ ($presences->currentPage() - 1) * $presences->perPage() + $index + 1 }}
+                        </td>
                         <td class="px-4 py-2">{{ $presence->name }}</td>
                         <td class="px-4 py-2">{{ $schedule->subject->name }}</td>
                         <td class="px-4 py-2">{{ $classroom->name }}</td>
@@ -64,38 +97,38 @@
                         <td class="px-4 py-2">
                             <div class="flex flex-wrap gap-2">
                                 @if ($presence->closed_at === null)
-                                    <form action="{{ route('teacher.presence.close', ['classroom' => $classroom->id, 'schedule' => $schedule->id, 'presence' => $presence->id]) }}" method="POST">
+                                    <form action="{{ route('teacher.presence.close', [$classroom, $schedule, $presence]) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="inline-flex items-center px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded hover:bg-red-200">
+                                        <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded hover:bg-red-200">
                                             Close
                                         </button>
                                     </form>
                                 @else
-                                    <form action="{{ route('teacher.presence.reopen', ['classroom' => $classroom->id, 'schedule' => $schedule->id, 'presence' => $presence->id]) }}" method="POST">
+                                    <form action="{{ route('teacher.presence.reopen', [$classroom, $schedule, $presence]) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded hover:bg-yellow-200">
+                                        <button type="submit" class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded hover:bg-yellow-200">
                                             Reopen
                                         </button>
                                     </form>
                                 @endif
 
                                 <button type="button"
-                                        onclick="openEditModal('{{ route('teacher.presence.updateName', ['presence' => $presence->id]) }}', '{{ e($presence->name) }}')"
-                                        class="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded hover:bg-indigo-200">
+                                        onclick="openEditModal('{{ route('teacher.presence.updateName', $presence) }}', '{{ e($presence->name) }}')"
+                                        class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded hover:bg-indigo-200">
                                     Edit
                                 </button>
 
-                                <a href="{{ route('teacher.presence.view', ['classroom' => $classroom->id, 'schedule' => $schedule->id, 'presence' => $presence->id]) }}"
-                                   class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded hover:bg-blue-200">
+                                <a href="{{ route('teacher.presence.view', [$classroom, $schedule, $presence]) }}"
+                                   class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded hover:bg-blue-200">
                                     View
                                 </a>
 
-                                <form action="{{ route('teacher.presence.destroy', ['classroom' => $classroom->id, 'schedule' => $schedule->id, 'presence' => $presence->id]) }}"
+                                <form action="{{ route('teacher.presence.destroy', [$classroom, $schedule, $presence]) }}"
                                       method="POST"
                                       onsubmit="return confirm('Are you sure you want to delete this presence?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded hover:bg-gray-200">
+                                    <button type="submit" class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded hover:bg-gray-200">
                                         Delete
                                     </button>
                                 </form>
@@ -110,6 +143,12 @@
             </tbody>
         </table>
     </div>
+
+    {{-- Pagination --}}
+    <div class="mt-6">
+        {{ $presences->links() }}
+    </div>
+
 
     {{-- Open Modal --}}
     <div id="openPresenceModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
