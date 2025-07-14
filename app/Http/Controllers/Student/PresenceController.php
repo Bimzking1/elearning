@@ -26,18 +26,34 @@ class PresenceController extends Controller
         return view('student.presence.index', compact('presences', 'schedules'));
     }
 
-    public function scheduleHistory($scheduleId)
+    public function scheduleHistory(Request $request, $scheduleId)
     {
         $student = Auth::user()->student;
 
-        $presences = Presence::where('schedule_id', $scheduleId)
-            ->whereHas('schedule', function ($query) use ($student) {
-                $query->where('classroom_id', $student->classroom_id);
-            })
-            ->latest()
-            ->get();
+        $query = Presence::where('schedule_id', $scheduleId)
+            ->whereHas('schedule', function ($q) use ($student) {
+                $q->where('classroom_id', $student->classroom_id);
+            });
 
-        return view('student.presence.history', compact('presences'));
+        // Search by presence name
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Sorting
+        $sortable = ['name', 'opened_at', 'closed_at'];
+        $sort = in_array($request->get('sort'), $sortable) ? $request->get('sort') : 'opened_at';
+        $direction = $request->get('direction') === 'asc' ? 'asc' : 'desc';
+
+        $presences = $query->orderBy($sort, $direction)
+            ->paginate(20)
+            ->appends([
+                'search' => $request->search,
+                'sort' => $sort,
+                'direction' => $direction,
+            ]);
+
+        return view('student.presence.history', compact('presences', 'sort', 'direction', 'scheduleId'));
     }
 
     public function show(Presence $presence)
