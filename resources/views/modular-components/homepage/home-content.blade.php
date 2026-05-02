@@ -1,429 +1,482 @@
-<!-- Hybrid Learning Section -->
-<section class="bg-gradient-to-b from-white to-blue-200 text-blue-900 py-8 md:py-20">
-    <div class="container mx-auto flex flex-col md:flex-row items-center justify-center px-6 gap-10">
-        <!-- Text Content -->
-        <div class="w-full md:w-fit flex flex-col justify-start md:justify-end items-start md:items-end max-w-xl text-left md:text-right">
-            <h2 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">Hybrid Learning</h2>
-            <p class="text-lg mb-4 leading-relaxed">
-                PKBM Bina Abdi Wiyata — A trusted non-formal education institution with years of experience and an A-level accreditation.
+{{-- ============================================================
+     home-content.blade.php  — PKBM Bina Abdi Wiyata
+     Elegant blue-white theme, refined typography & micro-interactions
+     ============================================================ --}}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    :root {
+        --blue-deep:   #1e3a5f;
+        --blue-mid:    #2563eb;
+        --blue-soft:   #3b82f6;
+        --blue-pale:   #dbeafe;
+        --blue-ghost:  #eff6ff;
+        --gold:        #c9a84c;
+        --white:       #ffffff;
+        --gray-subtle: #f8fafc;
+        --text-main:   #1e293b;
+        --text-muted:  #64748b;
+    }
+
+    /* Base font override for homepage sections */
+    .pkbm-page { font-family: 'DM Sans', sans-serif; }
+
+    /* Section fade-up on scroll */
+    .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Admission banner shimmer */
+    @keyframes shimmer {
+        0%   { background-position: -400px 0; }
+        100% { background-position: 400px 0; }
+    }
+    .admission-shimmer::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 1rem;
+        background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255,255,255,0.35) 70%,
+            transparent 100%);
+        background-size: 800px 100%;
+        animation: shimmer 2.8s infinite linear;
+        pointer-events: none;
+    }
+
+    /* Decorative section divider */
+    .section-label {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--blue-soft);
+    }
+
+    /* Card hover lift */
+    .program-card {
+        transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.3s ease;
+    }
+    .program-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(37,99,235,0.12);
+    }
+
+    /* Teacher avatar ring */
+    .teacher-avatar {
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .teacher-avatar:hover {
+        box-shadow: 0 0 0 4px #93c5fd, 0 8px 24px rgba(37,99,235,0.2);
+        transform: scale(1.05);
+    }
+
+    /* Gold accent line */
+    .gold-rule {
+        display: inline-block;
+        width: 3rem;
+        height: 2px;
+        background: linear-gradient(90deg, var(--gold), transparent);
+        border-radius: 999px;
+    }
+
+    /* Soft glow pulse for admission */
+    @keyframes glowPulse {
+        0%, 100% { box-shadow: 0 0 20px 4px rgba(37,99,235,0.18); }
+        50%       { box-shadow: 0 0 40px 12px rgba(37,99,235,0.32); }
+    }
+    .admission-glow {
+        animation: glowPulse 2.4s ease-in-out infinite;
+    }
+
+    /* Subtle noise texture overlay */
+    .noise-bg::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* Why-us feature icon */
+    .feature-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.6rem;
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Lightbox backdrop blur */
+    .lightbox-backdrop {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+</style>
+
+<div class="pkbm-page">
+
+{{-- ─────────────────────────────────────────────────────────
+     ADMISSION BANNER
+───────────────────────────────────────────────────────── --}}
+<section class="relative overflow-hidden bg-gradient-to-b from-[#eff6ff] to-white pt-6 pb-4 px-6 md:py-10 text-center">
+    <!-- Subtle decorative orb -->
+    <div class="absolute -top-16 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-blue-100 opacity-50 blur-3xl pointer-events-none"></div>
+
+    <div class="relative inline-block">
+        <a href="{{ route('register') }}"
+           class="admission-shimmer admission-glow relative block rounded-2xl overflow-hidden group">
+            <img
+                src="{{ asset('images/admission_26-27.webp') }}"
+                alt="Student Admission 2026–2027"
+                class="relative mx-auto max-h-48 md:max-h-72 lg:max-h-84 w-auto object-contain rounded-2xl
+                       transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+        </a>
+    </div>
+</section>
+
+{{-- ─────────────────────────────────────────────────────────
+     HYBRID LEARNING HERO
+───────────────────────────────────────────────────────── --}}
+<section class="relative overflow-hidden noise-bg bg-gradient-to-b from-white via-[#eff6ff] to-[#dbeafe] text-[var(--blue-deep)] pb-16 pt-8 md:pb-24 md:pt-4">
+    <div class="relative z-10 container mx-auto flex flex-col md:flex-row items-center justify-center px-6 gap-12 md:gap-16">
+
+        <!-- Text -->
+        <div class="w-full md:w-1/2 flex flex-col items-start md:items-end text-left md:text-right reveal">
+            <h2 class="pkbm-display text-5xl md:text-6xl lg:text-7xl font-bold mb-5 leading-[1.1] text-[var(--blue-deep)]">
+                Hybrid<br><em class="not-italic text-[var(--blue-mid)]">Learning</em>
+            </h2>
+            <div class="flex md:justify-end mb-5">
+                <span class="gold-rule"></span>
+            </div>
+            <p class="text-base md:text-lg mb-3 leading-relaxed text-[var(--text-muted)] max-w-md">
+                PKBM Homeschooling Bina Abdi Wiyata, a trusted institution with years of experience and an <strong class="text-[var(--blue-deep)] font-semibold">A-level accreditation</strong>.
             </p>
-            <p class="text-lg mb-4 leading-relaxed">
-                We offer a flexible and adaptive learning system, tailored to the unique needs of each student. Learning can take place anytime and anywhere, guided by experienced and dedicated educators.
+            <p class="text-base md:text-lg mb-3 leading-relaxed text-[var(--text-muted)] max-w-md">
+                Flexible and adaptive learning, tailored to each student anytime, anywhere, guided by dedicated educators.
             </p>
-            <p class="text-lg mb-6 leading-relaxed">
-                Together with us, help your child grow to their full potential and achieve a limitless future!
+            <p class="text-base md:text-lg mb-8 leading-relaxed text-[var(--text-muted)] max-w-md">
+                Help your child grow to their full potential and achieve a limitless future.
             </p>
-            <div class="w-full md:w-fit flex flex-col md:flex-row justify-center items-center gap-4">
-                <!-- Register Button -->
+
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                 <a href="{{ route('register') }}"
-                class="w-full md:w-fit text-xl animate-cta inline-block bg-blue-600 text-white hover:bg-blue-700 transition px-6 py-3 rounded font-semibold shadow-md text-center">
+                   class="animate-cta inline-flex items-center justify-center gap-2 bg-[var(--blue-mid)] text-white px-7 py-3.5 rounded-xl font-semibold text-base shadow-lg hover:bg-blue-700 transition-colors duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     Student Admission
                 </a>
-
-                <!-- Login Button -->
                 <a href="{{ route('login') }}"
-                class="w-full md:w-fit text-xl inline-block bg-indigo-600 text-white hover:bg-indigo-700 transition px-6 py-3 rounded font-semibold shadow-md text-center">
-                    Login as Student/Teacher
+                   class="inline-flex items-center justify-center gap-2 bg-[var(--blue-deep)] text-white px-7 py-3.5 rounded-xl font-semibold text-base shadow-md hover:bg-blue-900 transition-colors duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14"/></svg>
+                    Login
                 </a>
             </div>
-
-            <!-- Contact Us Button -->
-            <div class="w-full md:w-fit flex justify-center md:justify-end mt-4">
-                <a href="{{ route('contact') }}"
-                class="w-full md:w-fit inline-block bg-white text-blue-600 hover:bg-blue-100 transition px-6 py-3 rounded font-semibold shadow-md text-center">
-                    Contact Us
-                </a>
-            </div>
+            <a href="{{ route('contact') }}"
+               class="mt-3 inline-flex items-center gap-1.5 text-sm text-[var(--blue-soft)] hover:text-[var(--blue-deep)] font-medium transition-colors duration-200 group">
+                <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                Contact Us
+            </a>
         </div>
 
-        <!-- Interactive Image -->
-        <div class="w-fit flex justify-start items-start">
-            <img src="{{ asset('images/welcome-merged.png') }}"
-                alt="Welcome"
-                class="h-fit md:h-[450px] w-auto object-contain" />
+        <!-- Image -->
+        <div class="w-full md:w-1/2 flex justify-center reveal" style="transition-delay: 0.15s;">
+            <img src="{{ asset('images/welcome-merged.webp') }}"
+                 alt="Welcome"
+                 class="h-auto md:h-[440px] w-auto object-contain drop-shadow-xl" />
         </div>
     </div>
 </section>
 
-<!-- About Us -->
-<section id="about" class="py-8 md:py-16 bg-gradient-to-b from-blue-200 to-white text-blue-900">
-    <div class="max-w-5xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-blue-900 mb-4">About PKBM Bina Abdi Wiyata</h2>
-        <p class="text-lg text-gray-600 mb-6">
-            PKBM Bina Abdi Wiyata is a Community Learning Center (PKBM) that provides non-formal education programs, including Kejar Paket A (equivalent to elementary school), Paket B (junior high school), and Paket C (senior high school), as well as flexible and personalized homeschooling services. Our mission is to offer educational opportunities to individuals of all ages and backgrounds who are seeking to continue or complete their education outside the formal school system.
-
-            Founded on the principles of inclusion and empowerment, we believe that education is a fundamental right for everyone—regardless of age, economic status, or past educational experience. Through both our Kejar Paket and homeschooling programs, we offer learner-centered approaches that are aligned with the national curriculum and tailored to each student's needs.
-
-            Our homeschooling program is designed for families who prefer a home-based learning model. It offers flexible scheduling, personalized learning plans, academic support, and preparation for national examinations—all under the guidance of experienced educators.
+{{-- ─────────────────────────────────────────────────────────
+     ABOUT US
+───────────────────────────────────────────────────────── --}}
+<section id="about" class="relative py-16 md:py-24 bg-gradient-to-b from-[#dbeafe] to-white">
+    <div class="max-w-3xl mx-auto px-6 text-center reveal">
+        <span class="section-label">Who We Are</span>
+        <h2 class="pkbm-display text-3xl md:text-4xl font-bold text-[var(--blue-deep)] mt-3 mb-2">
+            About PKBM Homeschooling Bina Abdi Wiyata
+        </h2>
+        <div class="flex justify-center mb-6"><span class="gold-rule"></span></div>
+        <p class="text-base md:text-lg text-[var(--text-muted)] leading-relaxed mb-4">
+            PKBM Homeschooling Bina Abdi Wiyata is a Community Learning Center providing non-formal education programs — Kejar Paket A, B, and C — as well as flexible, personalized homeschooling services. Our mission is to offer educational opportunities to individuals of all ages and backgrounds seeking to continue or complete their education outside the formal system.
+        </p>
+        <p class="text-base md:text-lg text-[var(--text-muted)] leading-relaxed mb-4">
+            Founded on the principles of inclusion and empowerment, we believe education is a fundamental right for everyone — regardless of age, economic status, or past experience. Our learner-centered approaches are aligned with the national curriculum and tailored to each student's needs.
+        </p>
+        <p class="text-base md:text-lg text-[var(--text-muted)] leading-relaxed">
+            Our homeschooling program offers flexible scheduling, personalized learning plans, academic support, and preparation for national examinations — all under the guidance of experienced educators.
         </p>
     </div>
 </section>
 
-<section id="why" class="py-8 md:py-16 bg-white" id="why-us">
-  <div class="w-full mx-auto px-6 md:px-12 flex flex-col gap-12">
-
-    <!-- Title -->
-    <div class="w-full space-y-4 flex flex-col justify-center items-center text-center">
-      <h2 class="text-3xl font-bold text-blue-900">Why Choose Us</h2>
-      <p class="text-lg text-gray-600">
-        Why choose <strong>PKBM Bina Abdi Wiyata</strong> as your child’s education partner?
-      </p>
-    </div>
-
-    <!-- Features -->
-    <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-
-      <!-- Left Column -->
-      <div class="space-y-8">
-        <!-- Legal -->
-        <div>
-          <h4 class="text-xl font-semibold text-blue-700">Officially Registered & Accredited</h4>
-          <p class="text-gray-700">
-            We are officially licensed by the Ministry of Education and the Surabaya Education Department, and accredited with an “A” rating as a trusted non-formal education institution.
-          </p>
+{{-- ─────────────────────────────────────────────────────────
+     WHY CHOOSE US
+───────────────────────────────────────────────────────── --}}
+<section id="why" class="py-16 md:py-24 bg-[var(--gray-subtle)]">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-14 reveal">
+            <span class="section-label">Our Strengths</span>
+            <h2 class="pkbm-display text-3xl md:text-4xl font-bold text-[var(--blue-deep)] mt-3 mb-2">
+                Why Choose Us
+            </h2>
+            <div class="flex justify-center"><span class="gold-rule"></span></div>
         </div>
 
-        <!-- Achievements -->
-        <div>
-          <h4 class="text-xl font-semibold text-blue-700">Proven Track Record</h4>
-          <p class="text-gray-700">
-            For over a decade, we’ve supported students in achieving accolades at local, regional, and national levels.
-          </p>
-        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+            @php
+            $features = [
+                ['icon'=>'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z', 'title'=>'Officially Registered & Accredited', 'body'=>'Licensed by the Ministry of Education and the Surabaya Education Department, and accredited with an "A" rating as a trusted non-formal education institution.'],
+                ['icon'=>'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z', 'title'=>'Proven Track Record', 'body'=>'For over a decade, we have supported students in achieving accolades at local, regional, and national levels.'],
+                ['icon'=>'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', 'title'=>'Flexible Learning System', 'body'=>'Learn when, where, and how you want — self-paced, online, private, and community-based learning options tailored to each student.'],
+                ['icon'=>'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', 'title'=>'Modern LMS Platform', 'body'=>'Our Learning Management System makes studying more interactive, enjoyable, and well-structured for every student.'],
+                ['icon'=>'M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z', 'title'=>'Pathways to Higher Education', 'body'=>'Our students are well-prepared to continue their studies at public or private schools and universities.'],
+                ['icon'=>'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'title'=>'Experienced & Dedicated Team', 'body'=>'Run by certified educators and graduates from top universities, committed to delivering quality, personalized education.'],
+            ];
+            @endphp
 
-        <!-- Flexibility -->
-        <div>
-          <h4 class="text-xl font-semibold text-blue-700">Flexible Learning System</h4>
-          <p class="text-gray-700">
-            Learn when, where, and how you want. We offer self-paced, online, private, and community-based learning options to suit each student's needs.
-          </p>
-        </div>
-      </div>
-
-      <!-- Right Column -->
-      <div class="space-y-8">
-        <!-- LMS -->
-        <div>
-          <h4 class="text-xl font-semibold text-blue-700">Modern LMS Platform</h4>
-          <p class="text-gray-700">
-            Our Learning Management System (LMS) makes studying more interactive, enjoyable, and well-structured.
-          </p>
-        </div>
-
-        <!-- Higher Education Support -->
-        <div>
-          <h4 class="text-xl font-semibold text-blue-700">Pathways to Higher Education</h4>
-          <p class="text-gray-700">
-            Our students are well-prepared to continue their education at public or private schools and universities.
-          </p>
-        </div>
-
-        <!-- Professional Team -->
-        <div>
-          <h4 class="text-xl font-semibold text-blue-700">Experienced & Dedicated Team</h4>
-          <p class="text-gray-700">
-            Run by a team of experienced educators and graduates from top universities, committed to delivering quality education.
-          </p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- Motto -->
-<section id="motto" class="py-8 md:py-16 bg-gradient-to-b from-white to-blue-200 flex flex-col justify-center items-center">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-blue-900 mb-4">Our Motto</h2>
-        <p class="text-xl italic text-blue-600">"A Life-improving Centre for Community Learning Activities"</p>
-    </div>
-
-    <!-- Mobile Image: Visible on small screens -->
-    <div class="relative w-fit flex justify-start items-start md:hidden">
-        <img src="{{ asset('images/together-mobile.png') }}"
-            alt="Welcome"
-            class="h-fit w-auto object-contain rounded-lg mask-blur px-4" />
-    </div>
-
-    <!-- Desktop Image: Visible on medium screens and above -->
-    <div class="relative w-fit md:flex hidden justify-start items-start">
-        <img src="{{ asset('images/together.png') }}"
-            alt="Welcome"
-            class="h-fit max-h-[350px] w-auto object-contain rounded-lg mask-blur" />
-    </div>
-</section>
-
-<!-- Services -->
-<section id="services" class="py-8 md:py-16 bg-gradient-to-b from-blue-200 to-white">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-blue-900 mb-10">Our Programs & Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-
-            <!-- Paket A -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-4">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
+            @foreach($features as $i => $f)
+            <div class="reveal bg-white rounded-2xl p-7 border border-[var(--blue-pale)] program-card"
+                 style="transition-delay: {{ $i * 0.07 }}s">
+                <div class="feature-icon">
+                    <svg class="w-5 h-5 text-[var(--blue-mid)]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="{{ $f['icon'] }}"/>
                     </svg>
-                    <h3 class="text-xl font-semibold text-blue-600">Paket A (SD)</h3>
                 </div>
-                <p>
-                    A foundational education program for learners seeking an elementary school equivalent certification, aligned with national curriculum standards.
-                </p>
+                <h4 class="text-base font-semibold text-[var(--blue-deep)] mb-2">{{ $f['title'] }}</h4>
+                <p class="text-sm text-[var(--text-muted)] leading-relaxed">{{ $f['body'] }}</p>
             </div>
-
-            <!-- Paket B -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-4">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-                    </svg>
-                    <h3 class="text-xl font-semibold text-blue-600">Paket B (SMP)</h3>
-                </div>
-                <p>
-                    A middle school equivalent program tailored for learners continuing their academic journey with a focus on core competencies and life skills.
-                </p>
-            </div>
-
-            <!-- Paket C -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-4">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-                    </svg>
-                    <h3 class="text-xl font-semibold text-blue-600">Paket C (SMA)</h3>
-                </div>
-                <p>
-                    A high school level program for students aiming to complete their education and receive an SMA-equivalent diploma, preparing them for higher education or employment.
-                </p>
-            </div>
-
-            <!-- Homeschooling -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-4">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-                    </svg>
-                    <h3 class="text-xl font-semibold text-blue-600">Homeschooling</h3>
-                </div>
-                <p>
-                    A flexible learning option that allows students to study independently from home under the guidance of educators, while following the national curriculum.
-                </p>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- See More Button -->
-    <div class="text-center mt-10">
-      <a href="{{ route('programs') }}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded font-semibold hover:bg-blue-700 transition">
-        See More Programs
-      </a>
-    </div>
-</section>
-
-<!-- Our Teachers -->
-
-<section id="teachers" class="py-8 md:py-16 bg-white">
-    <div class="max-w-5xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-blue-900 mb-4">Meet Our Dedicated Teachers</h2>
-        <p class="text-lg text-gray-600 mb-6">
-            At PKBM BINA ABDI WIYATA, our teachers are passionate educators committed to guiding students toward success. With diverse academic backgrounds, real-world experience, and a heart for teaching, they create a supportive and engaging learning environment tailored to each student's needs.
-
-            Our team includes certified professionals who specialize in various subjects and levels of education, ensuring every student receives personalized support. Whether in catch-up or pursue programs, our teachers bring patience, innovation, and care to the classroom—empowering learners to reach their full potential.
-
-            We believe that great teachers don't just educate—they inspire.
-        </p>
-
-        <div class="carousel-container">
-            <div class="slick-carousel">
-                <!-- Slide 1 -->
-                <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mt-8" id="teacher-row-1">
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 object-cover rounded-full" src="{{ asset('images/lukas-kambali.jpg') }}" alt="Lukas Kambali Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Drs. Lukas Kambali, S.H., M.H.</a>
-                        </h3>
-                        <p>Geografi</p>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 object-cover rounded-full" src="{{ asset('images/albert-kurniawan.jpg') }}" alt="Helene Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Albert Kurniawan, S.T.</a>
-                        </h3>
-                        <p>Fisika, Biologi, Kimia</p>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 object-cover rounded-full" src="{{ asset('images/williyan.jpg') }}" alt="Jese Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">L. Williyan Putra Perdana, S.E., M.M.</a>
-                        </h3>
-                        <p>Ekonomi</p>
-                    </div>
-                </div>
-                <!-- Slide 2 -->
-                {{-- <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-2">
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Paulus Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Paulus Widhi, S.E.</a>
-                        </h3>
-                        <p>Ekonomi, Geografi, Sosiologi, Sejarah</p>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png" alt="Baihaqi Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Baihaqi Al Chasan, S.Hum.</a>
-                        </h3>
-                        <p>Sejarah</p>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Sutrisno Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Sutrisno</a>
-                        </h3>
-                        <p>Agama Islam</p>
-                    </div>
-                </div> --}}
-                <!-- Hidden Rows -->
-                {{-- <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-3">
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Rismawati Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Rismawati Sitanggang, S.Pd.</a>
-                        </h3>
-                        <p>Sosiologi</p>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png" alt="Dr. Budiono Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Dr. B. Budiono, M.Pd.</a>
-                        </h3>
-                        <p>Bahasa Inggris</p>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Dr. Himawan Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Drs. Himawan Setyo W., M.Pd.</a>
-                        </h3>
-                        <p>Bahasa Inggris</p>
-                    </div>
-                </div> --}}
-                {{-- <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 hidden mt-8" id="teacher-row-4">
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Esti Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Drs. Esti Nugroho</a>
-                        </h3>
-                        <p>Matematika</p>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png" alt="Soejatmiko Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Drs. Soejatmiko</a>
-                        </h3>
-                        <p>Bahasa Indonesia</p>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Fajar Avatar">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">
-                            <a href="#">Fajar Novianto</a>
-                        </h3>
-                        <p>PPKN</p>
-                    </div>
-                </div> --}}
-
-                <!-- See More Button -->
-                {{-- <div class="text-center mt-6">
-                    <button id="see-more-btn" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300">
-                        See More
-                    </button>
-                </div> --}}
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
 
-<!-- Activities Preview -->
-<section id="activities" class="py-8 md:py-16 bg-gradient-to-b from-white to-blue-200" x-data="previewGallery()" @keydown.escape.window="closeLightbox()">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="text-center mb-10">
-      <h2 class="text-3xl font-bold text-blue-900 mb-4">Student Activities</h2>
-      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-        A glimpse into the exciting activities at PKBM Bina Abdi Wiyata — from science fairs to art workshops and community service.
-      </p>
+{{-- ─────────────────────────────────────────────────────────
+     MOTTO
+───────────────────────────────────────────────────────── --}}
+<section id="motto" class="relative overflow-hidden py-16 md:py-24 bg-gradient-to-b from-white to-[#dbeafe] flex flex-col justify-center items-center">
+    <!-- Decorative circles -->
+    <div class="absolute top-0 right-0 w-64 h-64 rounded-full bg-blue-100 opacity-40 blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-blue-200 opacity-30 blur-2xl pointer-events-none translate-y-1/3 -translate-x-1/4"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-6 text-center reveal">
+        <span class="section-label">Our Guiding Principle</span>
+        <h2 class="pkbm-display text-3xl md:text-4xl font-bold text-[var(--blue-deep)] mt-3 mb-4">Our Motto</h2>
+        <div class="flex justify-center mb-6"><span class="gold-rule"></span></div>
+        <blockquote class="pkbm-display text-xl md:text-2xl italic text-[var(--blue-mid)] leading-relaxed">
+            "A Life-improving Centre for Community Learning Activities"
+        </blockquote>
     </div>
 
-    <!-- Preview Image Grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      <template x-for="(img, index) in images" :key="index">
-        <div>
-          <button
-            class="group relative w-full h-40 overflow-hidden rounded-lg shadow-md focus:outline-none"
-            @click="openLightbox(index)"
-            type="button"
-            :aria-label="'Open image ' + (index + 1)"
-          >
-            <img
-              :src="img.thumb"
-              :alt="img.alt"
-              class="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-105"
-            />
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white text-sm p-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span x-text="img.caption"></span>
-            </div>
-          </button>
-        </div>
-      </template>
+    <div class="relative z-10 mt-8 reveal" style="transition-delay:0.2s">
+        <!-- Mobile -->
+        <img src="{{ asset('images/together-mobile.webp') }}"
+             alt="Together"
+             class="md:hidden h-auto w-auto object-contain rounded-2xl mask-blur px-4 max-h-72" />
+        <!-- Desktop -->
+        <img src="{{ asset('images/together.webp') }}"
+             alt="Together"
+             class="hidden md:block max-h-[340px] w-auto object-contain rounded-2xl mask-blur" />
     </div>
-
-    <!-- See More Button -->
-    <div class="text-center mt-10">
-      <a href="{{ route('activities') }}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded font-semibold hover:bg-blue-700 transition">
-        See More Activities
-      </a>
-    </div>
-
-    <!-- Lightbox Modal -->
-    <div
-      x-show="lightboxOpen"
-      style="display: none;"
-      class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-200"
-      @click.self="closeLightbox()"
-    >
-      <button
-        @click="closeLightbox()"
-        class="absolute top-5 right-5 text-white text-3xl font-bold focus:outline-none"
-        aria-label="Close lightbox"
-      >&times;</button>
-
-      <div class="max-w-4xl max-h-[90vh]">
-        <img
-          :src="images[currentImage].full"
-          :alt="images[currentImage].alt"
-          class="rounded-lg max-w-full max-h-full mx-auto"
-        />
-        <p class="text-white mt-4 text-center" x-text="images[currentImage].caption"></p>
-      </div>
-    </div>
-  </div>
 </section>
+
+{{-- ─────────────────────────────────────────────────────────
+     PROGRAMS & SERVICES
+───────────────────────────────────────────────────────── --}}
+<section id="services" class="py-16 md:py-24 bg-gradient-to-b from-[#dbeafe] to-white">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-14 reveal">
+            <span class="section-label">What We Offer</span>
+            <h2 class="pkbm-display text-3xl md:text-4xl font-bold text-[var(--blue-deep)] mt-3 mb-2">
+                Programs &amp; Services
+            </h2>
+            <div class="flex justify-center"><span class="gold-rule"></span></div>
+        </div>
+
+        @php
+        $programs = [
+            ['level'=>'Paket A', 'sub'=>'Setara SD', 'desc'=>'A foundational education program for learners seeking an elementary school equivalent certification, aligned with national curriculum standards.', 'color'=>'from-blue-50 to-blue-100'],
+            ['level'=>'Paket B', 'sub'=>'Setara SMP', 'desc'=>'A middle school equivalent program focused on core competencies and life skills for learners continuing their academic journey.', 'color'=>'from-blue-50 to-blue-100'],
+            ['level'=>'Paket C', 'sub'=>'Setara SMA', 'desc'=>'A high school level program preparing students for an SMA-equivalent diploma and pathways to higher education or employment.', 'color'=>'from-blue-50 to-blue-100'],
+            ['level'=>'Homeschooling', 'sub'=>'Belajar Mandiri', 'desc'=>'Flexible home-based learning under the guidance of educators, following the national curriculum with personalized scheduling.', 'color'=>'from-blue-50 to-blue-100'],
+        ];
+        @endphp
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            @foreach($programs as $i => $p)
+            <div class="reveal program-card bg-white rounded-2xl overflow-hidden border border-[var(--blue-pale)] group"
+                 style="transition-delay: {{ $i * 0.08 }}s">
+                <div class="h-1.5 bg-gradient-to-r from-[var(--blue-mid)] to-blue-400"></div>
+                <div class="p-7">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="pkbm-display text-xl font-bold text-[var(--blue-deep)]">{{ $p['level'] }}</h3>
+                            <span class="text-xs text-[var(--blue-soft)] font-medium tracking-wide uppercase">{{ $p['sub'] }}</span>
+                        </div>
+                        <div class="w-9 h-9 rounded-full bg-[var(--blue-pale)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-[var(--blue-mid)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-sm text-[var(--text-muted)] leading-relaxed">{{ $p['desc'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <div class="text-center mt-10 reveal" style="transition-delay:0.3s">
+            <a href="{{ route('programs') }}"
+               class="inline-flex items-center gap-2 bg-[var(--blue-mid)] text-white px-7 py-3.5 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                Explore All Programs
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+{{-- ─────────────────────────────────────────────────────────
+     OUR TEACHERS
+───────────────────────────────────────────────────────── --}}
+<section id="teachers" class="py-16 md:py-24 bg-[var(--gray-subtle)]">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-14 reveal">
+            <span class="section-label">The People Behind the Mission</span>
+            <h2 class="pkbm-display text-3xl md:text-4xl font-bold text-[var(--blue-deep)] mt-3 mb-2">
+                Meet Our Dedicated Teachers
+            </h2>
+            <div class="flex justify-center mb-6"><span class="gold-rule"></span></div>
+            <p class="text-base text-[var(--text-muted)] leading-relaxed max-w-2xl mx-auto">
+                Passionate educators committed to guiding students toward success. With diverse academic backgrounds, real-world experience, and a heart for teaching, our team creates a supportive, engaging learning environment tailored to each student's needs.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-10" id="teacher-row-1">
+            @php
+            $teachers = [
+                ['name'=>'Drs. Lukas Kambali, S.H., M.H.', 'subject'=>'Geografi', 'img'=>'lukas-kambali.jpg'],
+                ['name'=>'Albert Kurniawan, S.T.', 'subject'=>'Fisika, Biologi, Kimia', 'img'=>'albert-kurniawan.jpg'],
+                ['name'=>'L. Williyan Putra Perdana, S.E., M.M.', 'subject'=>'Ekonomi', 'img'=>'williyan.jpg'],
+            ];
+            @endphp
+
+            @foreach($teachers as $i => $t)
+            <div class="reveal flex flex-col items-center text-center" style="transition-delay: {{ $i * 0.1 }}s">
+                <img class="teacher-avatar w-32 h-32 object-cover rounded-full mb-4 border-2 border-[var(--blue-pale)] shadow-md"
+                     src="{{ asset('images/' . $t['img']) }}"
+                     alt="{{ $t['name'] }}">
+                <h3 class="pkbm-display text-lg font-bold text-[var(--blue-deep)] leading-snug mb-1">{{ $t['name'] }}</h3>
+                <p class="text-xs text-[var(--blue-soft)] font-medium tracking-wide uppercase">{{ $t['subject'] }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- ─────────────────────────────────────────────────────────
+     STUDENT ACTIVITIES
+───────────────────────────────────────────────────────── --}}
+<section id="activities"
+         class="py-16 md:py-24 bg-gradient-to-b from-white to-[#dbeafe]"
+         x-data="previewGallery()"
+         @keydown.escape.window="closeLightbox()">
+    <div class="max-w-5xl mx-auto px-6">
+
+        <div class="text-center mb-12 reveal">
+            <span class="section-label">School Environment</span>
+            <h2 class="pkbm-display text-3xl md:text-4xl font-bold text-[var(--blue-deep)] mt-3 mb-2">
+                Student Activities
+            </h2>
+            <div class="flex justify-center mb-4"><span class="gold-rule"></span></div>
+            <p class="text-base text-[var(--text-muted)] max-w-xl mx-auto">
+                A glimpse into life at PKBM Homeschooling Bina Abdi Wiyata — from lessons and exams to fun activities.
+            </p>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            <template x-for="(img, index) in images" :key="index">
+                <button
+                    class="group relative w-full h-40 overflow-hidden rounded-xl shadow-sm focus:outline-none border border-[var(--blue-pale)] hover:border-[var(--blue-soft)] transition-colors duration-200"
+                    @click="openLightbox(index)"
+                    type="button"
+                    :aria-label="'Open image ' + (index + 1)"
+                >
+                    <img
+                        :src="img.thumb"
+                        :alt="img.alt"
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1e3a5f]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                        <span class="text-white text-xs font-medium" x-text="img.caption"></span>
+                    </div>
+                </button>
+            </template>
+        </div>
+
+        <div class="text-center mt-10 reveal">
+            <a href="{{ route('activities') }}"
+               class="inline-flex items-center gap-2 bg-[var(--blue-mid)] text-white px-7 py-3.5 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                See All Activities
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+        </div>
+
+        <!-- Lightbox -->
+        <div
+            x-show="lightboxOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            style="display:none;"
+            class="lightbox-backdrop fixed inset-0 bg-[#0f1f3d]/85 flex items-center justify-center z-[200]"
+            @click.self="closeLightbox()"
+        >
+            <button @click="closeLightbox()"
+                    class="absolute top-5 right-6 text-white/70 hover:text-white text-4xl font-light focus:outline-none transition-colors"
+                    aria-label="Close">&times;</button>
+
+            <!-- Prev -->
+            <button @click="currentImage = (currentImage - 1 + images.length) % images.length"
+                    class="absolute left-4 text-white/60 hover:text-white focus:outline-none transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+
+            <div class="max-w-3xl max-h-[85vh] px-12">
+                <img :src="images[currentImage].full"
+                     :alt="images[currentImage].alt"
+                     class="rounded-2xl max-w-full max-h-[78vh] mx-auto shadow-2xl object-contain" />
+                <p class="text-white/70 mt-4 text-center text-sm tracking-wide" x-text="images[currentImage].caption"></p>
+            </div>
+
+            <!-- Next -->
+            <button @click="currentImage = (currentImage + 1) % images.length"
+                    class="absolute right-4 text-white/60 hover:text-white focus:outline-none transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+</div>{{-- end .pkbm-page --}}
 
 <script>
   function previewGallery() {
@@ -454,5 +507,16 @@
       }
     }
   }
-</script>
 
+  // Scroll-reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+</script>
