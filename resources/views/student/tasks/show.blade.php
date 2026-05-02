@@ -48,6 +48,23 @@
         </div>
     </div>
 
+    {{-- Attachment File --}}
+    @if ($submission->task->attachment_path)
+        <div class="bg-white border border-gray-200 rounded-lg p-4 mt-6 shadow-sm">
+            <h2 class="text-sm font-semibold text-gray-800 mb-2">Attachment File</h2>
+
+            <a href="{{ Storage::url($submission->task->attachment_path) }}"
+            target="_blank"
+            class="flex items-center text-sm font-medium text-blue-600 hover:underline hover:text-blue-700 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828L18 9.828m0 0L15.172 7M18 9.828V21" />
+                </svg>
+                View / Download File
+            </a>
+        </div>
+    @endif
+
     {{-- Description --}}
     @if ($submission->task->description)
         <div class="bg-gray-50 border rounded-lg p-6 mb-6">
@@ -102,7 +119,7 @@
 
         @if($submission->submission_file)
             <div class="bg-gray-50 p-4 rounded-md border">
-                <h3 class="font-semibold text-gray-800 mb-1">Attachment:</h3>
+                <h3 class="font-semibold text-gray-800 mb-1">Submitted File:</h3>
                 <a href="{{ Storage::url($submission->submission_file) }}"
                    class="text-blue-500 hover:underline font-medium"
                    target="_blank" rel="noopener noreferrer">

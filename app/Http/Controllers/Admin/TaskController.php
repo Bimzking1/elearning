@@ -64,7 +64,8 @@ class TaskController extends Controller
 
         $rules = [
             'title' => 'required|string|max:255',
-            'classroom_id' => 'required|exists:classrooms,id',
+            'classroom_id' => 'required|array', // ✅ Accept multiple classrooms
+            'classroom_id.*' => 'exists:classrooms,id',
             'deadline' => 'required|date',
             'description' => 'nullable|string',
             'attachment_path' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
@@ -82,27 +83,32 @@ class TaskController extends Controller
             $attachmentPath = $request->file('attachment_path')->store('attachments', 'public');
         }
 
-        $task = new Task();
-        $task->title = $request->title;
-        $task->classroom_id = $request->classroom_id;
-        $task->description = $request->description;
-        $task->deadline = Carbon::parse($request->deadline);
-        $task->attachment_path = $attachmentPath;
+        $teacherId = null;
+        $subjectId = null;
 
         if ($isAdmin) {
-            $task->subject_id = $request->subject_id;
-            $task->teacher_id = $request->teacher_id;
+            $teacherId = $request->teacher_id;
+            $subjectId = $request->subject_id;
         } else {
             $teacher = Teacher::where('user_id', auth()->id())->first();
             $subject = Subject::where('name', $teacher->specialization)->first();
-
-            $task->teacher_id = $teacher->id;
-            $task->subject_id = $subject->id ?? null;
+            $teacherId = $teacher->id;
+            $subjectId = $subject->id ?? null;
         }
 
-        $task->save();
+        foreach ($request->classroom_id as $classroomId) {
+            Task::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'deadline' => Carbon::parse($request->deadline),
+                'attachment_path' => $attachmentPath,
+                'classroom_id' => $classroomId,
+                'teacher_id' => $teacherId,
+                'subject_id' => $subjectId,
+            ]);
+        }
 
-        return redirect()->route('admin.tasks.index')->with('success', 'Task created successfully.');
+        return redirect()->route('admin.tasks.index')->with('success', 'Task created for selected classrooms.');
     }
 
     public function edit(Task $task)

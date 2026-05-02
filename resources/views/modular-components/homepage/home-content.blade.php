@@ -430,12 +430,21 @@
     return {
       lightboxOpen: false,
       currentImage: 0,
-      images: [
-        { thumb: '/images/activities/0001 - mpls - 2024-07-15.jpeg', full: '/images/activities/0001 - mpls - 2024-07-15.jpeg', alt: 'MPLS 1', caption: 'MPLS 2024/2025' },
-        { thumb: '/images/activities/0010 - hutri - 2024-08-12.jpeg', full: '/images/activities/0010 - hutri - 2024-08-12.jpeg', alt: 'HUT RI', caption: 'HUT RI 2024' },
-        { thumb: '/images/activities/0014 - ptm - 2024-12-16.jpeg', full: '/images/activities/0014 - ptm - 2024-12-16.jpeg', alt: 'Tatap Muka', caption: 'Pembelajaran Tatap Muka 2024/2025' },
-        { thumb: '/images/activities/0036 - raport - 2025-05-10.jpeg', full: '/images/activities/0036 - raport - 2025-05-10.jpeg', alt: 'Raker', caption: 'Pembagian Raport 2024/2025' },
-      ],
+      images: @if(isset($homepageImages) && $homepageImages->isNotEmpty())
+        {!! $homepageImages->map(fn($img) => [
+          'thumb'   => asset('storage/' . $img->image_path),
+          'full'    => asset('storage/' . $img->image_path),
+          'alt'     => e($img->title),
+          'caption' => e($img->title),
+        ])->values()->toJson() !!}
+      @else
+        [
+          { thumb: '/images/activities/0001 - mpls - 2024-07-15.jpeg', full: '/images/activities/0001 - mpls - 2024-07-15.jpeg', alt: 'MPLS 1', caption: 'MPLS 2024/2025' },
+          { thumb: '/images/activities/0010 - hutri - 2024-08-12.jpeg', full: '/images/activities/0010 - hutri - 2024-08-12.jpeg', alt: 'HUT RI', caption: 'HUT RI 2024' },
+          { thumb: '/images/activities/0014 - ptm - 2024-12-16.jpeg', full: '/images/activities/0014 - ptm - 2024-12-16.jpeg', alt: 'Tatap Muka', caption: 'Pembelajaran Tatap Muka 2024/2025' },
+          { thumb: '/images/activities/0036 - raport - 2025-05-10.jpeg', full: '/images/activities/0036 - raport - 2025-05-10.jpeg', alt: 'Raker', caption: 'Pembagian Raport 2024/2025' },
+        ]
+      @endif,
       openLightbox(index) {
         this.currentImage = index;
         this.lightboxOpen = true;

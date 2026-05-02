@@ -68,7 +68,21 @@
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">{{ $material->name }}</h3>
                         <p class="text-sm text-gray-600 mb-3">{{ $material->description }}</p>
 
-                        <div class="flex gap-2">
+                        @if($material->file_path)
+                            <p class="text-sm text-blue-600 mb-1">
+                                <a href="{{ asset('storage/' . $material->file_path) }}" target="_blank" class="underline">View File</a>
+                            </p>
+                        @endif
+
+                        @if(!empty($material->link_urls))
+                            <ul class="text-sm list-disc list-inside text-blue-600">
+                                @foreach($material->link_urls as $url)
+                                    <li><a href="{{ $url }}" target="_blank" class="underline">{{ $url }}</a></li>
+                                @endforeach
+                            </ul>
+                        @endif
+
+                        <div class="flex gap-2 mt-4">
                             <a href="{{ route('teacher.materials.view', $material->id) }}"
                                class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded">
                                 View

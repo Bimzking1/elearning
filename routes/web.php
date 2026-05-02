@@ -33,14 +33,17 @@ use App\Http\Controllers\Teacher\TaskSubmissionController as TeacherTaskSubmissi
 use App\Http\Controllers\Admin\TaskSubmissionController as AdminTaskSubmissionController;
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
+use App\Http\Controllers\Admin\ActivityImageController;
 
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('redirect');
     }
 
-    // Updated view path
-    return view('landing-pages.welcome');
+    // Pass top 4 pinned images to homepage (newest pin = highest pin_order first)
+    $homepageImages = \App\Models\ActivityImage::pinned()->take(4)->get();
+
+    return view('landing-pages.welcome', compact('homepageImages'));
 })->name('welcome');
 
 Route::get('/contact', function () {
@@ -54,8 +57,12 @@ Route::get('/register', function () {
 })->name('register');
 
 Route::get('/activities', function () {
-    // Updated view path
-    return view('landing-pages.activities');
+    // Pinned images first (newest pin = highest pin_order DESC), then rest by created_at DESC
+    $dbImages = \App\Models\ActivityImage::orderByDesc('is_pinned')
+        ->orderByDesc('pin_order')
+        ->orderByDesc('created_at')
+        ->get();
+    return view('landing-pages.activities', compact('dbImages'));
 })->name('activities');
 
 Route::get('/programs', function () {
@@ -192,6 +199,18 @@ Route::prefix('admin')->middleware(['auth', RoleMiddleware::class.':admin'])->gr
     Route::prefix('settings')->name('admin.settings.')->group(function () {
         Route::get('/', [AdminController::class, 'editSettings'])->name('edit');
         Route::put('/', [AdminController::class, 'updateSettings'])->name('update');
+    });
+
+    // Activity Gallery (Thumbnails) Management
+    Route::prefix('thumbnail')->name('admin.activity-images.')->controller(ActivityImageController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{image}', 'show')->name('show');
+        Route::get('/{image}/edit', 'edit')->name('edit');
+        Route::put('/{image}', 'update')->name('update');
+        Route::delete('/{image}', 'destroy')->name('destroy');
+        Route::patch('/{image}/toggle-pin', 'togglePin')->name('togglePin');
     });
 });
 

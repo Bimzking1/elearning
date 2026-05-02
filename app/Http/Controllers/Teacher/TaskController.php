@@ -67,7 +67,8 @@ class TaskController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'subject_id' => 'required|exists:subjects,id',
-            'classroom_id' => 'required|exists:classrooms,id',
+            'classroom_id' => 'required|array|min:1',
+            'classroom_id.*' => 'exists:classrooms,id',
             'deadline' => 'required|date',
             'description' => 'nullable|string',
             'attachment_path' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
@@ -78,17 +79,19 @@ class TaskController extends Controller
             $attachmentPath = $request->file('attachment_path')->store('attachments', 'public');
         }
 
-        Task::create([
-            'title' => $request->title,
-            'subject_id' => $request->subject_id,
-            'classroom_id' => $request->classroom_id,
-            'deadline' => Carbon::parse($request->deadline),
-            'description' => $request->description,
-            'teacher_id' => $teacherId,
-            'attachment_path' => $attachmentPath,
-        ]);
+        foreach ($request->classroom_id as $classroomId) {
+            Task::create([
+                'title' => $request->title,
+                'subject_id' => $request->subject_id,
+                'classroom_id' => $classroomId,
+                'deadline' => Carbon::parse($request->deadline),
+                'description' => $request->description,
+                'teacher_id' => $teacherId,
+                'attachment_path' => $attachmentPath,
+            ]);
+        }
 
-        return redirect()->route('teacher.tasks.index')->with('success', 'Task created successfully.');
+        return redirect()->route('teacher.tasks.index')->with('success', 'Task created for selected classrooms.');
     }
 
     public function edit(Task $task)

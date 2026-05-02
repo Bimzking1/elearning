@@ -42,58 +42,70 @@
     </div>
 
     {{-- Task Info --}}
-    <div class="bg-gray-50 border rounded-lg p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Task Details</h3>
+    <div class="bg-gray-50 border rounded-lg p-6 space-y-4">
+        <h3 class="text-xl font-semibold text-gray-800">Task Details</h3>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm text-gray-700">
-            <div class="flex flex-col">
-                <span class="font-medium text-gray-600">Task:</span>
+            <div class="flex items-start">
+                <span class="w-32 font-medium text-gray-600">Title:</span>
                 <span>{{ $submission->task->title }}</span>
             </div>
 
-            <div class="flex flex-col">
-                <span class="font-medium text-gray-600">Deadline:</span>
-                <span>{{ \Carbon\Carbon::parse($submission->task->deadline)->format('Y-m-d H:i') }}</span>
+            <div class="flex items-start">
+                <span class="w-32 font-medium text-gray-600">Deadline:</span>
+                <span>{{ \Carbon\Carbon::parse($submission->task->deadline)->format('d M Y, H:i') }}</span>
             </div>
 
-            <div class="flex flex-col">
-                <span class="font-medium text-gray-600">Submitted At:</span>
-                <span>{{ $submission->created_at->format('Y-m-d H:i') }}</span>
-            </div>
-
-            <div class="flex flex-col">
-                <span class="font-medium text-gray-600">Time Difference:</span>
-                @php
-                    $deadline = \Carbon\Carbon::parse($submission->task->deadline);
-                    $submittedAt = \Carbon\Carbon::parse($submission->created_at);
-                    $difference = $submittedAt->diffForHumans($deadline, [
-                        'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE,
-                        'parts' => 3,
-                        'short' => true
-                    ]);
-                    $status = $submittedAt->lessThan($deadline) ? 'Early' : 'Late';
-                    $statusClass = $submittedAt->lessThan($deadline) ? 'text-green-600' : 'text-red-600';
-                @endphp
-                <span class="font-medium {{ $statusClass }}">{{ $difference }} ({{ $status }})</span>
+            <div class="flex items-start sm:col-span-2">
+                <span class="w-32 font-medium text-gray-600">Description:</span>
+                <span class="whitespace-pre-line">{{ $submission->task->description }}</span>
             </div>
         </div>
+
+        @if($submission->task->attachment_path)
+            <div class="border-t pt-4">
+                <h4 class="text-sm font-semibold text-gray-800 mb-2">Attachment from Teacher</h4>
+
+                <div class="flex flex-wrap gap-3">
+                    <a href="{{ asset('storage/' . $submission->task->attachment_path) }}"
+                    target="_blank"
+                    class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-md text-sm font-medium transition">
+                        🔍 View Attachment
+                    </a>
+
+                    <a href="{{ asset('storage/' . $submission->task->attachment_path) }}"
+                    download
+                    class="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 hover:bg-green-200 rounded-md text-sm font-medium transition">
+                        ⬇️ Download
+                    </a>
+                </div>
+            </div>
+        @endif
     </div>
 
     {{-- Submitted Content --}}
-    <div class="bg-gray-50 border rounded-lg p-6 space-y-4">
+    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-6">
         <div>
-            <h4 class="text-md font-semibold text-gray-700">Submitted Text:</h4>
+            <h4 class="text-base font-semibold text-gray-800 mb-1">Submitted Text</h4>
             <p class="text-sm text-gray-600 whitespace-pre-line">{{ $submission->submission_text }}</p>
         </div>
 
         @if($submission->submission_file)
             <div>
-                <h4 class="text-md font-semibold text-gray-700">Submitted File:</h4>
-                <a href="{{ asset('storage/' . $submission->submission_file) }}"
-                   class="text-blue-600 hover:underline text-sm font-medium"
-                   download>
-                    Download Submission File
-                </a>
+                <h4 class="text-base font-semibold text-gray-800 mb-2">Submitted File</h4>
+                <div class="flex flex-wrap gap-3">
+                    <a href="{{ asset('storage/' . $submission->submission_file) }}"
+                    target="_blank"
+                    class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-md text-sm font-medium transition">
+                        🔎 View Attachment
+                    </a>
+
+                    <a href="{{ asset('storage/' . $submission->submission_file) }}"
+                    download
+                    class="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 hover:bg-green-200 rounded-md text-sm font-medium transition">
+                        ⬇️ Download
+                    </a>
+                </div>
             </div>
         @endif
     </div>

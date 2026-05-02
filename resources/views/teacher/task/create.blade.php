@@ -57,18 +57,19 @@
         @endif
 
         <div class="w-full">
-            <label for="classroom_id" class="block text-sm font-medium text-gray-700">Classroom</label>
-            <select name="classroom_id" id="classroom_id" required
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-                <option value="" disabled selected>Select a Classroom</option>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Classrooms</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                 @foreach($classrooms as $classroom)
-                    <option value="{{ $classroom->id }}" {{ old('classroom_id') == $classroom->id ? 'selected' : '' }}>
-                        {{ $classroom->name }}
-                    </option>
+                    <label class="flex items-center space-x-2 bg-gray-50 border px-3 py-2 rounded hover:bg-gray-100 transition cursor-pointer">
+                        <input type="checkbox" name="classroom_id[]" value="{{ $classroom->id }}"
+                            {{ (is_array(old('classroom_id')) && in_array($classroom->id, old('classroom_id'))) ? 'checked' : '' }}
+                            class="form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300">
+                        <span class="text-sm text-gray-800">{{ $classroom->name }}</span>
+                    </label>
                 @endforeach
-            </select>
+            </div>
             @error('classroom_id')
-                <p class="text-red-600 text-sm">{{ $message }}</p>
+                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
