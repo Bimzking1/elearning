@@ -109,6 +109,14 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('admin.activity-images.index') }}"
+                class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/thumbnail*') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
+                data-page="thumbnail">
+                    <i data-lucide="image-plus" class="w-5 h-5"></i>
+                    Activity Gallery
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('admin.settings.edit') }}"
                 class="flex items-center gap-x-2 py-2 px-3 rounded page-link {{ request()->is('admin/settings') ? 'bg-blue-800' : 'hover:bg-blue-800 duration-100' }}"
                 data-page="settings">

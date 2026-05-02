@@ -63,7 +63,7 @@
         @if($materials->isEmpty())
             <p class="text-gray-500">No materials available for this subject in this classroom.</p>
         @else
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach($materials as $material)
                     <div class="border rounded-lg p-4 shadow bg-gray-50 hover:bg-gray-100 transition">
                         <h3 class="text-lg font-semibold text-gray-800">{{ $material->name }}</h3>

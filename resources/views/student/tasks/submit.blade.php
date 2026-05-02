@@ -53,7 +53,7 @@
 
             <a href="{{ Storage::url($task->attachment_path) }}"
             target="_blank"
-            class="flex items-center text-sm text-blue-600 hover:underline hover:text-blue-700 transition">
+            class="flex items-center text-sm font-medium text-blue-600 hover:underline hover:text-blue-700 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828L18 9.828m0 0L15.172 7M18 9.828V21" />
