@@ -33,7 +33,7 @@
     }
 </style>
 
-<nav class="sticky top-0 z-50 bg-gradient-to-t from-blue-900 to-blue-700 shadow-lg"
+<nav class="sticky top-0 z-50 bg-gradient-to-tr from-blue-700 to-blue-900 shadow-lg"
      x-data="{ open: false }"
      @keydown.escape.window="open = false">
 
@@ -115,7 +115,7 @@
          x-transition:leave-end="opacity-0 -translate-y-2"
          @click.away="open = false"
          style="display:none"
-         class="lg:hidden border-t border-white/10 bg-[#1a3358] px-5 py-4 space-y-1">
+         class="lg:hidden bg-gradient-to-br from-blue-700 to-blue-900 px-5 py-4 space-y-1">
 
         <a href="/" class="flex items-center gap-2 text-white/90 hover:text-white text-sm font-medium px-3 py-2.5 rounded-lg hover:bg-white/10 transition-colors duration-200">
             <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
@@ -138,7 +138,7 @@
             Contact
         </a>
 
-        <div class="pt-2 border-t border-white/10">
+        <div class="pt-4 border-t border-white/10">
             <a href="{{ route('login') }}"
                class="flex items-center justify-center gap-2 bg-white text-[#1e3a5f] text-sm font-semibold
                       px-4 py-2.5 rounded-lg hover:bg-blue-50 transition-colors duration-200 w-full shadow-sm">

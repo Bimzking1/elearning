@@ -131,9 +131,46 @@
 <div class="pkbm-page">
 
 {{-- ─────────────────────────────────────────────────────────
+     ADMISSION POPUP — Mobile (always) / Desktop (once per session)
+───────────────────────────────────────────────────────── --}}
+<div id="admission-popup"
+     class="fixed inset-0 z-[300] flex items-center justify-center bg-black/70 lightbox-backdrop"
+     style="display:none !important;">
+
+    <!-- Backdrop click to close -->
+    <div class="absolute inset-0 cursor-pointer" onclick="closeAdmissionPopup()"></div>
+
+    <!-- Portrait (mobile) -->
+    <div class="relative block md:hidden px-4 w-full max-w-sm mx-auto">
+        <img src="{{ asset('images/banner-potrait.webp') }}"
+             alt="Student Admission 2026–2027"
+             class="w-full h-auto rounded-2xl shadow-2xl cursor-pointer"
+             onclick="closeAdmissionPopup()" />
+        <button onclick="closeAdmissionPopup()"
+                class="absolute -top-3 -right-1 w-8 h-8 rounded-full bg-white/90 text-[var(--blue-deep)] flex items-center justify-center shadow-md text-lg font-bold hover:bg-white transition-colors"
+                aria-label="Close">
+            &times;
+        </button>
+    </div>
+
+    <!-- Landscape (desktop) -->
+    <div class="relative hidden md:block px-6 w-full max-w-8xl mx-auto">
+        <img src="{{ asset('images/admission_26-27.webp') }}"
+             alt="Student Admission 2026–2027"
+             class="w-full h-auto rounded-2xl shadow-2xl cursor-pointer"
+             onclick="closeAdmissionPopup()" />
+        <button onclick="closeAdmissionPopup()"
+                class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white/90 text-[var(--blue-deep)] flex items-center justify-center shadow-md text-lg font-bold hover:bg-white transition-colors"
+                aria-label="Close">
+            &times;
+        </button>
+    </div>
+</div>
+
+{{-- ─────────────────────────────────────────────────────────
      ADMISSION BANNER
 ───────────────────────────────────────────────────────── --}}
-<section class="relative overflow-hidden bg-gradient-to-b from-[#eff6ff] to-white pt-6 pb-4 px-6 md:py-10 text-center">
+<section class="relative overflow-hidden bg-gradient-to-b from-[#eff6ff] to-white pt-6 md:pt-10 pb-4 px-6 md:py-10 text-center">
     <!-- Subtle decorative orb -->
     <div class="absolute -top-16 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-blue-100 opacity-50 blur-3xl pointer-events-none"></div>
 
@@ -143,7 +180,7 @@
             <img
                 src="{{ asset('images/admission_26-27.webp') }}"
                 alt="Student Admission 2026–2027"
-                class="relative mx-auto max-h-48 md:max-h-72 lg:max-h-84 w-auto object-contain rounded-2xl
+                class="relative mx-auto w-[90vw] max-w-7xl h-autoobject-contain rounded-2xl
                        transition-transform duration-500 group-hover:scale-[1.04]"
             />
         </a>
@@ -519,4 +556,51 @@
     });
   }, { threshold: 0.1 });
   revealEls.forEach(el => observer.observe(el));
+</script>
+
+<script>
+    (function () {
+        const POPUP_KEY   = 'pkbm_admission_popup_closed';
+        const isMobile    = window.innerWidth < 768;
+        const popup       = document.getElementById('admission-popup');
+
+        function showPopup() {
+            popup.style.removeProperty('display');
+            popup.style.opacity = '0';
+            popup.style.transition = 'opacity 0.4s ease';
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => { popup.style.opacity = '1'; });
+            });
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.closeAdmissionPopup = function () {
+            popup.style.opacity = '0';
+            setTimeout(() => {
+                popup.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 400);
+            // Persist on desktop only
+            if (!isMobile) {
+                localStorage.setItem(POPUP_KEY, '1');
+            }
+        };
+
+        // Show after splash (3s) + small buffer
+        function maybeShow() {
+            if (isMobile) {
+                // Always show on mobile
+                showPopup();
+            } else {
+                // Desktop: only if not previously closed
+                if (!localStorage.getItem(POPUP_KEY)) {
+                    showPopup();
+                }
+            }
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(maybeShow, 3400); // splash is 3000ms + 700ms fadeout → show just after
+        });
+    })();
 </script>

@@ -74,7 +74,7 @@
     @include('/modular-components/multipage/navbar')
 
     <!-- Hero Banner -->
-    <section class="relative overflow-hidden noise-bg bg-gradient-to-b from-white via-[#eff6ff] to-[#dbeafe] pt-14 pb-6 px-6">
+    <section class="relative overflow-hidden noise-bg bg-gradient-to-b from-white via-[#eff6ff] to-[#dbeafe] pt-6 md:pt-10 pb-6 px-6">
         <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-blue-100 opacity-50 blur-3xl pointer-events-none"></div>
         <div class="relative z-10 max-w-3xl mx-auto text-center reveal">
 
@@ -193,5 +193,122 @@
         }, { threshold: 0.1 });
         revealEls.forEach(el => observer.observe(el));
     </script>
+
+    <!-- Mobile-only banner popup (triggered by clicking the banner image) -->
+    <div id="reg-admission-popup"
+        class="fixed inset-0 z-[300] flex items-center justify-center bg-black/70"
+        style="display:none !important; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);">
+
+        <!-- Backdrop -->
+        <div class="absolute inset-0 cursor-pointer" onclick="closeRegPopup()"></div>
+
+        <!-- Portrait image -->
+        <div class="relative px-4 w-full max-w-sm mx-auto flex flex-col justify-center items-center">
+            <img src="{{ asset('images/banner-potrait.webp') }}"
+                alt="Student Admission 2026–2027"
+                class="w-auto h-[85vh] rounded-2xl shadow-2xl"
+                onclick="closeRegPopup()" />
+
+            <button onclick="closeRegPopup()"
+                    class="absolute -top-3 -right-1 w-8 h-8 rounded-full bg-white/90 text-[#1e3a5f] flex items-center justify-center shadow-md text-lg font-bold hover:bg-white transition-colors"
+                    aria-label="Close">
+                &times;
+            </button>
+
+            <!-- Action bar -->
+            <div class="mt-3 flex items-center justify-center gap-3">
+
+                <!-- Share / Copy link -->
+                <button id="popup-share-btn"
+                        onclick="handlePopupShare()"
+                        class="flex items-center gap-2 bg-white/90 text-[#1e3a5f] text-xs font-semibold
+                            px-4 py-2.5 rounded-xl shadow-md hover:bg-white active:scale-95
+                            transition-all duration-150 backdrop-blur-sm border border-white/60">
+                    <svg id="popup-share-icon" class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                    <span id="popup-share-label">Share Link</span>
+                </button>
+
+                <!-- Download -->
+                <a href="{{ asset('images/banner-potrait.webp') }}"
+                download="PKBM-BAW-Admission-2026-27.webp"
+                class="flex items-center gap-2 bg-[#1e3a5f] text-white text-xs font-semibold
+                        px-4 py-2.5 rounded-xl shadow-md hover:bg-[#162d4a] active:scale-95
+                        transition-all duration-150">
+                    <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
+                    Save Banner
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // Only wire up on mobile
+            if (window.innerWidth >= 768) return;
+
+            const popup  = document.getElementById('reg-admission-popup');
+            const banner = document.querySelector('section img[alt="Student Admission 2026–2027"]');
+
+            if (!banner) return;
+
+            // Make banner feel clickable on mobile
+            banner.style.cursor = 'pointer';
+            banner.parentElement.style.cursor = 'pointer';
+
+            banner.addEventListener('click', openRegPopup);
+            banner.parentElement.addEventListener('click', openRegPopup);
+
+            function openRegPopup() {
+                popup.style.removeProperty('display');
+                popup.style.opacity = '0';
+                popup.style.transition = 'opacity 0.35s ease';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => { popup.style.opacity = '1'; });
+                });
+                document.body.style.overflow = 'hidden';
+            }
+
+            window.closeRegPopup = function () {
+                popup.style.opacity = '0';
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 350);
+            };
+
+            window.handlePopupShare = function () {
+                const url = 'https://binaabdiwiyata.id/register';
+                const label = document.getElementById('popup-share-label');
+                const icon  = document.getElementById('popup-share-icon');
+
+                // Try native share sheet first (most mobile browsers support it)
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'PKBM Bina Abdi Wiyata — Student Admission 2026/2027',
+                        text:  'Daftar sekarang di PKBM Homeschooling Bina Abdi Wiyata!',
+                        url:   url,
+                    }).catch(() => {}); // user cancelled — ignore
+                    return;
+                }
+
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(url).then(() => {
+                    // Swap to checkmark feedback
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>';
+                    label.textContent = 'Copied!';
+                    setTimeout(() => {
+                        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>';
+                        label.textContent = 'Share Link';
+                    }, 2000);
+                }).catch(() => {});
+            };
+    })();
+    </script>
+
 </body>
 </html>
